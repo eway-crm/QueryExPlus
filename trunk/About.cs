@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace QueryExpress
+namespace QueryExPlus
 {
 	public class About : System.Windows.Forms.Form
 	{
