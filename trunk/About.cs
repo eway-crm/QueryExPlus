@@ -61,8 +61,8 @@ namespace QueryExPlus
 			this.textBox2.Size = new System.Drawing.Size(192, 61);
 			this.textBox2.TabIndex = 1;
 			this.textBox2.TabStop = false;
-			this.textBox2.Text = "Query ExPlus\r\nVersion 1.01\r\nOriginal by Joseph Albahari\r\nOleDb Browser written by " +
-				"Klaus Evers";
+			this.textBox2.Text = "Query ExPlus\r\nVersion 1.01\r\nOriginal by Joseph Albahari\r\nOleDb Browser written by" +
+				" Klaus Evers";
 			// 
 			// label1
 			// 
@@ -105,10 +105,10 @@ namespace QueryExPlus
 			this.linkLabel1.AutoSize = true;
 			this.linkLabel1.Location = new System.Drawing.Point(80, 72);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(251, 16);
+			this.linkLabel1.Size = new System.Drawing.Size(246, 16);
 			this.linkLabel1.TabIndex = 4;
 			this.linkLabel1.TabStop = true;
-			this.linkLabel1.Text = "http://www.sourceforge.net/projects/QueryExPlus";
+			this.linkLabel1.Text = "http://www.sourceforge.net/projects/queryexplus";
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
 			// About
@@ -118,9 +118,9 @@ namespace QueryExPlus
 			this.ClientSize = new System.Drawing.Size(340, 188);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.linkLabel1);
+			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pictureBox1);
-			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
