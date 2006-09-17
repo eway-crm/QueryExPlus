@@ -18,8 +18,33 @@ namespace QueryExPlus
 	{
 		IDbConnection GetConnection (string connectString);
 		IDbDataAdapter GetDataAdapter (string query, IDbConnection connection);
+		void AttachInfoMessage(IDbConnection connection, InfoMessageEventHandler handler);
 	}
 
+	public class InfoMessageEventArgs
+	{
+		string _Message;
+		string _Source;
+
+		public string Message
+		{
+			get { return _Message; }
+		}
+
+		public string Source
+		{
+			get { return _Source; }
+		}
+
+		public InfoMessageEventArgs(string _Message, string _Source)
+		{
+			this._Message = _Message;
+			this._Source = _Source;
+		}
+	}
+	
+	public delegate void InfoMessageEventHandler (object sender, InfoMessageEventArgs e);
+	
 	// Concrete Client Factory implementations.  Each implementation  creates ADO.NET objects
 	// appropriate to a particular provider, such as SQL Server.  To enable native  support for another
 	// provider's ADO.NET classes, define another client factory class below, and instatiate it in
@@ -36,6 +61,18 @@ namespace QueryExPlus
 		{
 			return new SqlDataAdapter (query, (SqlConnection) connection);
 		}
+
+
+		public void AttachInfoMessage(IDbConnection connection, InfoMessageEventHandler handler)
+		{
+			if (handler != null)
+			((SqlConnection)connection).InfoMessage += new SqlInfoMessageEventHandler(SqlFactory_InfoMessage);
+		}
+
+		private void SqlFactory_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+		{
+		}
+
 	}
 
 	/// <summary> OLE-DB Client </summary>
@@ -49,6 +86,18 @@ namespace QueryExPlus
 		{
 			return new OleDbDataAdapter (query, (OleDbConnection) connection);
 		}
+
+
+		public void AttachInfoMessage(IDbConnection connection, InfoMessageEventHandler handler)
+		{
+			((OleDbConnection)connection).InfoMessage += new OleDbInfoMessageEventHandler(OleDbFactory_InfoMessage);
+		}
+
+		private void OleDbFactory_InfoMessage(object sender, OleDbInfoMessageEventArgs e)
+		{
+
+		}
+
 	}
 
 	#endregion
@@ -66,6 +115,7 @@ namespace QueryExPlus
 		public const int DateTimeFormatStringLength = 19;
 		protected int maxTextWidth = 60;					// maximum column width for text-based results
 		protected IClientFactory clientFactory;			// the factory object that will create our connection & adapters
+		private readonly IQueryOptions queryOptions;
 		protected string connectString = "";	
 		protected string connectDescription = "";
 		protected IDbConnection connection;				// a connection object (created by the client factory)
@@ -84,10 +134,14 @@ namespace QueryExPlus
 		protected MethodInvoker queryDone;					// a delegate to inform when the query completes successfully
 		protected MethodInvoker queryFailed;				// a delegate to inform when the query fails
 		protected MethodInvoker cancelDone;				// a delegate to inform when cancel action has completed
+		protected InfoMessageEventHandler OnInfoMessage;
 		protected IList queries;												// separated subqueries (separator = 'GO')
 		protected DataSet syncDataSet;							// a dataset for running synchornous queries
 		protected string syncQuery;
 		protected int timeout;
+		
+		public event InfoMessageEventHandler infoMessageHandler;
+
 		#endregion
 
 		#region Constructor
@@ -95,9 +149,10 @@ namespace QueryExPlus
 		/// <param name="clientFactory">A provider-specific ClientFactory class</param>
 		/// <param name="connectString">The connection string</param>
 		/// <param name="connectDescription">Human-readable connection description</param>
-		public DbClient (IClientFactory clientFactory, string connectString, string connectDescription)
+		public DbClient (IClientFactory clientFactory, IQueryOptions queryOptions,  string connectString, string connectDescription)
 		{
 			this.clientFactory = clientFactory;
+			this.queryOptions = queryOptions;
 			this.connectString = connectString;
 			this.connectDescription = connectDescription;
 			// Given that the OleDb classes appear to be apartment threaded, we can't just spawn
@@ -131,11 +186,18 @@ namespace QueryExPlus
 			get {return connectDescription;}
 		}
 
+		/// <summary>
+		/// Database connection
+		/// </summary>
 		public IDbConnection Connection
 		{
 			get { return connection; }
 		}
 
+		public IQueryOptions QueryOptions
+		{
+			get { return queryOptions;}
+		}
 		/// <summary> The dataset to which results are assigned (unless in Text mode) </summary>
 		public virtual DataSet DataSet 
 		{
@@ -183,6 +245,8 @@ namespace QueryExPlus
 			// call onto the worker thread, otherwise if the connection object will be locked
 			// into the main thread's apartment.
 			RunOnWorker (new MethodInvoker (DoConnect), true);
+			if (queryOptions != null)
+				queryOptions.ApplyToConnection(connection);
 			return connected;
 		}
 
@@ -204,7 +268,8 @@ namespace QueryExPlus
 			// If 'GO' keyword is present, separate each subquery, so they can be run separately.
 			// Use Regex class, as we need a case insensitive match.
 
-			Regex r = new Regex (@"\bGO\b", RegexOptions.IgnoreCase);
+			string separator = queryOptions == null ? "GO" : queryOptions.BatchSeparator;
+			Regex r = new Regex (string.Format(@"\b{0}\b", separator), RegexOptions.IgnoreCase);
 			MatchCollection mc = r.Matches (query);
 			queries = new ArrayList();
 			int pos = 0;
@@ -295,7 +360,7 @@ namespace QueryExPlus
 		/// <summary> Returns a cloned DbClient object </summary>
 		public virtual DbClient Clone()
 		{
-			return new DbClient (ClientFactory, ConnectString, ConnectDescription);
+			return new DbClient (ClientFactory, queryOptions, ConnectString, ConnectDescription);
 		}
 
 		#endregion
@@ -366,6 +431,7 @@ namespace QueryExPlus
 			{
 				connection = ClientFactory.GetConnection (connectString);
 				connection.Open();
+				AttachInfoEvent(connection);
 				connected = true;
 			}
 			catch (Exception e)
@@ -374,8 +440,21 @@ namespace QueryExPlus
 			}
 		}
 
+		private void AttachInfoEvent(IDbConnection connection)
+		{
+			if ((connection as OleDbConnection) != null)
+			{
+				((OleDbConnection)connection).InfoMessage += new OleDbInfoMessageEventHandler(DbClient_InfoMessageOleDb);
+			}
+			else if ((connection as SqlConnection) != null)
+			{
+				((SqlConnection) connection).InfoMessage += new SqlInfoMessageEventHandler(DbClient_InfoMessageSql);
+			}
+		}
+
 		/// <summary> Executes the query into a DataSet for grid-based results </summary>
 		protected virtual void FillDataSet() {
+			SetupBatch();
 			dataSet.Dispose();
 			dataSet = new DataSet();
 
@@ -411,6 +490,7 @@ namespace QueryExPlus
 						dataSet.Tables [tableNum++].TableName = "Query " + tableNum.ToString();
 				}
 			}
+			ResetBatch();
 			// Use (asynchronous) BeginInvoke so that we won't block the target method should
 			// it want to start another task on the worker thread.
 			runState = RunState.Idle;
@@ -420,6 +500,7 @@ namespace QueryExPlus
 		/// <summary> Executes the query into a StringBuilder object for text-based results </summary>
 		protected virtual void FillTextResults() 
 		{
+			SetupBatch();
 			error = "";
 			bool first = true;
 			try 
@@ -446,6 +527,7 @@ namespace QueryExPlus
 					try {dataReader.Close();} 
 					catch (Exception) {}
 				buildingResults = false;
+				ResetBatch();
 			}
 			if (runState == RunState.Cancelling) return;
 			runState = RunState.Idle;
@@ -453,6 +535,28 @@ namespace QueryExPlus
 				host.BeginInvoke (queryFailed);
 			else
 				host.BeginInvoke (queryDone);
+		}
+
+		private void ResetBatch()
+		{
+			if (queryOptions != null)
+				try
+				{
+					queryOptions.ResetBatch(connection);
+				}
+			catch
+				{}
+		}
+
+		private void SetupBatch()
+		{
+			if (queryOptions != null)
+				try 
+				{
+					queryOptions.SetupBatch(connection);
+				}
+			catch 
+				{}
 		}
 
 		protected virtual void BuildTextResults (bool addSeparator)
@@ -564,6 +668,17 @@ namespace QueryExPlus
 			}
 		}
 
+		protected void DbClient_InfoMessageOleDb(object sender, OleDbInfoMessageEventArgs e)
+		{
+			if (infoMessageHandler != null)
+				host.Invoke(infoMessageHandler, new object[] {sender, new InfoMessageEventArgs(e.Message, e.Source)});
+		}
+
+		protected void DbClient_InfoMessageSql(object sender, SqlInfoMessageEventArgs e)
+		{
+			if (infoMessageHandler != null)
+				host.Invoke(infoMessageHandler, new object[] {sender, new InfoMessageEventArgs(e.Message, e.Source)});
+		}
 		#endregion
 
 	}

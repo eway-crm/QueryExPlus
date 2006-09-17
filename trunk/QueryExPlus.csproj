@@ -168,6 +168,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IQueryOptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "licenses.licx"
                     BuildAction = "Content"
                 />
@@ -203,6 +208,21 @@
                     RelPath = "QueryForm.resx"
                     DependentUpon = "QueryForm.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SqlQueryOptionsForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SqlQueryOptionsForm.resx"
+                    DependentUpon = "SqlQueryOptionsForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SqlQueryOptons.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
             </Include>
         </Files>
