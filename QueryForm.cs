@@ -61,6 +61,7 @@ namespace QueryExPlus
 		{
 			InitializeComponent();
 			this.dbClient = dbClient;
+			dbClient.infoMessageHandler += new InfoMessageEventHandler(dbClient_infoMessageHandler);
 			this.browser = browser;
 			lastDatabase = dbClient.Database;				// this is so we know when the current database changes
 			HideResults = true;
@@ -222,7 +223,6 @@ namespace QueryExPlus
 
 			done = new MethodInvoker (QueryDone);
 			failed = new MethodInvoker (QueryFailed);
-
 			// dbClient.Execute runs asynchronously, so control will return immediately to the calling method.
 
 			Cursor oldCursor = Cursor;
@@ -1145,13 +1145,25 @@ namespace QueryExPlus
 			Invalidate();
 		}
 
-		#endregion
-
 		private void miRefresh_Click(object sender, System.EventArgs e)
 		{
 			PopulateBrowser();
 		}
 
+		public void ShowQueryOptions()
+		{
+			if (ClientBusy || DbClient.QueryOptions == null)
+				return;
+			
+			if (DbClient.QueryOptions.ShowForm() == DialogResult.OK)
+				DbClient.QueryOptions.ApplyToConnection(DbClient.Connection);
+		}
+		#endregion
+
+		private void dbClient_infoMessageHandler(object sender, InfoMessageEventArgs e)
+		{
+			txtResultsBox.AppendText ("\r\n"+e.Message);
+		}
 	}		// end of QueryForm class
 
 	#region Helper Classes

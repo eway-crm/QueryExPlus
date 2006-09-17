@@ -539,12 +539,14 @@ namespace QueryExPlus
 			// Create DbClient (database client) object
 
 			IClientFactory clientFactory;
+			IQueryOptions queryOptions;
 			string connectString, connectDescription;
 
 			switch (tabControl.SelectedIndex)
 			{
 				case 0:								// SQL Server
 					clientFactory = new SqlFactory();
+					queryOptions = new SqlQueryOptons();
 					connectString = "Data Source=" + txtSqlServer.Text.Trim() + ";app=Query Express";
 					if (rbSqlTrusted.Checked)
 						connectString +=  ";Integrated Security=SSPI";
@@ -559,6 +561,7 @@ namespace QueryExPlus
 				case 1:								// Oracle
 					// As we don't yet have Oracle .NET classes, use the OleDb family of classes instead.
 					clientFactory = new OleDbFactory();
+					queryOptions = null;
 					connectString = "Provider="
 						+ ((rbOraMSDriver.Checked) ? "MSDAORA" : "OraOLEDB.Oracle")
 						+ ";Data Source=" + txtOraDataSource.Text.Trim()
@@ -568,6 +571,7 @@ namespace QueryExPlus
 
 				case 2:								// OLE-DB
 					clientFactory = new OleDbFactory();
+					queryOptions = null;
 					connectString = txtOleConnectString.Text.Trim();
 					connectDescription = "[" + connectString.Substring (0, Math.Min (25, connectString.Length)) + "...]";
 					break;
@@ -575,7 +579,7 @@ namespace QueryExPlus
 				default:	return;
 			}
 
-			dbClient = new DbClient (clientFactory, connectString, connectDescription);
+			dbClient = new DbClient (clientFactory, queryOptions, connectString, connectDescription);
 			Cursor oldCursor = Cursor;
 			Cursor = Cursors.WaitCursor;
 			

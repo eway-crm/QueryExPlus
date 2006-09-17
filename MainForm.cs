@@ -73,6 +73,8 @@ namespace QueryExPlus
 		private System.Windows.Forms.MenuItem miPrevPane;
 		private System.Windows.Forms.MenuItem menuItem3;
 		private System.Windows.Forms.MenuItem miSelectAll;
+		private System.Windows.Forms.MenuItem miQueryOptions;
+		private System.Windows.Forms.MenuItem menuItem5;
 		private System.ComponentModel.IContainer components;
 		#endregion
 
@@ -145,6 +147,8 @@ namespace QueryExPlus
 
 			miDisconnect.Enabled = tbDisconnect.Enabled = (active && q.RunState != RunState.Cancelling);
 
+			miQueryOptions.Enabled = (active && q.RunState == RunState.Idle);
+			
 			miExecute.Enabled = tbExecute.Enabled = (active && q.RunState == RunState.Idle);
 
 			miCancel.Enabled = tbCancel.Enabled = (active && q.RunState == RunState.Running);
@@ -224,6 +228,8 @@ namespace QueryExPlus
 			this.miCut = new System.Windows.Forms.MenuItem();
 			this.miCopy = new System.Windows.Forms.MenuItem();
 			this.miPaste = new System.Windows.Forms.MenuItem();
+			this.menuItem3 = new System.Windows.Forms.MenuItem();
+			this.miSelectAll = new System.Windows.Forms.MenuItem();
 			this.miQuery = new System.Windows.Forms.MenuItem();
 			this.miExecute = new System.Windows.Forms.MenuItem();
 			this.miCancel = new System.Windows.Forms.MenuItem();
@@ -257,8 +263,8 @@ namespace QueryExPlus
 			this.tbHideResults = new System.Windows.Forms.ToolBarButton();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.editManager = new QueryExPlus.EditManager(this.components);
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.miSelectAll = new System.Windows.Forms.MenuItem();
+			this.miQueryOptions = new System.Windows.Forms.MenuItem();
+			this.menuItem5 = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
 			// 
 			// mainMenu
@@ -395,6 +401,17 @@ namespace QueryExPlus
 			this.miPaste.Shortcut = System.Windows.Forms.Shortcut.CtrlV;
 			this.miPaste.Text = "&Paste";
 			// 
+			// menuItem3
+			// 
+			this.menuItem3.Index = 5;
+			this.menuItem3.Text = "-";
+			// 
+			// miSelectAll
+			// 
+			this.miSelectAll.Index = 6;
+			this.miSelectAll.Shortcut = System.Windows.Forms.Shortcut.CtrlA;
+			this.miSelectAll.Text = "Select &All";
+			// 
 			// miQuery
 			// 
 			this.miQuery.Index = 2;
@@ -402,6 +419,8 @@ namespace QueryExPlus
 																					this.miExecute,
 																					this.miCancel,
 																					this.menuItem1,
+																					this.miQueryOptions,
+																					this.menuItem5,
 																					this.miResultsText,
 																					this.miResultsGrid});
 			this.miQuery.Text = "&Query";
@@ -427,7 +446,7 @@ namespace QueryExPlus
 			// 
 			// miResultsText
 			// 
-			this.miResultsText.Index = 3;
+			this.miResultsText.Index = 5;
 			this.miResultsText.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
 			this.miResultsText.Text = "Results in &Text";
 			this.miResultsText.Click += new System.EventHandler(this.miResultsText_Click);
@@ -435,7 +454,7 @@ namespace QueryExPlus
 			// miResultsGrid
 			// 
 			this.miResultsGrid.Checked = true;
-			this.miResultsGrid.Index = 4;
+			this.miResultsGrid.Index = 6;
 			this.miResultsGrid.Shortcut = System.Windows.Forms.Shortcut.CtrlD;
 			this.miResultsGrid.Text = "Results in &Grid";
 			this.miResultsGrid.Click += new System.EventHandler(this.miResultsGrid_Click);
@@ -528,7 +547,7 @@ namespace QueryExPlus
 			// mdiClient1
 			// 
 			this.mdiClient1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mdiClient1.Location = new System.Drawing.Point(0, 30);
+			this.mdiClient1.Location = new System.Drawing.Point(0, 33);
 			this.mdiClient1.Name = "mdiClient1";
 			this.mdiClient1.TabIndex = 0;
 			// 
@@ -587,9 +606,10 @@ namespace QueryExPlus
 																					   this.sep5});
 			this.toolBar.DropDownArrows = true;
 			this.toolBar.ImageList = this.imageList;
+			this.toolBar.Location = new System.Drawing.Point(0, 0);
 			this.toolBar.Name = "toolBar";
 			this.toolBar.ShowToolTips = true;
-			this.toolBar.Size = new System.Drawing.Size(777, 30);
+			this.toolBar.Size = new System.Drawing.Size(777, 33);
 			this.toolBar.TabIndex = 0;
 			this.toolBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar_ButtonClick);
 			// 
@@ -605,7 +625,6 @@ namespace QueryExPlus
 			// 
 			// imageList
 			// 
-			this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
 			this.imageList.ImageSize = new System.Drawing.Size(23, 21);
 			this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
 			this.imageList.TransparentColor = System.Drawing.Color.Transparent;
@@ -619,24 +638,23 @@ namespace QueryExPlus
 			this.editManager.MenuItemSelectAll = this.miSelectAll;
 			this.editManager.MenuItemUndo = this.miUndo;
 			// 
-			// menuItem3
+			// miQueryOptions
 			// 
-			this.menuItem3.Index = 5;
-			this.menuItem3.Text = "-";
+			this.miQueryOptions.Index = 3;
+			this.miQueryOptions.Text = "Query &Options";
+			this.miQueryOptions.Click += new System.EventHandler(this.miQueryOptions_Click);
 			// 
-			// miSelectAll
+			// menuItem5
 			// 
-			this.miSelectAll.Index = 6;
-			this.miSelectAll.Shortcut = System.Windows.Forms.Shortcut.CtrlA;
-			this.miSelectAll.Text = "Select &All";
+			this.menuItem5.Index = 4;
+			this.menuItem5.Text = "-";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(777, 531);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.toolBar,
-																		  this.mdiClient1});
+			this.Controls.Add(this.toolBar);
+			this.Controls.Add(this.mdiClient1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.Menu = this.mainMenu;
@@ -746,6 +764,10 @@ namespace QueryExPlus
 			if (IsChildActive()) GetQueryChild().Cancel();
 		}
 
+		private void miQueryOptions_Click (object sender, System.EventArgs e)
+		{
+			if (IsChildActive()) GetQueryChild().ShowQueryOptions();
+		}
 		private void miResultsText_Click(object sender, System.EventArgs e)
 		{
 			// Changing the value of this property will automatically invoke the QueryForm's
