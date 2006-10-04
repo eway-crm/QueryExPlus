@@ -1,15 +1,13 @@
-// created on 23.07.2003 at 19:31
-
 using System;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.OleDb;
-using System.Windows.Forms;
-using System.Collections.Specialized ;
 using System.Text;
+using System.Windows.Forms;
 
-namespace QueryExPlus.dl3bak
+namespace QueryExPlus
 {
-	/// <summary>
+    /// <summary>
 	/// QueryExPlus.dl3bak.OleDbBrowser 
 	/// 
 	/// An implementation of IBrowser for OleDb
@@ -19,7 +17,7 @@ namespace QueryExPlus.dl3bak
 	/// free for public distribution
 	/// 
 	/// </summary>
-	public class OleDbBrowser : IBrowser
+	internal class OleDbBrowser : IBrowser
 	{
 		DbClient dbClient;
 
@@ -230,7 +228,7 @@ namespace QueryExPlus.dl3bak
 			string[] sa = null;
 			
 			try {
-				con = ((OleDbConnection) DbClient.Connection) ;
+				con = ((OleDbConnection) ((OleDbClient) DbClient).Connection) ;
 				tab = con.GetOleDbSchemaTable(schema // ie OleDbSchemaGuid.Columns or .Tables
 			                                               ,restrictions // ie new object[] {null, null, null, "TABLE"}
 			                                               );
@@ -250,6 +248,5 @@ namespace QueryExPlus.dl3bak
 			return sa;		
 		}
 #endregion
-	}
-	
+    }
 }
