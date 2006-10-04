@@ -1,0 +1,408 @@
+using System;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+
+namespace QueryExPlus
+{
+    public partial class MainForm : Form
+    {
+        private ServerList serverList = new ServerList();
+        
+        public MainForm() : this(new string[0])
+        {
+        }
+
+        public MainForm(string[] args)
+        {
+            InitializeComponent();
+            AttachEditManager();
+            LoadServerList();
+            if (args.Length > 0)
+            {
+                ConnectionSettings conSettings = LoadSettingsFromArgs(args);
+                if (conSettings != null)
+                    DoConnect(conSettings);
+            }
+            EnableControls();
+        }
+
+        private ConnectionSettings LoadSettingsFromArgs(string[] args)
+        {
+            ConnectionSettings conSettings = null;
+            CommandLineParams cmdLine = new CommandLineParams(args);
+            if (cmdLine["cn"] != null)
+            {
+                if (serverList.IndexOf(cmdLine["cn"]) >= 0)
+                {
+                    conSettings = serverList.Items[serverList.IndexOf(cmdLine["CN"])];
+                    return conSettings;
+                }
+            } else if (cmdLine["s"] != null)
+            {
+                conSettings = new ConnectionSettings();
+                conSettings.Type = ConnectionSettings.ConnectionType.SqlConnection;
+                conSettings.SqlServer = cmdLine["s"];
+            } else if (cmdLine["os"] != null)
+            {
+                conSettings = new ConnectionSettings();
+                conSettings.Type = ConnectionSettings.ConnectionType.Oracle;
+                conSettings.SqlServer = cmdLine["os"];               
+            }
+            
+            if (conSettings != null)
+            {
+                if (cmdLine["e"] != null)
+                    conSettings.Trusted = true;
+                else
+                {
+                    if (cmdLine["u"] != null) conSettings.LoginName = cmdLine["u"];
+                    if (cmdLine["p"] != null) conSettings.Password = cmdLine["p"];
+                }
+                    
+            }
+            return conSettings;
+        }
+
+        private void AttachEditManager()
+        {
+            editManager1.MenuItemCopy = copyToolStripMenuItem;
+            editManager1.MenuItemCut = cutToolStripMenuItem;
+            editManager1.MenuItemEdit = editToolStripMenuItem1;
+            editManager1.MenuItemPaste = pasteToolStripMenuItem;
+            editManager1.MenuItemSelectAll = selectAllToolStripMenuItem;
+            editManager1.MenuItemUndo = undoToolStripMenuItem;
+        }
+
+        #region Menu and Toolbar Button Events
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoConnect();
+        }        
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoDisconnect();
+        }
+        private void executeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoExecuteQuery();
+        }
+        private void ExecutetoolStripButton_Click(object sender, EventArgs e)
+        {
+            DoExecuteQuery();
+        }
+        private void cancelExecutingQueryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoCancel();
+        }
+        private void cancelExecutingQuerytoolStripButton_Click(object sender, EventArgs e)
+        {
+            DoCancel();
+        }
+        private void newToolStripButton_Click(object sender, EventArgs e)
+        {
+            DoNew();
+        }
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoNew();
+        }
+        private void resultsInTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoResultsInText();
+        }
+        private void ResultsInTexttoolStripButton_Click(object sender, EventArgs e)
+        {
+            DoResultsInText();
+        }
+        private void resultsInGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoResultsInGrid();
+        }
+        private void resultsInGridtoolStripButton_Click(object sender, EventArgs e)
+        {
+            DoResultsInGrid();
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoOpen();
+        }
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            DoOpen();
+        }
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoSave();
+        }
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            DoSave();
+        }
+        private void hideBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoHideShowBrowser();
+        }
+        private void queryOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsChildActive()) GetQueryChild().ShowQueryOptions();
+        }
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoSaveAs();
+        }
+        private void saveResultsAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsChildActive()) GetQueryChild().SaveResults();
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsChildActive()) GetQueryChild().ShowFind();
+        }
+
+        private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsChildActive()) GetQueryChild().FindNext();
+        }
+        #endregion
+
+        #region Menu and Toolbar Button Implementations
+        private void DoExecuteQuery()
+        {
+            if (IsChildActive()) GetQueryChild().Execute();
+        }
+
+        private void DoNew()
+        {
+            if (IsChildActive())
+            {
+                // Change the cursor to an hourglass while we're doing this, in case establishing the
+                // new connection takes some time.
+                Cursor oldCursor = Cursor;
+                Cursor = Cursors.WaitCursor;
+                IQueryForm newQF = GetQueryChild().Clone();
+                if (newQF != null)																// could be null if new connection failed
+                {
+                    ((Form) newQF).MdiParent = this;
+                    newQF.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                    ((Form)newQF).Show();
+                }
+                Cursor = oldCursor;
+            }
+            else
+                DoConnect();
+        }
+
+        private void DoConnect(ConnectionSettings conSettings)
+        {
+            DbClient client = DbClientFactory.GetDBClient(conSettings);
+            Cursor oldCursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+
+            ConnectingForm c = new ConnectingForm();
+            c.Show();
+            c.Refresh();
+
+            bool success = client.Connect();
+            c.Close();
+            Cursor = oldCursor;
+
+            if (!success)
+            {
+                MessageBox.Show("Unable to connect: " + client.ErrorMessage, "Query Express", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                client.Dispose();
+                return;
+            }
+            int settingIndex = serverList.IndexOf(client.ConSettings.Key);
+            if (settingIndex >= 0)
+                serverList.Items[settingIndex] = (client.ConSettings);
+            else
+                serverList.Add(client.ConSettings);
+            SaveServerList();
+            QueryForm qf = new QueryForm(client, false); //, cf.Browser, cf.LowBandwidth);
+            qf.MdiParent = this;
+            // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
+            qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+            qf.Show();
+
+        }
+        private void DoConnect()
+        {
+            ConnectForm cf = new ConnectForm();
+
+            cf.ApplyServerList(serverList);
+            if (cf.ShowDialog() == DialogResult.OK)
+            {
+                int settingIndex = serverList.IndexOf(cf.DbClient.ConSettings.Key);
+                if (settingIndex >= 0)
+                    serverList.Items[settingIndex] = (cf.DbClient.ConSettings);
+                else
+                    serverList.Add(cf.DbClient.ConSettings);
+                SaveServerList();
+                QueryForm qf = new QueryForm(cf.DbClient, false); //, cf.Browser, cf.LowBandwidth);
+                qf.MdiParent = this;
+                // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
+                qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                qf.Show();
+            }
+        }
+
+        private void DoDisconnect()
+        {
+            if (IsChildActive()) GetQueryChild().Close();
+        }
+        
+        private void DoCancel()
+        {
+            if (IsChildActive()) GetQueryChild().Cancel();
+        }
+
+        private void DoResultsInText()
+        {
+            // Changing the value of this property will automatically invoke the QueryForm's
+            // PropertyChanged event, which we've wired to EnableControls().
+            if (IsChildActive()) GetQueryChild().ResultsInText = true;
+
+        }
+
+        private void DoResultsInGrid()
+        {
+            // Changing the value of this property will automatically invoke the QueryForm's
+            // PropertyChanged event, which we've wired to EnableControls().
+            if (IsChildActive()) GetQueryChild().ResultsInText = false;
+        }
+
+        private void DoOpen()
+        {
+            if (IsChildActive()) GetQueryChild().Open();
+        }
+
+        private void DoSave()
+        {
+            if (IsChildActive()) GetQueryChild().Save();
+        }
+
+        private void DoSaveAs()
+        {
+            if (IsChildActive()) GetQueryChild().SaveAs();
+        }
+
+        private void DoHideShowBrowser()
+        {
+            if (IsChildActive()) GetQueryChild().HideBrowser = !GetQueryChild().HideBrowser;
+        }
+        #endregion
+
+        void qf_PropertyChanged(object sender, EventArgs e)
+        {
+            EnableControls();
+        }
+
+   		/// <summary>
+		/// Enable / Disable toolbar and menu items
+		/// </summary>
+		void EnableControls()
+		{
+			IQueryForm q;
+			bool active = IsChildActive();
+			if (active) q = GetQueryChild(); else q = null;
+
+			openToolStripMenuItem.Enabled = openToolStripButton.Enabled =
+				saveResultsAsToolStripMenuItem.Enabled = 
+				(active && q.RunState == DbClient.RunStates.Idle);
+
+			newToolStripMenuItem.Enabled = newToolStripButton.Enabled =
+				saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled =
+				saveAsToolStripMenuItem.Enabled = active;
+
+			disconnectToolStripMenuItem.Enabled = (active && q.RunState != DbClient.RunStates.Cancelling);
+
+			//miQueryOptions.Enabled = (active && q.RunState == DbClient.RunStates.Idle);
+			
+			executeToolStripMenuItem.Enabled = (active && q.RunState == DbClient.RunStates.Idle);
+
+			cancelExecutingQueryToolStripMenuItem.Enabled = (active && q.RunState == DbClient.RunStates.Running);
+
+			resultsInTextToolStripMenuItem.Enabled = 
+				resultsInGridToolStripMenuItem.Enabled = active;
+
+			resultsInTextToolStripMenuItem.Checked //= tbResultsText.Pushed 
+			    = (active && q.ResultsInText);
+			resultsInGridToolStripMenuItem.Checked = (active && !q.ResultsInText);
+
+			//miNextPane.Enabled = miPrevPane.Enabled = active;
+
+			//miHideResults.Enabled = tbHideResults.Enabled = active;
+			hideBrowserToolStripMenuItem.Enabled = //tbHideBrowser.Enabled =
+				(active && q.Browser != null && q.RunState == DbClient.RunStates.Idle);
+
+			//miHideResults.Checked = tbHideResults.Pushed = (active && q.HideResults);
+            hideBrowserToolStripMenuItem.Checked = //tbHideBrowser.Pushed = 
+                (active && q.HideBrowser);
+		
+        }
+
+        private QueryForm GetQueryChild()
+        {
+            return (QueryForm)ActiveMdiChild;
+        }
+
+        private bool IsChildActive()
+        {
+            return ActiveMdiChild != null;
+        }
+        
+        private void LoadServerList()
+        {
+            TextReader tr = null;
+            try
+            {
+                string SetttingsFilePath =
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+                    "\\QueryExPlus.xml";
+                tr = new StreamReader(SetttingsFilePath);
+                XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
+                serverList = (ServerList) serializer.Deserialize(tr);
+            }
+            catch (Exception)
+            {}
+            finally
+            {
+                if (tr != null)
+                    tr.Close();
+            }
+        }
+
+        private void SaveServerList()
+        {
+            TextWriter tw = null;
+            try
+            {
+                string SetttingsFilePath =
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+                    "\\QuertyServers.xml";
+                tw = new StreamWriter(SetttingsFilePath, false);
+                XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
+                serializer.Serialize(tw, serverList);
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                if (tw != null)
+                    tw.Close();
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutForm().ShowDialog();
+        }
+    }
+}
