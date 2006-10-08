@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QueryExPlus</RootNamespace>
     <AssemblyName>QueryExPlus</AssemblyName>
+    <ApplicationIcon>qe2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Deployment" />
@@ -43,6 +45,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApplicationSettings.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="ConnectForm.cs">
       <SubType>Form</SubType>
@@ -76,6 +79,11 @@
     <Compile Include="OracleBrowser.cs" />
     <Compile Include="OracleDbClient.cs" />
     <Compile Include="OracleQueryOptions.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="QueryOptions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -127,15 +135,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="QueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +152,7 @@
     <Compile Include="QueryOptionsForm.Designer.cs">
       <DependentUpon>QueryOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="SqlBrowser.cs" />
     <Compile Include="SqlDBClient.cs" />
     <Compile Include="SqlQueryOptions.cs" />
@@ -157,6 +162,9 @@
     <Compile Include="SqlQueryOptionsForm.Designer.cs">
       <DependentUpon>SqlQueryOptionsForm.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="qe2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
