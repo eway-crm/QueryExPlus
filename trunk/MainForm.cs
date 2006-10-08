@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using QueryExPlus.Properties;
 
 namespace QueryExPlus
 {
@@ -15,6 +16,8 @@ namespace QueryExPlus
 
         public MainForm(string[] args)
         {
+            if (Settings.Default.MaximizeMainWindow)
+                this.WindowState = FormWindowState.Maximized;
             InitializeComponent();
             AttachEditManager();
             LoadServerList();
@@ -360,49 +363,24 @@ namespace QueryExPlus
         
         private void LoadServerList()
         {
-            TextReader tr = null;
-            try
-            {
-                string SetttingsFilePath =
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                    "\\QueryExPlus.xml";
-                tr = new StreamReader(SetttingsFilePath);
-                XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
-                serverList = (ServerList) serializer.Deserialize(tr);
-            }
-            catch (Exception)
-            {}
-            finally
-            {
-                if (tr != null)
-                    tr.Close();
-            }
+            serverList = Settings.Default.ServerList;
         }
 
         private void SaveServerList()
         {
-            TextWriter tw = null;
-            try
-            {
-                string SetttingsFilePath =
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                    "\\QuertyServers.xml";
-                tw = new StreamWriter(SetttingsFilePath, false);
-                XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
-                serializer.Serialize(tw, serverList);
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                if (tw != null)
-                    tw.Close();
-            }
+                Settings.Default.ServerList = serverList;
+                Settings.Default.Save();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutForm().ShowDialog();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Default.MaximizeMainWindow = this.WindowState == FormWindowState.Maximized;
+            Settings.Default.Save();
         }
     }
 }
