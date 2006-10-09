@@ -155,9 +155,9 @@ namespace QueryExPlus
 
         public void ApplyServerList(ServerList serverList)
         {
-            foreach(ConnectionSettings conSetting in serverList.Items)
+            foreach (ConnectionSettings conSetting in serverList.Items)
             {
-                switch(conSetting.Type)
+                switch (conSetting.Type)
                 {
                     case ConnectionSettings.ConnectionType.SqlConnection:
                         cboSqlServer.Items.Add(conSetting);
