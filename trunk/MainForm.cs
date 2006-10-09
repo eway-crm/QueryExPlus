@@ -364,6 +364,8 @@ namespace QueryExPlus
         private void LoadServerList()
         {
             serverList = Settings.Default.ServerList;
+            if (serverList == null)
+                serverList = new ServerList();
         }
 
         private void SaveServerList()
