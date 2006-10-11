@@ -221,11 +221,13 @@ namespace QueryExPlus
             this.ClientSize = new System.Drawing.Size(764, 417);
             this.Controls.Add(this.splitBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "QueryForm";
             this.Text = "QueryForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.QueryForm_FormClosed);
             this.Activated += new System.EventHandler(this.QueryForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QueryForm_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.QueryForm_KeyDown);
             this.splitBrowser.Panel1.ResumeLayout(false);
             this.splitBrowser.Panel1.PerformLayout();
             this.splitBrowser.Panel2.ResumeLayout(false);
