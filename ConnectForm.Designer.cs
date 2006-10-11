@@ -42,6 +42,16 @@ namespace QueryExPlus
             this.tabOleDb = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.txtOleDbConnectionString = new System.Windows.Forms.TextBox();
+            this.tabOracle = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtOraclePassword = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtOracleLoginName = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.rbOracleUntrusted = new System.Windows.Forms.RadioButton();
+            this.rbOracleTrusted = new System.Windows.Forms.RadioButton();
+            this.cboOracleDataSource = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.chkLowBandwidth = new System.Windows.Forms.CheckBox();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdConnect = new System.Windows.Forms.Button();
@@ -51,16 +61,6 @@ namespace QueryExPlus
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cboOracleDataSource = new System.Windows.Forms.ComboBox();
-            this.tabOracle = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtOraclePassword = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtOracleLoginName = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.rbOracleUntrusted = new System.Windows.Forms.RadioButton();
-            this.rbOracleTrusted = new System.Windows.Forms.RadioButton();
             this.tabServerTypes.SuspendLayout();
             this.tabSqlServer.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -220,111 +220,6 @@ namespace QueryExPlus
             this.txtOleDbConnectionString.Size = new System.Drawing.Size(411, 131);
             this.txtOleDbConnectionString.TabIndex = 0;
             // 
-            // chkLowBandwidth
-            // 
-            this.chkLowBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkLowBandwidth.AutoSize = true;
-            this.chkLowBandwidth.Location = new System.Drawing.Point(13, 210);
-            this.chkLowBandwidth.Name = "chkLowBandwidth";
-            this.chkLowBandwidth.Size = new System.Drawing.Size(98, 17);
-            this.chkLowBandwidth.TabIndex = 0;
-            this.chkLowBandwidth.Text = "Low bandwidth";
-            this.chkLowBandwidth.UseVisualStyleBackColor = true;
-            // 
-            // cmdCancel
-            // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(385, 206);
-            this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 2;
-            this.cmdCancel.Text = "Cancel";
-            this.cmdCancel.UseVisualStyleBackColor = true;
-            // 
-            // cmdConnect
-            // 
-            this.cmdConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdConnect.Location = new System.Drawing.Point(304, 206);
-            this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(75, 23);
-            this.cmdConnect.TabIndex = 1;
-            this.cmdConnect.Text = "&Connect";
-            this.cmdConnect.UseVisualStyleBackColor = true;
-            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(109, 91);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(133, 20);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(38, 98);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "&Password:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(109, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(133, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(38, 72);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "&Login name:";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(20, 42);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(151, 17);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.Text = "S&QL Server Authentication";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(20, 19);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(140, 17);
-            this.radioButton2.TabIndex = 0;
-            this.radioButton2.Text = "&Windows Authentication";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 13);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 13);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "&Data Source";
-            // 
-            // cboOracleDataSource
-            // 
-            this.cboOracleDataSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboOracleDataSource.FormattingEnabled = true;
-            this.cboOracleDataSource.Location = new System.Drawing.Point(88, 5);
-            this.cboOracleDataSource.Name = "cboOracleDataSource";
-            this.cboOracleDataSource.Size = new System.Drawing.Size(343, 21);
-            this.cboOracleDataSource.TabIndex = 4;
-            this.cboOracleDataSource.SelectionChangeCommitted += new System.EventHandler(this.cboOracleDataSource_SelectionChangeCommitted);
-            // 
             // tabOracle
             // 
             this.tabOracle.Controls.Add(this.groupBox2);
@@ -409,6 +304,111 @@ namespace QueryExPlus
             this.rbOracleTrusted.Text = "&Integrated Security";
             this.rbOracleTrusted.UseVisualStyleBackColor = true;
             this.rbOracleTrusted.CheckedChanged += new System.EventHandler(this.rbOracleTrusted_CheckedChanged);
+            // 
+            // cboOracleDataSource
+            // 
+            this.cboOracleDataSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboOracleDataSource.FormattingEnabled = true;
+            this.cboOracleDataSource.Location = new System.Drawing.Point(88, 5);
+            this.cboOracleDataSource.Name = "cboOracleDataSource";
+            this.cboOracleDataSource.Size = new System.Drawing.Size(343, 21);
+            this.cboOracleDataSource.TabIndex = 4;
+            this.cboOracleDataSource.SelectionChangeCommitted += new System.EventHandler(this.cboOracleDataSource_SelectionChangeCommitted);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 13);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 13);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "&Data Source";
+            // 
+            // chkLowBandwidth
+            // 
+            this.chkLowBandwidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkLowBandwidth.AutoSize = true;
+            this.chkLowBandwidth.Location = new System.Drawing.Point(13, 210);
+            this.chkLowBandwidth.Name = "chkLowBandwidth";
+            this.chkLowBandwidth.Size = new System.Drawing.Size(98, 17);
+            this.chkLowBandwidth.TabIndex = 0;
+            this.chkLowBandwidth.Text = "Low bandwidth";
+            this.chkLowBandwidth.UseVisualStyleBackColor = true;
+            // 
+            // cmdCancel
+            // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdCancel.Location = new System.Drawing.Point(385, 206);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 2;
+            this.cmdCancel.Text = "Cancel";
+            this.cmdCancel.UseVisualStyleBackColor = true;
+            // 
+            // cmdConnect
+            // 
+            this.cmdConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdConnect.Location = new System.Drawing.Point(304, 206);
+            this.cmdConnect.Name = "cmdConnect";
+            this.cmdConnect.Size = new System.Drawing.Size(75, 23);
+            this.cmdConnect.TabIndex = 1;
+            this.cmdConnect.Text = "&Connect";
+            this.cmdConnect.UseVisualStyleBackColor = true;
+            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(109, 91);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(133, 20);
+            this.textBox1.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(38, 98);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "&Password:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(109, 65);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(133, 20);
+            this.textBox2.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(38, 72);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "&Login name:";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(20, 42);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(151, 17);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.Text = "S&QL Server Authentication";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(20, 19);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(140, 17);
+            this.radioButton2.TabIndex = 0;
+            this.radioButton2.Text = "&Windows Authentication";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // ConnectForm
             // 

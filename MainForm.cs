@@ -50,7 +50,7 @@ namespace QueryExPlus
             {
                 conSettings = new ConnectionSettings();
                 conSettings.Type = ConnectionSettings.ConnectionType.Oracle;
-                conSettings.SqlServer = cmdLine["os"];               
+                conSettings.OracleDataSource = cmdLine["os"];               
             }
             
             if (conSettings != null)
@@ -163,15 +163,21 @@ namespace QueryExPlus
         {
             if (IsChildActive()) GetQueryChild().SaveResults();
         }
-
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsChildActive()) GetQueryChild().ShowFind();
         }
-
         private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (IsChildActive()) GetQueryChild().FindNext();
+        }
+        private void copyWithHeadersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editManager1.CopyWithHeaders();
+        }
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutForm().ShowDialog();
         }
         #endregion
 
@@ -372,11 +378,6 @@ namespace QueryExPlus
         {
                 Settings.Default.ServerList = serverList;
                 Settings.Default.Save();
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new AboutForm().ShowDialog();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

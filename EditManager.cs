@@ -9,8 +9,6 @@ namespace QueryExPlus
     /// </summary>
     public class EditManager : Component
     {
-        private Container components = null;
-
         // MenuItems to which to connect
         ToolStripMenuItem miEdit, miUndo, miCopy, miCut, miPaste, miSelectAll;
 
@@ -120,12 +118,27 @@ namespace QueryExPlus
             {
                 DataGridView ctrl = (DataGridView) c;
                 // Add the selection to the clipboard.
-                ctrl.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+                ctrl.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithAutoHeaderText;
                 Clipboard.SetDataObject(
                     ctrl.GetClipboardContent());
             }
         }
 
+        public void CopyWithHeaders()
+        {
+            Control c = GetActiveControl();
+            if (c is TextBoxBase)
+                return;
+            if (c is DataGridView)
+            {
+                DataGridView ctrl = (DataGridView)c;
+                // Add the selection to the clipboard.
+                ctrl.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+                Clipboard.SetDataObject(
+                    ctrl.GetClipboardContent());
+            }
+            
+        }
         public void Cut()
         {
             Control c = GetActiveControl();
@@ -218,7 +231,6 @@ namespace QueryExPlus
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
         }
         #endregion
     }

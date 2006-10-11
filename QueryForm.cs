@@ -1056,6 +1056,20 @@ namespace QueryExPlus
         {
             txtQuery.Focus();
         }
+        private void QueryForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Alt && e.KeyCode == Keys.X)
+            {
+                this.Execute();
+                e.Handled = true;
+            }
+            // Check for Alt+Break combination (alternative shortcut for cancelling a query)
+            if (e.Alt && e.KeyCode == Keys.Pause && RunState == DbClient.RunStates.Running)
+            {
+                Cancel();
+                e.Handled = true;
+            }
+        }
         #endregion
-   }
+    }
 }

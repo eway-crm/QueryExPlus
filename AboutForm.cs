@@ -27,7 +27,7 @@ namespace QueryExPlus
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -47,7 +47,7 @@ namespace QueryExPlus
             }
         }
 
-        public string AssemblyVersion
+        public static string AssemblyVersion
         {
             get
             {
@@ -55,7 +55,7 @@ namespace QueryExPlus
             }
         }
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -69,7 +69,7 @@ namespace QueryExPlus
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -83,7 +83,7 @@ namespace QueryExPlus
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -97,7 +97,7 @@ namespace QueryExPlus
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
