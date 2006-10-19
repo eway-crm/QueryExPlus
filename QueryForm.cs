@@ -150,10 +150,16 @@ namespace QueryExPlus
             {
                 string f = openFileDialog.FileName;
                 if (Path.GetExtension(f) == "") f += ".sql";
-                return OpenFile(f);
+                return Open(f);
             }
             else
                 return false;
+        }
+
+        /// <summary>Returns false if the Open was cancelled or if the file I/O failed </summary>
+        public bool Open(string fileName)
+        {
+            return OpenFile(fileName);
         }
 
         /// <summary>Starts execution of  a query</summary>
@@ -969,6 +975,10 @@ namespace QueryExPlus
             {
                 e.Effect = DragDropEffects.Copy;
             }
+            else if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
         }
         private void txtQuery_DragDrop(object sender, DragEventArgs e)
         {
@@ -982,6 +992,10 @@ namespace QueryExPlus
                 txtQuery.SelectionLength = s.Length;
                 txtQuery.Modified = true;
                 txtQuery.Focus();
+            }
+            else if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                Open(((string[]) e.Data.GetData(DataFormats.FileDrop))[0]);
             }
         }
         private void treeView_MouseDown(object sender, MouseEventArgs e)

@@ -350,6 +350,7 @@ namespace QueryExPlus
             // cmdConnect
             // 
             this.cmdConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdConnect.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdConnect.Location = new System.Drawing.Point(304, 206);
             this.cmdConnect.Name = "cmdConnect";
             this.cmdConnect.Size = new System.Drawing.Size(75, 23);
@@ -412,8 +413,10 @@ namespace QueryExPlus
             // 
             // ConnectForm
             // 
+            this.AcceptButton = this.cmdConnect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(466, 238);
             this.Controls.Add(this.cmdConnect);
             this.Controls.Add(this.cmdCancel);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -9,7 +10,7 @@ namespace QueryExPlus
     public partial class MainForm : Form
     {
         private ServerList serverList = new ServerList();
-        
+
         public MainForm() : this(new string[0])
         {
         }
@@ -366,7 +367,7 @@ namespace QueryExPlus
         {
             return ActiveMdiChild != null;
         }
-        
+    
         private void LoadServerList()
         {
             serverList = Settings.Default.ServerList;
@@ -384,6 +385,73 @@ namespace QueryExPlus
         {
             Settings.Default.MaximizeMainWindow = this.WindowState == FormWindowState.Maximized;
             Settings.Default.Save();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            object data;
+            data = e.Data.GetData(DataFormats.FileDrop);
+            List<string> fileNames = new List<string>();
+            foreach (string filename in (string[]) data)
+            {
+                FileInfo fi;
+                FileAttributes attribs;
+                attribs = System.IO.File.GetAttributes(filename);
+                
+                if ((attribs & FileAttributes.Directory) != FileAttributes.Directory)
+                    fileNames.Add(filename);
+                if (fileNames.Count > 0)
+                    LoadFileNames(fileNames);
+            }
+        }
+
+        private void LoadFileNames(List<string> fileNames)
+        {
+            foreach(string fileName in fileNames)
+            {
+                LoadFileName(fileName); }
+        }
+
+        private void LoadFileName(string fileName)
+        {
+            if (!IsChildActive())
+            {
+                DoConnect();
+                Cursor oldCursor = Cursor;
+                Cursor = Cursors.WaitCursor;
+                IQueryForm newQF = GetQueryChild();
+                if (newQF != null)																// could be null if new connection failed
+                    newQF.Open(fileName);
+                Cursor = oldCursor;
+            } else
+            {
+            // Change the cursor to an hourglass while we're doing this, in case establishing the
+                // new connection takes some time.
+                Cursor oldCursor = Cursor;
+                Cursor = Cursors.WaitCursor;
+                IQueryForm newQF = GetQueryChild().Clone();
+                if (newQF != null)																// could be null if new connection failed
+                {
+                    ((Form)newQF).MdiParent = this;
+                    newQF.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                    newQF.Open(fileName);
+                    ((Form)newQF).Show();
+                }
+                Cursor = oldCursor;
+            }
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("FileDrop"))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
         }
     }
 }
