@@ -8,6 +8,7 @@ namespace QueryExPlus
     {
         event EventHandler<EventArgs> PropertyChanged;
         bool Open();
+        bool Open(string fileName);
         void Execute();
         bool Save();
         bool SaveAs();

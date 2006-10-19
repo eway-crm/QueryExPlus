@@ -132,6 +132,8 @@ namespace QueryExPlus
             // 
             // txtQuery
             // 
+            this.txtQuery.AcceptsReturn = true;
+            this.txtQuery.AcceptsTab = true;
             this.txtQuery.AllowDrop = true;
             this.txtQuery.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtQuery.Font = new System.Drawing.Font("Verdana", 10F);
