@@ -399,7 +399,6 @@ namespace QueryExPlus
             List<string> fileNames = new List<string>();
             foreach (string filename in (string[]) data)
             {
-                FileInfo fi;
                 FileAttributes attribs;
                 attribs = System.IO.File.GetAttributes(filename);
                 
