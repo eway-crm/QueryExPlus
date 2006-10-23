@@ -439,6 +439,7 @@ namespace QueryExPlus
             {
                 txtBox.SelectionStart = idx;
                 txtBox.SelectionLength = lastFindText.Length;
+                txtBox.ScrollToCaret();
                 lastFindPos = idx;
             }
         }

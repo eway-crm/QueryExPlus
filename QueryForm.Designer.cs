@@ -140,6 +140,7 @@ namespace QueryExPlus
             this.txtQuery.Location = new System.Drawing.Point(0, 0);
             this.txtQuery.Multiline = true;
             this.txtQuery.Name = "txtQuery";
+            this.txtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtQuery.Size = new System.Drawing.Size(529, 162);
             this.txtQuery.TabIndex = 0;
             this.txtQuery.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtQuery_DragDrop);
