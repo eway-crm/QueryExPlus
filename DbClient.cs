@@ -214,8 +214,9 @@ namespace QueryExPlus
                 {
                     Thread.Sleep(Timeout.Infinite);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
                 } // the wakeup call, ie Interrupt() will throw an exception
                 // If we've been given nothing to do, it's time to exit (the form's being closed)
                 if (task == null) break;
@@ -259,6 +260,8 @@ namespace QueryExPlus
             while (workerThread.ThreadState != ThreadState.WaitSleepJoin || task != null)
             {
                 Thread.Sleep(20);
+                if (workerThread.ThreadState == ThreadState.Stopped)
+                    break;
             }
         }
 

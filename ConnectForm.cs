@@ -14,6 +14,7 @@ namespace QueryExPlus
         {
             InitializeComponent();
             rbSqlTrusted.Checked = true;
+            rbOracleUntrusted.Checked = true;
             this.ActiveControl = cboSqlServer;
         }
 
@@ -43,15 +44,15 @@ namespace QueryExPlus
 
         private void rbOracleTrusted_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbSqlTrusted.Checked)
+            if (rbOracleTrusted.Checked)
             {
-                txtSqlLoginName.Enabled = false;
-                txtSqlPassword.Enabled = false;
+                txtOracleLoginName.Enabled = false;
+                txtOraclePassword.Enabled = false;
             }
             else
             {
-                txtSqlLoginName.Enabled = true;
-                txtSqlPassword.Enabled = true;
+                txtOracleLoginName.Enabled = true;
+                txtOraclePassword.Enabled = true;
             }
         }
         private void cmdConnect_Click(object sender, EventArgs e)

@@ -63,13 +63,13 @@ namespace QueryExPlus
         #region Private Variables
 
         ConnectionType _Type;
-        string _SqlServer;
+        string _SqlServer="";
         string _SqlDatabase;
         bool _Trusted;
         string _LoginName;
         string _Password;
         string _OleDbConnectionString;
-        string _OracleDataSource;
+        string _OracleDataSource = "";
         #endregion
 
         #region Public Properties
@@ -119,9 +119,9 @@ namespace QueryExPlus
                 switch (this.Type)
                 {
                     case ConnectionType.SqlConnection:
-                        return SqlServer;
+                        return "SQL_" + SqlServer;
                     case ConnectionType.Oracle:
-                        return OracleDataSource;
+                        return "ORACLE_"+OracleDataSource;
                     case ConnectionType.OleDb:
                         return "OleDb";
                     default:
@@ -197,6 +197,8 @@ namespace QueryExPlus
             newConSettings.Trusted = _Trusted;
             newConSettings.LoginName = _LoginName;
             newConSettings.Password = _Password;
+            newConSettings.OleDbConnectionString = _OleDbConnectionString;
+            newConSettings.OracleDataSource = _OracleDataSource;
             return newConSettings;
         }
     }

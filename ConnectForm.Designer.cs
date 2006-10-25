@@ -130,6 +130,7 @@ namespace QueryExPlus
             // 
             this.txtSqlPassword.Location = new System.Drawing.Point(109, 91);
             this.txtSqlPassword.Name = "txtSqlPassword";
+            this.txtSqlPassword.PasswordChar = '*';
             this.txtSqlPassword.Size = new System.Drawing.Size(133, 20);
             this.txtSqlPassword.TabIndex = 5;
             // 
@@ -255,6 +256,7 @@ namespace QueryExPlus
             // 
             this.txtOraclePassword.Location = new System.Drawing.Point(109, 91);
             this.txtOraclePassword.Name = "txtOraclePassword";
+            this.txtOraclePassword.PasswordChar = '*';
             this.txtOraclePassword.Size = new System.Drawing.Size(133, 20);
             this.txtOraclePassword.TabIndex = 5;
             // 
@@ -350,7 +352,6 @@ namespace QueryExPlus
             // cmdConnect
             // 
             this.cmdConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdConnect.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdConnect.Location = new System.Drawing.Point(304, 206);
             this.cmdConnect.Name = "cmdConnect";
             this.cmdConnect.Size = new System.Drawing.Size(75, 23);

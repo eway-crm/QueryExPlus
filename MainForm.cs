@@ -9,7 +9,7 @@ namespace QueryExPlus
 {
     public partial class MainForm : Form
     {
-        private ServerList serverList = new ServerList();
+        ServerList serverList = new ServerList();
 
         public MainForm() : this(new string[0])
         {
