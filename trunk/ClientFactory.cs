@@ -29,6 +29,10 @@ namespace QueryExPlus
             {
                 return new OleDbBrowser(client);
             }
+            if ((client as OracleDbClient)!= null)
+            {
+                return new OracleBrowser(client);
+            }
             throw new ApplicationException("Unknown connection type");
         }
     }
