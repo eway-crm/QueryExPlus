@@ -28,6 +28,7 @@ namespace QueryExPlus
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryForm));
             this.splitBrowser = new System.Windows.Forms.SplitContainer();
             this.cboDatabase = new System.Windows.Forms.ComboBox();
@@ -41,6 +42,7 @@ namespace QueryExPlus
             this.panExecTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.panRows = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabResults = new System.Windows.Forms.TabControl();
+            this.tmrExecTime = new System.Windows.Forms.Timer(this.components);
             this.splitBrowser.Panel1.SuspendLayout();
             this.splitBrowser.Panel2.SuspendLayout();
             this.splitBrowser.SuspendLayout();
@@ -217,6 +219,11 @@ namespace QueryExPlus
             this.tabResults.Size = new System.Drawing.Size(529, 221);
             this.tabResults.TabIndex = 0;
             // 
+            // tmrExecTime
+            // 
+            this.tmrExecTime.Interval = 1000;
+            this.tmrExecTime.Tick += new System.EventHandler(this.tmrExecTime_Tick);
+            // 
             // QueryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -264,6 +271,7 @@ namespace QueryExPlus
         private System.Windows.Forms.ToolStripStatusLabel panExecTime;
         private System.Windows.Forms.ToolStripStatusLabel panRows;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.Timer tmrExecTime;
 
     }
 }
