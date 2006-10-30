@@ -798,7 +798,9 @@ namespace QueryExPlus
         private void SetRunning(bool running)
         {
             if (!running) CheckDatabase();
-                NotifyPropertyChanged();
+            
+            tmrExecTime.Enabled = running;
+            NotifyPropertyChanged();
         }
         /// <summary>
         /// Check the current database - if it has changed, update controls accordingly
@@ -1086,5 +1088,10 @@ namespace QueryExPlus
             }
         }
         #endregion
+
+        private void tmrExecTime_Tick(object sender, EventArgs e)
+        {
+            ShowExecTime();
+        }
     }
 }
