@@ -534,7 +534,7 @@ namespace QueryExPlus
             // Use Regex class, as we need a case insensitive match.
 
             string separator = queryOptions == null ? "GO" : queryOptions.BatchSeparator;
-            Regex r = new Regex(string.Format(@"^\s*{0}", separator), RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex r = new Regex(string.Format(@"^\s*{0}\s*$", separator), RegexOptions.IgnoreCase | RegexOptions.Multiline);
             MatchCollection mc = r.Matches(query);
             queries = new ArrayList();
             int pos = 0;
