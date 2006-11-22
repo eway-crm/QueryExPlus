@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -341,6 +342,11 @@ namespace QueryExPlus
                 {
                     ErrorEventArgs args = new ErrorEventArgs(ex.Message, ex);
                     OnError(this, args);
+                    if ((ex as DbException) != null)
+                    {
+                        if (connection.State == ConnectionState.Open)   // do not cancel if conneciton is still open
+                            args.Cancel = false;
+                    }
                     if (args.Cancel)
                     {
                         break;
