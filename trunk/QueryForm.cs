@@ -869,12 +869,16 @@ namespace QueryExPlus
                         treeView.Nodes[0].Expand();				// Expand the top level of hierarchy
                         cboDatabase.Items.Clear();
                         cboDatabase.Items.Add("<refresh list...>");
-                        cboDatabase.Items.AddRange(browser.GetDatabases());
+                        string[] dbs = browser.GetDatabases();
+                        cboDatabase.Items.AddRange(dbs);
                         try { cboDatabase.Text = client.Database; }
                         catch { }
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                }
 
         }
 

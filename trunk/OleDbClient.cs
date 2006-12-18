@@ -1,45 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.Odbc;
 using System.Text;
 
 namespace QueryExPlus
 {
-    class OleDbClient  : DbClient
+    class OdbcClient  : DbClient
     {
-        public OleDbClient(ConnectionSettings settings)
+        public OdbcClient(ConnectionSettings settings)
             : base(settings)
         {}
 
-        public OleDbConnection Connection
+        public OdbcConnection Connection
         {
-            get { return (OleDbConnection) connection; }
+            get { return (OdbcConnection) connection; }
         }
 
         protected override IDbConnection GetDbConnection()
         {
-            OleDbConnection con = new OleDbConnection(GenerateConnectionString());
-            con.InfoMessage += new OleDbInfoMessageEventHandler(con_InfoMessage);
+            OdbcConnection con = new OdbcConnection(GenerateConnectionString());
+            con.InfoMessage += new OdbcInfoMessageEventHandler(con_InfoMessage);
             return con;
         }
 
-        void con_InfoMessage(object sender, OleDbInfoMessageEventArgs e)
+        void con_InfoMessage(object sender, OdbcInfoMessageEventArgs e)
         {
-            OnInfoMessage(sender, new InfoMessageEventArgs(e.Message, e.Source));
+            OnInfoMessage(sender, new InfoMessageEventArgs(e.Message, ""));
         }
 
         protected override string GenerateConnectionString()
         {
-            OleDbConnectionStringBuilder csb = new OleDbConnectionStringBuilder();
-            csb.ConnectionString = conSettings.OleDbConnectionString;
+            OdbcConnectionStringBuilder csb = new OdbcConnectionStringBuilder();
+            csb.ConnectionString = conSettings.OdbcConnectionString;
             
             return csb.ConnectionString; // connectString.ToString();
         }
 
         protected override IDbCommand GetDbCommand(string query)
         {
-            OleDbCommand cmd = ((OleDbConnection)connection).CreateCommand();
+            OdbcCommand cmd = ((OdbcConnection)connection).CreateCommand();
             cmd.CommandText = query;
             return cmd;
         }
@@ -51,7 +51,7 @@ namespace QueryExPlus
 
         protected override IDbDataAdapter GetDataAdapter(IDbCommand command)
         {
-            return new OleDbDataAdapter((OleDbCommand) command);
+            return new OdbcDataAdapter((OdbcCommand) command);
         }
 
         public override void ApplyQueryOptions()
