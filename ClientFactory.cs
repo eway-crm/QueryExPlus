@@ -10,8 +10,8 @@ namespace QueryExPlus
             {
                 case ConnectionSettings.ConnectionType.SqlConnection:
                     return new SqlDBClient(conSettings);
-                case ConnectionSettings.ConnectionType.OleDb:
-                    return new OleDbClient(conSettings);
+                case ConnectionSettings.ConnectionType.Odbc:
+                    return new OdbcClient(conSettings);
                 case ConnectionSettings.ConnectionType.Oracle:
                     return new OracleDbClient(conSettings);
                 default:
@@ -25,7 +25,7 @@ namespace QueryExPlus
             {
                 return new SqlBrowser(client);
             }
-            if ((client as OleDbClient) != null)
+            if ((client as OdbcClient) != null)
             {
                 return new OleDbBrowser(client);
             }

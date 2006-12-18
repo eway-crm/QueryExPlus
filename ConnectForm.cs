@@ -89,11 +89,11 @@ namespace QueryExPlus
                  cboSqlServer.SelectedItem == null) ||
                 ((ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.Oracle &&
                  cboOracleDataSource.SelectedItem == null) ||
-                (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.OleDb)
+                (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.Odbc)
                 conSettings = new ConnectionSettings();
             conSettings.Type = (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag;
             conSettings.SqlServer = cboSqlServer.Text;
-            conSettings.OleDbConnectionString = txtOleDbConnectionString.Text;
+            conSettings.OdbcConnectionString = txtOleDbConnectionString.Text;
             conSettings.OracleDataSource = cboOracleDataSource.Text;
 
             if (conSettings.Type == ConnectionSettings.ConnectionType.SqlConnection)
@@ -130,9 +130,9 @@ namespace QueryExPlus
                         txtSqlPassword.Text = conSettings.Password;
                     }
                     break;
-                case ConnectionSettings.ConnectionType.OleDb:
+                case ConnectionSettings.ConnectionType.Odbc:
                     tabServerTypes.SelectedTab = tabOleDb;
-                    txtOleDbConnectionString.Text = conSettings.OleDbConnectionString;
+                    txtOleDbConnectionString.Text = conSettings.OdbcConnectionString;
                     break;
                 case ConnectionSettings.ConnectionType.Oracle:
                     tabServerTypes.SelectedTab = tabOracle;
@@ -150,7 +150,7 @@ namespace QueryExPlus
         private void ConnectForm_Load(object sender, EventArgs e)
         {
             tabSqlServer.Tag = ConnectionSettings.ConnectionType.SqlConnection;
-            tabOleDb.Tag = ConnectionSettings.ConnectionType.OleDb;
+            tabOleDb.Tag = ConnectionSettings.ConnectionType.Odbc;
             tabOracle.Tag = ConnectionSettings.ConnectionType.Oracle;
         }
 

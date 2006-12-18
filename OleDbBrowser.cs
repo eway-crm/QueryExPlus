@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Data;
-using System.Data.OleDb;
+using System.Data.Odbc;
 using System.Text;
 using System.Windows.Forms;
 
@@ -89,7 +89,7 @@ namespace QueryExPlus
 			
 
 				string[] fields = GetOleDbBrowserValues("COLUMN_NAME"
-				                        , OleDbSchemaGuid.Columns
+				                        ,"" // // ODBC.Columns
 				                        , new object[] {GetDatabaseFilter(), null, table});
 				
 				if (fields != null)
@@ -167,7 +167,8 @@ namespace QueryExPlus
 		public string[] GetDatabases()
 		{
 			string[] result = GetOleDbBrowserValues(
-			                        "CATALOG_NAME",OleDbSchemaGuid.Catalogs,null);
+			                        "CATALOG_NAME","Databases" //OleDbSchemaGuid.Catalogs
+			                        ,null);
 			
 			if (result == null)
 				result = new String[] {dbClient.Database};
@@ -193,7 +194,7 @@ namespace QueryExPlus
 			string[] result = null;
 			
 			result = GetOleDbBrowserValues(
-			                        "TABLE_NAME",OleDbSchemaGuid.Tables
+			                        "TABLE_NAME","" //OleDbSchemaGuid.Tables
 			                        ,new object[] {GetDatabaseFilter(), null, null, filter});
 			
 			if (result != null)
@@ -220,18 +221,18 @@ namespace QueryExPlus
 		/// </summary>		
 		/// <returns>String-Array with Fields from </returns>
 		string[] GetOleDbBrowserValues(string resultColumnName
-		                               	, Guid schema
+		                               	, string schema
 		                               	, object[] restrictions)
 		{
-			OleDbConnection con = null;
+			OdbcConnection con = null;
 			DataTable tab = null;
 			string[] sa = null;
 			
 			try {
-				con = ((OleDbConnection) ((OleDbClient) DbClient).Connection) ;
-				tab = con.GetOleDbSchemaTable(schema // ie OleDbSchemaGuid.Columns or .Tables
-			                                               ,restrictions // ie new object[] {null, null, null, "TABLE"}
-			                                               );
+				con = ((OdbcConnection) ((OdbcClient) DbClient).Connection) ;
+                tab = con.GetSchema(); //schema // ie OleDbSchemaGuid.Columns or .Tables
+			                            //                   ,restrictions // ie new object[] {null, null, null, "TABLE"}
+			                              //                 );
 	
 				DataColumn col		= tab.Columns[resultColumnName]; // ["TABLE_TYPE"];
 	
