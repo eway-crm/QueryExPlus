@@ -39,6 +39,7 @@ namespace QueryExPlus
                 System.Console.WriteLine("   -e : Use Trusted Connection");
                 System.Console.WriteLine("   -u [User_Name] : User Name");
                 System.Console.WriteLine("   -p [Password] : Password");
+                System.Console.WriteLine("   -i [FileName] : Open SQL File");
                 return true;
             }
             return false;
