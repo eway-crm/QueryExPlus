@@ -176,7 +176,7 @@ namespace QueryExPlus
         {
             conSettings = settings;
             queryOptions = GetDefaultOptions();
-            // Given that the OleDb classes appear to be apartment threaded, we can't just spawn
+            // Given that the ODBC classes appear to be apartment threaded, we can't just spawn
             // worker threads to execute background queries as required, since the connection will
             // have been created on a different thread.  The easiest way around this is to start a worker
             // thread now, keeping it alive for the duration of the DbClient object, and have that 
@@ -300,7 +300,7 @@ namespace QueryExPlus
                 runState = RunStates.Cancelling;
                 // We have to cancel on a new thread - separate to the main worker thread (because the
                 // worker thread will be busy) and separate to the main thread (as this is locked into the
-                // main UI apartment, and its use could cause subsequent corruption to an OleDb connection).
+                // main UI apartment, and its use could cause subsequent corruption to an ODBC connection).
                 Thread cancelThread = new Thread(new ThreadStart(selectCommand.Cancel));
                 cancelThread.Name = "DbClient Cancel Thread";
                 cancelThread.Start();

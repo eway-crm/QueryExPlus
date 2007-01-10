@@ -39,7 +39,7 @@ namespace QueryExPlus
             this.rbSqlUntrusted = new System.Windows.Forms.RadioButton();
             this.rbSqlTrusted = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabOleDb = new System.Windows.Forms.TabPage();
+            this.tabODBC = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.txtOleDbConnectionString = new System.Windows.Forms.TextBox();
             this.tabOracle = new System.Windows.Forms.TabPage();
@@ -64,7 +64,7 @@ namespace QueryExPlus
             this.tabServerTypes.SuspendLayout();
             this.tabSqlServer.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabOleDb.SuspendLayout();
+            this.tabODBC.SuspendLayout();
             this.tabOracle.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +75,7 @@ namespace QueryExPlus
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabServerTypes.Controls.Add(this.tabSqlServer);
-            this.tabServerTypes.Controls.Add(this.tabOleDb);
+            this.tabServerTypes.Controls.Add(this.tabODBC);
             this.tabServerTypes.Controls.Add(this.tabOracle);
             this.tabServerTypes.Location = new System.Drawing.Point(-1, 0);
             this.tabServerTypes.Name = "tabServerTypes";
@@ -190,16 +190,16 @@ namespace QueryExPlus
             this.label1.TabIndex = 0;
             this.label1.Text = "&Server";
             // 
-            // tabOleDb
+            // tabODBC
             // 
-            this.tabOleDb.Controls.Add(this.label4);
-            this.tabOleDb.Controls.Add(this.txtOleDbConnectionString);
-            this.tabOleDb.Location = new System.Drawing.Point(4, 22);
-            this.tabOleDb.Name = "tabOleDb";
-            this.tabOleDb.Size = new System.Drawing.Size(453, 177);
-            this.tabOleDb.TabIndex = 1;
-            this.tabOleDb.Text = "OLE DB";
-            this.tabOleDb.UseVisualStyleBackColor = true;
+            this.tabODBC.Controls.Add(this.label4);
+            this.tabODBC.Controls.Add(this.txtOleDbConnectionString);
+            this.tabODBC.Location = new System.Drawing.Point(4, 22);
+            this.tabODBC.Name = "tabODBC";
+            this.tabODBC.Size = new System.Drawing.Size(453, 177);
+            this.tabODBC.TabIndex = 1;
+            this.tabODBC.Text = "ODBC";
+            this.tabODBC.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -436,8 +436,8 @@ namespace QueryExPlus
             this.tabSqlServer.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabOleDb.ResumeLayout(false);
-            this.tabOleDb.PerformLayout();
+            this.tabODBC.ResumeLayout(false);
+            this.tabODBC.PerformLayout();
             this.tabOracle.ResumeLayout(false);
             this.tabOracle.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -463,7 +463,7 @@ namespace QueryExPlus
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdConnect;
         private System.Windows.Forms.ComboBox cboSqlServer;
-        private System.Windows.Forms.TabPage tabOleDb;
+        private System.Windows.Forms.TabPage tabODBC;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtOleDbConnectionString;
         private System.Windows.Forms.TextBox textBox1;
