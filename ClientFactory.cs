@@ -27,7 +27,7 @@ namespace QueryExPlus
             }
             if ((client as OdbcClient) != null)
             {
-                return new OleDbBrowser(client);
+                return new ODBCBrowser(client);
             }
             if ((client as OracleDbClient)!= null)
             {

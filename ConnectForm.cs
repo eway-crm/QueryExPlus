@@ -131,7 +131,7 @@ namespace QueryExPlus
                     }
                     break;
                 case ConnectionSettings.ConnectionType.Odbc:
-                    tabServerTypes.SelectedTab = tabOleDb;
+                    tabServerTypes.SelectedTab = tabODBC;
                     txtOleDbConnectionString.Text = conSettings.OdbcConnectionString;
                     break;
                 case ConnectionSettings.ConnectionType.Oracle:
@@ -150,7 +150,7 @@ namespace QueryExPlus
         private void ConnectForm_Load(object sender, EventArgs e)
         {
             tabSqlServer.Tag = ConnectionSettings.ConnectionType.SqlConnection;
-            tabOleDb.Tag = ConnectionSettings.ConnectionType.Odbc;
+            tabODBC.Tag = ConnectionSettings.ConnectionType.Odbc;
             tabOracle.Tag = ConnectionSettings.ConnectionType.Oracle;
         }
 

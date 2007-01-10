@@ -74,9 +74,9 @@
     </Compile>
     <Compile Include="IBrowser.cs" />
     <Compile Include="IQueryForm.cs" />
-    <Compile Include="OleDbBrowser.cs" />
-    <Compile Include="OleDbClient.cs" />
-    <Compile Include="OleDbQueryOptions.cs" />
+    <Compile Include="ODBCBrowser.cs" />
+    <Compile Include="ODBCClient.cs" />
+    <Compile Include="ODBCQueryOptions.cs" />
     <Compile Include="OracleBrowser.cs" />
     <Compile Include="OracleDbClient.cs" />
     <Compile Include="OracleQueryOptions.cs" />
