@@ -26,7 +26,15 @@ namespace QueryExPlus
             {
                 ConnectionSettings conSettings = LoadSettingsFromArgs(args);
                 if (conSettings != null)
-                    DoConnect(conSettings);
+                {
+                    IQueryForm qf = DoConnect(conSettings);
+                    if (qf != null)
+                    {
+                        CommandLineParams cmdLine = new CommandLineParams(args);
+                        if (cmdLine["i"] != null)
+                            qf.Open(cmdLine["i"]);
+                    }
+                }
             }
             EnableControls();
         }
@@ -209,7 +217,7 @@ namespace QueryExPlus
                 DoConnect();
         }
 
-        private void DoConnect(ConnectionSettings conSettings)
+        private QueryForm DoConnect(ConnectionSettings conSettings)
         {
             DbClient client = DbClientFactory.GetDBClient(conSettings);
             Cursor oldCursor = Cursor;
@@ -227,7 +235,7 @@ namespace QueryExPlus
             {
                 MessageBox.Show("Unable to connect: " + client.ErrorMessage, "Query Express", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 client.Dispose();
-                return;
+                return null;
             }
             int settingIndex = serverList.IndexOf(client.ConSettings.Key);
             if (settingIndex >= 0)
@@ -241,8 +249,9 @@ namespace QueryExPlus
             qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
             qf.Show();
 
+            return qf;
         }
-        private void DoConnect()
+        private QueryForm DoConnect()
         {
             ConnectForm cf = new ConnectForm();
 
@@ -260,7 +269,9 @@ namespace QueryExPlus
                 // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
                 qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
                 qf.Show();
+                return qf;
             }
+            return null;
         }
 
         private void DoDisconnect()
