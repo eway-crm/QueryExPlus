@@ -61,6 +61,8 @@ namespace QueryExPlus
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.cmdLoad = new System.Windows.Forms.Button();
+            this.cmdSave = new System.Windows.Forms.Button();
             this.tabServerTypes.SuspendLayout();
             this.tabSqlServer.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -192,6 +194,8 @@ namespace QueryExPlus
             // 
             // tabODBC
             // 
+            this.tabODBC.Controls.Add(this.cmdSave);
+            this.tabODBC.Controls.Add(this.cmdLoad);
             this.tabODBC.Controls.Add(this.label4);
             this.tabODBC.Controls.Add(this.txtOleDbConnectionString);
             this.tabODBC.Location = new System.Drawing.Point(4, 22);
@@ -218,7 +222,7 @@ namespace QueryExPlus
             this.txtOleDbConnectionString.Location = new System.Drawing.Point(20, 30);
             this.txtOleDbConnectionString.Multiline = true;
             this.txtOleDbConnectionString.Name = "txtOleDbConnectionString";
-            this.txtOleDbConnectionString.Size = new System.Drawing.Size(411, 131);
+            this.txtOleDbConnectionString.Size = new System.Drawing.Size(411, 104);
             this.txtOleDbConnectionString.TabIndex = 0;
             // 
             // tabOracle
@@ -412,6 +416,26 @@ namespace QueryExPlus
             this.radioButton2.Text = "&Windows Authentication";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
+            // cmdLoad
+            // 
+            this.cmdLoad.Location = new System.Drawing.Point(20, 140);
+            this.cmdLoad.Name = "cmdLoad";
+            this.cmdLoad.Size = new System.Drawing.Size(109, 26);
+            this.cmdLoad.TabIndex = 2;
+            this.cmdLoad.Text = "Load";
+            this.cmdLoad.UseVisualStyleBackColor = true;
+            this.cmdLoad.Click += new System.EventHandler(this.cmdLoad_Click);
+            // 
+            // cmdSave
+            // 
+            this.cmdSave.Location = new System.Drawing.Point(145, 140);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(109, 26);
+            this.cmdSave.TabIndex = 3;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            // 
             // ConnectForm
             // 
             this.AcceptButton = this.cmdConnect;
@@ -482,5 +506,7 @@ namespace QueryExPlus
         private System.Windows.Forms.RadioButton rbOracleTrusted;
         private System.Windows.Forms.ComboBox cboOracleDataSource;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button cmdLoad;
+        private System.Windows.Forms.Button cmdSave;
     }
 }
