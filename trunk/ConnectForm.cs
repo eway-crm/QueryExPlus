@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace QueryExPlus
@@ -189,5 +190,74 @@ namespace QueryExPlus
 
         }
 
+        private void cmdLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd;
+            ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.DefaultExt = "connectString";
+            ofd.FileName = "ODBC";
+            ofd.Filter = "Connection String|*.connectString|Text File|*.txt|All Files|*.*";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string s;
+                    StreamReader r = null;
+                    try
+                    {
+                        r = File.OpenText(ofd.FileName);
+                        s =  r.ReadToEnd();
+                    }
+                    finally
+                    {
+                        if (r != null)
+                            r.Close();
+                    }
+                    if (s != null)
+                    {
+                        txtOleDbConnectionString.Text = s;
+                        cmdConnect.Focus();
+                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error opening file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void cmdSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd;
+            sfd = new System.Windows.Forms.SaveFileDialog();
+            sfd.DefaultExt = "connectString";
+            sfd.FileName = "ODBC";
+            sfd.Filter = "Connection String|*.connectString|Text File|*.txt|All Files|*.*";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter w = null;
+                try
+                {
+                    try
+                    {
+                        w = File.CreateText(sfd.FileName);
+                        w.Write(txtOleDbConnectionString.Text);
+                        cmdConnect.Focus();
+                    }
+                    finally
+                    {
+                        if (w != null)
+                            w.Close();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to save connection string");
+                }
+            }
+        }
     }
 }
