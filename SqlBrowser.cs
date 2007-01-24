@@ -44,26 +44,46 @@ namespace QueryExPlus
 				new TreeNode ("Functions")
 			};
 
-            DataSet ds = dbClient.ExecuteOnWorker("select type, ObjectProperty (id, N'IsMSShipped') shipped, object_name(id) object, user_name(uid) owner from sysobjects where type in (N'U', N'S', N'V', N'P', N'FN') order by object, owner", timeout);
+            string Query;
+            //Query = "select type, ObjectProperty (id, N'IsMSShipped') shipped, object_name(id) object, user_name(uid) owner from sysobjects where type in (N'U', N'S', N'V', N'P', N'FN') order by object, owner";
+
+            Query = "select table_type as type, table_name as object, table_schema as [schema] from INFORMATION_SCHEMA.TABLES"
+                    + " UNION"
+                    + " select routine_type, routine_name, routine_schema from INFORMATION_SCHEMA.ROUTINES";
+
+            DataSet ds = dbClient.ExecuteOnWorker(Query, timeout);
             if (ds == null || ds.Tables.Count == 0) return null;
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 string type = row["type"].ToString().Substring(0, 2).Trim();
-
                 int position;
-                if (type == "U") position = 0;										// user table
-                else if (type == "S") position = 1;								// system table
-                else if (type == "V") position = 2;								// view
-                else if (type == "FN") position = 5;								// function
-                else if ((int)row["shipped"] == 0) position = 3;				// user stored proc
-                else position = 4;														// MS stored proc
+                switch (type)
+                {
+                    case "BASE_TABLE":
+                        type = "U"; position = 0; break;
+                    case "VIEW":
+                        type = "V"; position = 2; break;
+                    case "PROCEDURE":
+                        type = "P"; position = 3; break;
+                    case "FUNCTION":
+                        type = "FN"; position = 5; break;
+                    default:
+                        type = "S"; position = 1; break;
+                }
 
-                string prefix = row["owner"].ToString() == "dbo" ? "" : row["owner"].ToString() + ".";
-                SqlNode node = new SqlNode(prefix + row["object"].ToString());
+//                if (type == "U") position = 0;										// user table       - U
+//                else if (type == "S") position = 1;								// system table         - S
+//                else if (type == "V") position = 2;								// view                 - V
+//                else if (type == "FN") position = 5;								// function         - FN
+//                else if ((int)row["shipped"] == 0) position = 3;				// user stored proc     
+//                else position = 4;														// MS stored proc
+
+                string prefix = row["schema"].ToString(); // == "dbo" ? "" : row["owner"].ToString() + ".";
+                SqlNode node = new SqlNode(row["object"].ToString() + " (" + prefix + ")"); // new SqlNode(prefix + row["object"].ToString());
                 node.type = type;
                 node.name = row["object"].ToString();
-                node.owner = row["owner"].ToString();
+                node.owner = row["schema"].ToString();
 
                 // If the object name contains a space, wrap the "safe name" in square brackets.
                 if (node.owner.IndexOf(' ') >= 0 || node.name.IndexOf(' ') >= 0)
