@@ -56,11 +56,11 @@ namespace QueryExPlus
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                string type = row["type"].ToString().Substring(0, 2).Trim();
+                string type = row["type"].ToString();
                 int position;
                 switch (type)
                 {
-                    case "BASE_TABLE":
+                    case "BASE TABLE":
                         type = "U"; position = 0; break;
                     case "VIEW":
                         type = "V"; position = 2; break;
