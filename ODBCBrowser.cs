@@ -244,13 +244,17 @@ namespace QueryExPlus
 
                 DataColumn col = tab.Columns[resultColumnName];
 			    DataColumn TableTypeCol = null;
+                DataColumn TableSchemaCol = null;
                 if (Table_Type != null)
+                {
                     TableTypeCol = tab.Columns["TABLE_TYPE"];
+                    TableSchemaCol = tab.Columns["TABLE_SCHEM"];
+                }
 				sa = new string [tab.Rows.Count];
 				int count = 0;
 				foreach (DataRow row in tab.Rows)
                     if (Table_Type == null || row[TableTypeCol].ToString() == Table_Type)
-					    sa [count++] = row[col].ToString().Trim();
+					    sa [count++] = row[TableSchemaCol].ToString().Trim() + "." +  row[col].ToString().Trim();
 			
 			} catch (Exception) {			
 			} finally {
