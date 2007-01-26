@@ -61,6 +61,7 @@ namespace QueryExPlus
             this.cmdOk.TabIndex = 22;
             this.cmdOk.Text = "OK";
             this.cmdOk.UseVisualStyleBackColor = true;
+            this.cmdOk.Click += new System.EventHandler(this.cmdOk_Click);
             // 
             // cmdCancel
             // 

@@ -17,5 +17,11 @@ namespace QueryExPlus
             txtExecutionTimeout.Value = 0;
             txtBatchSeparator.Text = "GO";
         }
+
+        internal void cmdOk_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
     }
 }
