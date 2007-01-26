@@ -155,11 +155,5 @@ namespace QueryExPlus
             chkAnsiWarnings.Checked = true;
             chkAnsiNulls.Checked = true;
         }
-
-        private void cmdOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-            Close();
-        }
     }
 }
