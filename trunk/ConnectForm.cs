@@ -67,7 +67,7 @@ namespace QueryExPlus
             Cursor = Cursors.WaitCursor;
 
             ConnectingForm c = new ConnectingForm();
-            c.Show();
+            c.Show(this);
             c.Refresh();
 
             bool success = client.Connect();
