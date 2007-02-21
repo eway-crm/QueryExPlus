@@ -37,6 +37,8 @@ namespace QueryExPlus
                 }
             }
             EnableControls();
+            this.Show();
+            DoConnect();
         }
 
         private ConnectionSettings LoadSettingsFromArgs(string[] args)
@@ -256,7 +258,7 @@ namespace QueryExPlus
             ConnectForm cf = new ConnectForm();
 
             cf.ApplyServerList(serverList);
-            if (cf.ShowDialog() == DialogResult.OK)
+            if (cf.ShowDialog(this) == DialogResult.OK)
             {
                 int settingIndex = serverList.IndexOf(cf.DbClient.ConSettings.Key);
                 if (settingIndex >= 0)
@@ -268,6 +270,7 @@ namespace QueryExPlus
                 qf.MdiParent = this;
                 // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
                 qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                qf.WindowState = FormWindowState.Maximized;
                 qf.Show();
                 return qf;
             }
