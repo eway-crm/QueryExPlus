@@ -163,7 +163,7 @@ namespace QueryExPlus
 
             if (sn.type == "U" || sn.type == "S" || sn.type == "V")
             {
-                output.Add("select * from " + sn.safeName);
+                output.Add("select * from " + sn.dragText);
                 output.Add("sp_help " + sn.safeName);
                 if (sn.type != "V")
                 {
@@ -215,7 +215,7 @@ namespace QueryExPlus
 
             if (action.StartsWith("View / Modify "))
             {
-                DataSet ds = dbClient.ExecuteOnWorker("sp_helptext " + sn.safeName, timeout);
+                DataSet ds = dbClient.ExecuteOnWorker("sp_helptext [" + sn.dragText + "]", timeout);
                 if (ds == null || ds.Tables.Count == 0) return null;
 
                 StringBuilder sb = new StringBuilder();
