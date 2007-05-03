@@ -219,6 +219,11 @@ namespace QueryExPlus
             txtResultsBox.MaxLength = 0;
             txtResultsBox.Text = "";
             tabPage.Tag = ResultsTabType.Message;
+            #region Create Context Menu
+            txtResultsBox.ContextMenuStrip = EditManager.GetEditManager().GetContextMenuStrip(txtResultsBox);
+            txtResultsBox.ContextMenuStrip.Opening += delegate(object o, System.ComponentModel.CancelEventArgs e) { txtResultsBox.Focus(); };
+            #endregion
+
             tabResults.TabPages.Add(tabPage);
             tabPage.Controls.Add(txtResultsBox);
         }
@@ -480,7 +485,10 @@ namespace QueryExPlus
             dataGrid.DataError += new DataGridViewDataErrorEventHandler(dataGrid_DataError);
             dataGrid.DataSource = dt;
 
-
+#region Create Context Menu
+            dataGrid.ContextMenuStrip = EditManager.GetEditManager().GetContextMenuStrip(dataGrid) ;
+            dataGrid.ContextMenuStrip.Opening += delegate (object o, System.ComponentModel.CancelEventArgs e){dataGrid.Focus();};
+#endregion
             // The auto sizing feature is supported but SLOOOOWWWWW
             // dataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
             // Instead we'll have to size each column manually.
