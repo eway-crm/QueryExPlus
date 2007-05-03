@@ -10,6 +10,7 @@ namespace QueryExPlus
     public partial class MainForm : Form
     {
         ServerList serverList = new ServerList();
+        private EditManager editManager1 = EditManager.GetEditManager();
 
         public MainForm() : this(new string[0])
         {
@@ -81,6 +82,7 @@ namespace QueryExPlus
         private void AttachEditManager()
         {
             editManager1.MenuItemCopy = copyToolStripMenuItem;
+            editManager1.MenuItemCopyWithHeaders = copyWithHeadersToolStripMenuItem;
             editManager1.MenuItemCut = cutToolStripMenuItem;
             editManager1.MenuItemEdit = editToolStripMenuItem1;
             editManager1.MenuItemPaste = pasteToolStripMenuItem;
@@ -182,10 +184,10 @@ namespace QueryExPlus
         {
             if (IsChildActive()) GetQueryChild().FindNext();
         }
-        private void copyWithHeadersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            editManager1.CopyWithHeaders();
-        }
+        //private void copyWithHeadersToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    editManager1.CopyWithHeaders();
+        //}
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutForm().ShowDialog();

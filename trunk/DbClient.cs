@@ -215,11 +215,15 @@ namespace QueryExPlus
                 {
                     Thread.Sleep(Timeout.Infinite);
                 }
+                catch (System.Threading.ThreadInterruptedException)
+                {
+                    // the wakeup call, ie Interrupt() will throw an exception
+                    // If we've been given nothing to do, it's time to exit (the form's being closed)
+                }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
-                } // the wakeup call, ie Interrupt() will throw an exception
-                // If we've been given nothing to do, it's time to exit (the form's being closed)
+                }
                 if (task == null) break;
                 // Otherwise, execute the given task
                 task();

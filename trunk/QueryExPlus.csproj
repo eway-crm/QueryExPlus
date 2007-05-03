@@ -64,7 +64,6 @@
     <Compile Include="ClientFactory.cs" />
     <Compile Include="DbClient.cs" />
     <Compile Include="EditManager.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="FindReplaceForm.cs">
       <SubType>Form</SubType>

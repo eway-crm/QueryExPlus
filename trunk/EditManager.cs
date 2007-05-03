@@ -7,20 +7,28 @@ namespace QueryExPlus
     /// <summary>
     /// A mediator for managing Edit menu commands (copy, cut, paste, etc)
     /// </summary>
-    public class EditManager : Component
+    public class EditManager //: Component
     {
         // MenuItems to which to connect
-        ToolStripMenuItem miEdit, miUndo, miCopy, miCut, miPaste, miSelectAll;
+        ToolStripMenuItem miEdit, miUndo, miCopy, miCopyWithHeaders, miCut, miPaste, miSelectAll;
 
-        public EditManager(IContainer container)
+        private static EditManager _EditManagerInstance = new EditManager();
+        
+        private EditManager()
         {
-            container.Add(this);
-            InitializeComponent();
+            MenuItemCopy = null;
+            MenuItemCopyWithHeaders = null;
+            MenuItemCut = null;
+            MenuItemEdit = null;
+            MenuItemPaste = null;
+            MenuItemSelectAll = null;
+            MenuItemUndo = null;
+
         }
 
-        public EditManager()
+        public static EditManager GetEditManager()
         {
-            InitializeComponent();
+            return _EditManagerInstance;
         }
 
         // Menu item implementing Edit submenu.  Attach/detach event handler
@@ -31,10 +39,16 @@ namespace QueryExPlus
             set
             {
                 if (miEdit != null)
-                    miEdit.Click -= new EventHandler(miEdit_Popup);
+                {
+//                    miEdit.Click -= new EventHandler(miEdit_Popup);
+                    miEdit.DropDownOpening -= new EventHandler(miEdit_Popup);
+                }
                 miEdit = value;
                 if (miEdit != null)
-                    miEdit.Click += new EventHandler(miEdit_Popup);
+                {
+//                    miEdit.Click += new EventHandler(miEdit_Popup);
+                    miEdit.DropDownOpening += new EventHandler(miEdit_Popup);
+                }
             }
         }
 
@@ -61,6 +75,19 @@ namespace QueryExPlus
                 miCopy = value;
                 if (miCopy != null)
                     miCopy.Click += new EventHandler(miCopy_Click);
+            }
+        }
+
+        public ToolStripMenuItem MenuItemCopyWithHeaders
+        {
+            get { return miCopyWithHeaders; }
+            set
+            {
+                if (miCopyWithHeaders != null)
+                    miCopyWithHeaders.Click -= new EventHandler(miCopyWithHeaders_Click);
+                miCopyWithHeaders = value;
+                if (miCopyWithHeaders != null)
+                    miCopyWithHeaders.Click += new EventHandler(miCopyWithHeaders_Click);
             }
         }
 
@@ -103,6 +130,30 @@ namespace QueryExPlus
             }
         }
 
+        public ContextMenuStrip GetContextMenuStrip(Control parent)
+        {
+            ContextMenuStrip cm = new ContextMenuStrip();
+            //cm.Parent = parent;
+            cm.Opened += new EventHandler(miEdit_Popup);
+            cm.Items.AddRange(new ToolStripItem[] { new ToolStripMenuItem(miCopy.Text, miCopy.Image, new EventHandler(miCopy_Click)),
+            new ToolStripMenuItem(miCopyWithHeaders.Text, miCopyWithHeaders.Image, new EventHandler(miCopyWithHeaders_Click)) ,
+            new ToolStripMenuItem(miSelectAll.Text, miSelectAll.Image, new EventHandler(miSelectAll_Click)) }
+                );
+            if (!(parent is DataGridView))
+                cm.Items[1].Enabled = false;
+            return cm;
+        }
+
+        public ContextMenu GetContextMenu()
+        {
+            MenuItem[] mi = new MenuItem[] { new MenuItem(miCopy.Text, new EventHandler(miCopy_Click)) };
+            ContextMenu cm = new ContextMenu();
+            cm.MenuItems.AddRange(new MenuItem[] {new MenuItem(miCopy.Text, new EventHandler(miCopy_Click))
+            ,new MenuItem(miCopyWithHeaders.Text, new EventHandler(miCopyWithHeaders_Click))});
+            return cm;
+        }   
+
+
         public void Undo()
         {
             Control c = GetActiveControl();
@@ -139,6 +190,7 @@ namespace QueryExPlus
             }
             
         }
+
         public void Cut()
         {
             Control c = GetActiveControl();
@@ -160,7 +212,7 @@ namespace QueryExPlus
         protected Control GetActiveControl()
         {
             Form form = Form.ActiveForm;
-            if (form.IsMdiContainer)
+            if (form != null && form.IsMdiContainer)
                 form = form.ActiveMdiChild;
             return GetActiveControl(form);
         }
@@ -175,27 +227,45 @@ namespace QueryExPlus
 
         protected void miEdit_Popup(object sender, EventArgs e)
         {
-            bool canUndo, canCopy, canCut, canPaste;
-            canUndo = canCopy =
+            EnableSubMenus();
+        }
+
+        private void EnableSubMenus()
+        {
+            bool canUndo, canCopy, canCopyWithHeaders, canCut, canPaste;
+            System.Diagnostics.Debug.WriteLine("Popup");
+            canUndo = canCopy = canCopyWithHeaders =
                       canCut = canPaste = false;
             Control c = GetActiveControl();
-            if (c != null) CanEdit(c, ref canUndo, ref canCopy, ref canCut, ref canPaste);
+            if (c != null)
+                CanEdit(c, ref canUndo, ref canCopy, ref canCopyWithHeaders, ref canCut, ref canPaste);
             if (miUndo != null) miUndo.Enabled = canUndo;
             if (miCopy != null) miCopy.Enabled = canCopy;
+            if (miCopyWithHeaders != null) miCopyWithHeaders.Enabled = canCopyWithHeaders;
             if (miCut != null) miCut.Enabled = canCut;
             if (miPaste != null) miPaste.Enabled = canPaste;
         }
 
-        protected void CanEdit(Control c, ref bool canUndo, ref bool canCopy, ref bool canCut, ref bool canPaste)
+        protected void CanEdit(Control c, ref bool canUndo, ref bool canCopy, ref bool canCopyWithHeaders, ref bool canCut, ref bool canPaste)
         {
             if (c is TextBoxBase)
             {
                 TextBoxBase t = (TextBoxBase)c;
                 canUndo = t.CanUndo;
                 canCopy = t.SelectionLength > 0;
+                canCopyWithHeaders = false;
                 canCut = t.SelectionLength > 0 && !t.ReadOnly;
                 IDataObject iData = Clipboard.GetDataObject();
                 canPaste = !t.ReadOnly && iData.GetDataPresent(DataFormats.Text); ;
+            }
+            else if (c is DataGridView)
+            {
+                DataGridView dgv = (DataGridView) c;
+                canUndo = false;
+                canCopy = dgv.RowCount > 0;
+                canCopyWithHeaders = canCopy;
+                canCut = false;
+                canPaste = false;
             }
         }
 
@@ -207,6 +277,11 @@ namespace QueryExPlus
         protected void miCopy_Click(object sender, EventArgs e)
         {
             Copy();
+        }
+
+        protected void miCopyWithHeaders_Click(object sender, EventArgs e)
+        {
+            CopyWithHeaders();
         }
 
         protected void miCut_Click(object sender, EventArgs e)

@@ -80,7 +80,6 @@ namespace QueryExPlus
             this.resultsInTexttoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.resultsInGridtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripPanel1 = new System.Windows.Forms.ToolStripPanel();
-            this.editManager1 = new QueryExPlus.EditManager(this.components);
             this.menuStrip1.SuspendLayout();
             this.mainStrip.SuspendLayout();
             this.toolStripPanel1.SuspendLayout();
@@ -274,7 +273,7 @@ namespace QueryExPlus
                         | System.Windows.Forms.Keys.C)));
             this.copyWithHeadersToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.copyWithHeadersToolStripMenuItem.Text = "Copy With Headers";
-            this.copyWithHeadersToolStripMenuItem.Click += new System.EventHandler(this.copyWithHeadersToolStripMenuItem_Click);
+//            this.copyWithHeadersToolStripMenuItem.Click += new System.EventHandler(this.copyWithHeadersToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -523,15 +522,6 @@ namespace QueryExPlus
             this.toolStripPanel1.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.toolStripPanel1.Size = new System.Drawing.Size(757, 25);
             // 
-            // editManager1
-            // 
-            this.editManager1.MenuItemCopy = null;
-            this.editManager1.MenuItemCut = null;
-            this.editManager1.MenuItemEdit = null;
-            this.editManager1.MenuItemPaste = null;
-            this.editManager1.MenuItemSelectAll = null;
-            this.editManager1.MenuItemUndo = null;
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -598,7 +588,6 @@ namespace QueryExPlus
         private System.Windows.Forms.ToolStripMenuItem resultsInTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resultsInGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideBrowserToolStripMenuItem;
-        private EditManager editManager1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveResultsAsToolStripMenuItem;
