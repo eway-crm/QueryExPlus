@@ -474,7 +474,6 @@ namespace QueryExPlus
         {
             get { return execDuration; }
         }
-
         #endregion
 
         #region Public Functions
@@ -586,8 +585,9 @@ namespace QueryExPlus
         {
             return DbClientFactory.GetDBClient(conSettings.Clone());
         }
-        
+
         public abstract QueryOptions GetDefaultOptions();
+
         #endregion
 
         #region Private Functions

@@ -62,6 +62,8 @@ namespace QueryExPlus
 //                conSettings = new ConnectionSettings();
             ScreenToSettings();
 
+            if (! DbClientFactory.ValidateSettings(conSettings))
+                return;
             client = DbClientFactory.GetDBClient(conSettings);
             Cursor oldCursor = Cursor;
             Cursor = Cursors.WaitCursor;

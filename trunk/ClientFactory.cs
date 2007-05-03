@@ -4,6 +4,22 @@ namespace QueryExPlus
 {
     static class DbClientFactory
     {
+        //TODO: This should not be in the factory since that is against Objcet Oriented design. I am not sure where to put it yet.
+        public static bool ValidateSettings(ConnectionSettings conSettings)
+        {
+            switch (conSettings.Type)
+            {
+                case ConnectionSettings.ConnectionType.SqlConnection:
+                    return conSettings.SqlServer != null && conSettings.SqlServer.Length > 0;
+                case ConnectionSettings.ConnectionType.Odbc:
+                    return conSettings.OdbcConnectionString != null && conSettings.OdbcConnectionString.Length > 0;
+                case ConnectionSettings.ConnectionType.Oracle:
+                    return conSettings.OracleDataSource != null && conSettings.OracleDataSource.Length > 0;
+                default:
+                    throw new ArgumentOutOfRangeException("conSettings.Type");
+            }
+        }
+
         public static DbClient GetDBClient(ConnectionSettings conSettings)
         {
             switch (conSettings.Type)
