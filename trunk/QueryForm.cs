@@ -590,6 +590,7 @@ namespace QueryExPlus
                 string colName = schema.Rows[col][0].ToString();
                 int colSize = (int)schema.Rows[col]["ColumnSize"];
                 Type dataType = (Type)schema.Rows[col]["DataType"];
+                if (dataType == typeof(Guid)) colSize = Guid.NewGuid().ToString().Length;
                 if (dataType == typeof(DateTime)) colSize = DateTimeFormatStringLength;
                 // The column should be big enough also to accommodate the size of the column header
                 colWidths[col] = Math.Min(client.QueryOptions.maxTextWidth, Math.Max(colName.Length, colSize));
@@ -984,6 +985,17 @@ namespace QueryExPlus
         {
             if (ClientBusy) txtQuery.Focus();
         }
+
+        #region Drag / Drop
+
+        private void txtQuery_DragOver(object sender, DragEventArgs e)
+        {
+//            if (e.Effect == DragDropEffects.Copy)
+//            {
+//                txtQuery.SelectionStart = txtQuery.GetCharIndexFromPosition(txtQuery.PointToClient(new Point(e.X, e.Y)));
+//                txtQuery.SelectionLength = 1;
+//            }
+        }
         private void txtQuery_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(string)))
@@ -999,6 +1011,7 @@ namespace QueryExPlus
         {
             if (e.Data.GetDataPresent(typeof(string)))
             {
+                txtQuery.SelectionStart = txtQuery.GetCharIndexFromPosition(txtQuery.PointToClient(new Point(e.X, e.Y)));
                 string s = (string)e.Data.GetData(typeof(string));
                 // Have the newly inserted text highlighted
                 int start = txtQuery.SelectionStart;
@@ -1013,6 +1026,8 @@ namespace QueryExPlus
                 Open(((string[]) e.Data.GetData(DataFormats.FileDrop))[0]);
             }
         }
+        #endregion
+
         private void treeView_MouseDown(object sender, MouseEventArgs e)
         {
             // When right-clicking, first select the node under the mouse.
