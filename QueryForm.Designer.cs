@@ -145,6 +145,7 @@ namespace QueryExPlus
             this.txtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtQuery.Size = new System.Drawing.Size(529, 162);
             this.txtQuery.TabIndex = 0;
+            this.txtQuery.DragOver += new System.Windows.Forms.DragEventHandler(this.txtQuery_DragOver);
             this.txtQuery.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtQuery_DragDrop);
             this.txtQuery.DragEnter += new System.Windows.Forms.DragEventHandler(this.txtQuery_DragEnter);
             // 
