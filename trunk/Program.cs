@@ -17,9 +17,21 @@ namespace QueryExPlus
                 if (DisplayHelpIfNeeded(args))
                     return;
             }
+            if (QueryExPlus.Properties.Settings.Default.IsFirstRun)
+            {
+                QueryExPlus.Properties.Settings.Default.Upgrade();
+                QueryExPlus.Properties.Settings.Default.IsFirstRun = false;
+                QueryExPlus.Properties.Settings.Default.Save();
+                System.Windows.Forms.MessageBox.Show("Settings Upgraded");
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm(args));
+        }
+
+        static void Default_SettingsSaving(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
 
         private static bool DisplayHelpIfNeeded(string[] args)
