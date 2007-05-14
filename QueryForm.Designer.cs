@@ -85,6 +85,7 @@ namespace QueryExPlus
             this.cboDatabase.Name = "cboDatabase";
             this.cboDatabase.Size = new System.Drawing.Size(217, 21);
             this.cboDatabase.TabIndex = 1;
+            this.cboDatabase.TabStop = false;
             this.cboDatabase.Enter += new System.EventHandler(this.cboDatabase_Enter);
             this.cboDatabase.SelectedIndexChanged += new System.EventHandler(this.cboDatabase_SelectedIndexChanged);
             // 
@@ -107,6 +108,7 @@ namespace QueryExPlus
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(217, 349);
             this.treeView.TabIndex = 2;
+            this.treeView.TabStop = false;
             this.treeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeExpand);
             this.treeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseUp);
             this.treeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);

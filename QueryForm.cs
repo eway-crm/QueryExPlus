@@ -484,6 +484,7 @@ namespace QueryExPlus
             dataGrid.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGrid_RowPostPaint);
             dataGrid.DataError += new DataGridViewDataErrorEventHandler(dataGrid_DataError);
             dataGrid.DataSource = dt;
+            rowCount = dt.Rows.Count;
 
 #region Create Context Menu
             dataGrid.ContextMenuStrip = EditManager.GetEditManager().GetContextMenuStrip(dataGrid) ;
