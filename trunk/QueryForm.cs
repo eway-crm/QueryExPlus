@@ -544,8 +544,21 @@ namespace QueryExPlus
         {
             DataTable dt = new DataTable();
             dt.BeginLoadData();
-            dt.Load(dr);
+            try
+            {
+                dt.Load(dr);
+            }
+            catch (ConstraintException ex)
+            {
+                dt.Constraints.Clear();
+                DataRow[] errorRows = dt.GetErrors();
+                foreach (DataRow row in errorRows)
+                {
+                    row.ClearErrors();
+                }
+            }
             dt.EndLoadData();
+
             if (dt.Columns.Count == 0)      // Do not display grid for commands that do not return a valid recordset (example: "use master")
                 return;
             if (InvokeRequired)
