@@ -207,6 +207,7 @@ namespace QueryExPlus
         {
             Control c = GetActiveControl();
             if (c is TextBoxBase) ((TextBoxBase)c).SelectAll();
+            if (c is DataGridView) ((DataGridView)c).SelectAll();
         }
 
         protected Control GetActiveControl()
