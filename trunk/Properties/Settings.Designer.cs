@@ -46,5 +46,16 @@ namespace QueryExPlus.Properties {
                 this["IsFirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.ArrayList MRUFiles {
+            get {
+                return ((global::System.Collections.ArrayList)(this["MRUFiles"]));
+            }
+            set {
+                this["MRUFiles"] = value;
+            }
+        }
     }
 }

@@ -43,6 +43,7 @@ namespace QueryExPlus
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.recentFilesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,7 @@ namespace QueryExPlus
             this.resultsInTexttoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.resultsInGridtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripPanel1 = new System.Windows.Forms.ToolStripPanel();
+            this.mruMenuManager1 = new MRUSampleControlLibrary.MruMenuManager(this.components);
             this.menuStrip1.SuspendLayout();
             this.mainStrip.SuspendLayout();
             this.toolStripPanel1.SuspendLayout();
@@ -114,6 +116,7 @@ namespace QueryExPlus
             this.toolStripSeparator1,
             this.printToolStripMenuItem,
             this.toolStripSeparator2,
+            this.recentFilesMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
@@ -201,6 +204,12 @@ namespace QueryExPlus
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
             // 
+            // recentFilesMenuItem
+            // 
+            this.recentFilesMenuItem.Name = "recentFilesMenuItem";
+            this.recentFilesMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.recentFilesMenuItem.Text = "Recent &Files";
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -273,7 +282,6 @@ namespace QueryExPlus
                         | System.Windows.Forms.Keys.C)));
             this.copyWithHeadersToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.copyWithHeadersToolStripMenuItem.Text = "Copy With Headers";
-//            this.copyWithHeadersToolStripMenuItem.Click += new System.EventHandler(this.copyWithHeadersToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -522,6 +530,13 @@ namespace QueryExPlus
             this.toolStripPanel1.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.toolStripPanel1.Size = new System.Drawing.Size(757, 25);
             // 
+            // mruMenuManager1
+            // 
+            this.mruMenuManager1.DisplayStyle = MRUSampleControlLibrary.MruListDisplayStyle.InSubMenu;
+            this.mruMenuManager1.MruListMenu = this.recentFilesMenuItem;
+            this.mruMenuManager1.MruMenuItemFileMissing += new MRUSampleControlLibrary.MruMenuItemFileMissingEventHandler(this.mruMenuManager1_MruMenuItemFileMissing);
+            this.mruMenuManager1.MruMenuItemClick += new MRUSampleControlLibrary.MruMenuItemClickEventHandler(this.mruMenuManager1_MruMenuItemClick);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -602,6 +617,8 @@ namespace QueryExPlus
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyWithHeadersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recentFilesMenuItem;
+        private MRUSampleControlLibrary.MruMenuManager mruMenuManager1;
 
 
     }
