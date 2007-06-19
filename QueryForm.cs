@@ -140,6 +140,7 @@ namespace QueryExPlus
         #region IQueryForm implementation
 
         public event EventHandler<EventArgs> PropertyChanged;
+        public event EventHandler<MRUFileAddedEventArgs> MRUFileAdded;
 
         /// <summary>Returns false if the Open was cancelled or if the file I/O failed </summary>
         public bool Open()
@@ -699,6 +700,8 @@ namespace QueryExPlus
                     txtQuery.Modified = false;
                     this.FileName = fileName;
                     realFileName = true;
+                    if (MRUFileAdded != null)
+                        MRUFileAdded.Invoke(this, new MRUFileAddedEventArgs(fileName));
                     return true;
                 }
                 else

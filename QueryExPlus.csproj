@@ -73,6 +73,23 @@
     </Compile>
     <Compile Include="IBrowser.cs" />
     <Compile Include="IQueryForm.cs" />
+    <Compile Include="MostRecentlyUsed\IMruMenuListRenderer.cs" />
+    <Compile Include="MostRecentlyUsed\InMenuMruRenderer.cs" />
+    <Compile Include="MostRecentlyUsed\InSubMenuMruRenderer.cs" />
+    <Compile Include="MostRecentlyUsed\MruDisplayMode.cs" />
+    <Compile Include="MostRecentlyUsed\MruListDisplayStyle.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuItemClickEventArgs.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuItemClickEventHandler.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuItemFileMissingEventArgs.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuItemFileMissingEventHandler.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuListItems.cs" />
+    <Compile Include="MostRecentlyUsed\MruMenuManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MostRecentlyUsed\MruMenuManagerSettings.cs" />
+    <Compile Include="MostRecentlyUsed\MruToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ODBCBrowser.cs" />
     <Compile Include="ODBCClient.cs" />
     <Compile Include="ODBCQueryOptions.cs" />

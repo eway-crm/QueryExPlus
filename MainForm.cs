@@ -23,6 +23,7 @@ namespace QueryExPlus
             InitializeComponent();
             AttachEditManager();
             LoadServerList();
+            LoadMRU();
             if (args.Length > 0)
             {
                 ConnectionSettings conSettings = LoadSettingsFromArgs(args);
@@ -40,6 +41,11 @@ namespace QueryExPlus
             EnableControls();
             this.Show();
             DoConnect();
+        }
+
+        private void LoadMRU()
+        {
+            mruMenuManager1.Filenames = Settings.Default.MRUFiles;
         }
 
         private ConnectionSettings LoadSettingsFromArgs(string[] args)
@@ -213,6 +219,7 @@ namespace QueryExPlus
                 {
                     ((Form) newQF).MdiParent = this;
                     newQF.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                    newQF.MRUFileAdded += new EventHandler<MRUFileAddedEventArgs>(qf_MRUFileAdded);
                     ((Form)newQF).Show();
                 }
                 Cursor = oldCursor;
@@ -221,7 +228,12 @@ namespace QueryExPlus
                 DoConnect();
         }
 
-        private QueryForm DoConnect(ConnectionSettings conSettings)
+        void qf_(object sender, MRUFileAddedEventArgs e)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        private IQueryForm DoConnect(ConnectionSettings conSettings)
         {
             DbClient client = DbClientFactory.GetDBClient(conSettings);
             Cursor oldCursor = Cursor;
@@ -251,11 +263,12 @@ namespace QueryExPlus
             qf.MdiParent = this;
             // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
             qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+            qf.MRUFileAdded += new EventHandler<MRUFileAddedEventArgs>(qf_MRUFileAdded);
             qf.Show();
 
             return qf;
         }
-        private QueryForm DoConnect()
+        private IQueryForm DoConnect()
         {
             ConnectForm cf = new ConnectForm();
 
@@ -272,11 +285,19 @@ namespace QueryExPlus
                 qf.MdiParent = this;
                 // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
                 qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                qf.MRUFileAdded += new EventHandler<MRUFileAddedEventArgs>(qf_MRUFileAdded);
                 qf.WindowState = FormWindowState.Maximized;
                 qf.Show();
                 return qf;
             }
             return null;
+        }
+
+        void qf_MRUFileAdded(object sender, MRUFileAddedEventArgs e)
+        {
+            mruMenuManager1.Add(e.Filename);
+            Settings.Default.MRUFiles = mruMenuManager1.Filenames;
+            Settings.Default.Save();
         }
 
         private void DoDisconnect()
@@ -374,9 +395,9 @@ namespace QueryExPlus
 		
         }
 
-        private QueryForm GetQueryChild()
+        private IQueryForm GetQueryChild()
         {
-            return (QueryForm)ActiveMdiChild;
+            return (IQueryForm)ActiveMdiChild;
         }
 
         private bool IsChildActive()
@@ -441,7 +462,10 @@ namespace QueryExPlus
                 Cursor = Cursors.WaitCursor;
                 IQueryForm newQF = GetQueryChild();
                 if (newQF != null)																// could be null if new connection failed
+                {
                     newQF.Open(fileName);
+                    mruMenuManager1.Add(fileName);
+                }
                 Cursor = oldCursor;
             } else
             {
@@ -454,8 +478,10 @@ namespace QueryExPlus
                 {
                     ((Form)newQF).MdiParent = this;
                     newQF.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
+                    newQF.MRUFileAdded += new EventHandler<MRUFileAddedEventArgs>(qf_MRUFileAdded);
                     newQF.Open(fileName);
                     ((Form)newQF).Show();
+                    mruMenuManager1.Add(fileName);
                 }
                 Cursor = oldCursor;
             }
@@ -467,6 +493,16 @@ namespace QueryExPlus
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void mruMenuManager1_MruMenuItemClick(object sender, MRUSampleControlLibrary.MruMenuItemClickEventArgs e)
+        {
+            LoadFileName(e.Filename);                
+        }
+
+        private void mruMenuManager1_MruMenuItemFileMissing(object sender, MRUSampleControlLibrary.MruMenuItemFileMissingEventArgs e)
+        {
+            e.RemoveFromMru = false;
         }
     }
 }
