@@ -57,7 +57,8 @@ namespace QueryExPlus
         {
             SqlConnection,
             Odbc,
-            Oracle
+            Oracle,
+            OleDb
         }
         
         #region Private Variables
@@ -70,6 +71,7 @@ namespace QueryExPlus
         string _Password;
         string _OdbcConnectionString;
         string _OracleDataSource = "";
+        string _OleDbConnectionString;
         #endregion
 
         #region Public Properties
@@ -124,6 +126,8 @@ namespace QueryExPlus
                         return "ORACLE_"+OracleDataSource;
                     case ConnectionType.Odbc:
                         return "Odbc";
+                    case ConnectionType.OleDb:
+                        return "OleDb";
                     default:
                         throw new ArgumentOutOfRangeException("ConnectionType", "Invalid Connection Type");
                 }                
@@ -144,6 +148,8 @@ namespace QueryExPlus
                         return OracleDataSource + " (" + (Trusted? "Trusted" : LoginName.Trim()) + ")";
                     case ConnectionType.Odbc:
                         return "Odbc";
+                    case ConnectionType.OleDb:
+                        return "OleDb";
                     default:
                         throw new ArgumentOutOfRangeException("ConnectionType", "Invalid Connection Type");
                 }                
@@ -154,6 +160,12 @@ namespace QueryExPlus
         {
             get { return _OdbcConnectionString; }
             set { _OdbcConnectionString = value; }
+        }
+
+        public string OleDbConnectionString
+        {
+            get { return _OleDbConnectionString; }
+            set { _OleDbConnectionString = value; }
         }
 
         public string OracleDataSource
@@ -183,6 +195,8 @@ namespace QueryExPlus
                     return _OracleDataSource;
                 case ConnectionType.Odbc:
                     return "Odbc";
+                case ConnectionType.OleDb:
+                    return "OleDb";
                 default:
                     throw new ArgumentOutOfRangeException("ConnectionType", "Invalid Connection Type");
             }                  
@@ -199,6 +213,7 @@ namespace QueryExPlus
             newConSettings.LoginName = _LoginName;
             newConSettings.Password = _Password;
             newConSettings.OdbcConnectionString = _OdbcConnectionString;
+            newConSettings.OleDbConnectionString = _OleDbConnectionString;
             newConSettings.OracleDataSource = _OracleDataSource;
             return newConSettings;
         }
