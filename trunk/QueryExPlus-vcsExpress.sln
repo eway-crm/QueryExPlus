@@ -1,8 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-# SharpDevelop 2.1.0.2376
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryExPlus", "QueryExPlus.csproj", "{384D01A0-46F2-4447-A3C8-456923E8ABCF}"
+# Visual C# Express 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryExPlus-vcsExpress", "QueryExPlus-vcsExpress.csproj", "{384D01A0-46F2-4447-A3C8-456923E8ABCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,6 +13,8 @@ namespace QueryExPlus
                     return conSettings.SqlServer != null && conSettings.SqlServer.Length > 0;
                 case ConnectionSettings.ConnectionType.Odbc:
                     return conSettings.OdbcConnectionString != null && conSettings.OdbcConnectionString.Length > 0;
+                case ConnectionSettings.ConnectionType.OleDb:
+                    return conSettings.OleDbConnectionString != null && conSettings.OleDbConnectionString.Length > 0;
                 case ConnectionSettings.ConnectionType.Oracle:
                     return conSettings.OracleDataSource != null && conSettings.OracleDataSource.Length > 0;
                 default:
@@ -28,6 +30,8 @@ namespace QueryExPlus
                     return new SqlDBClient(conSettings);
                 case ConnectionSettings.ConnectionType.Odbc:
                     return new OdbcClient(conSettings);
+                case ConnectionSettings.ConnectionType.OleDb:
+                    return new OleDbClient(conSettings);
                 case ConnectionSettings.ConnectionType.Oracle:
                     return new OracleDbClient(conSettings);
                 default:
@@ -45,7 +49,11 @@ namespace QueryExPlus
             {
                 return new ODBCBrowser(client);
             }
-            if ((client as OracleDbClient)!= null)
+            if ((client as OleDbClient) != null)
+            {
+                return new OleDbBrowser(client);
+            }
+            if ((client as OracleDbClient) != null)
             {
                 return new OracleBrowser(client);
             }

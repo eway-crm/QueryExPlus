@@ -54,10 +54,10 @@ namespace QueryExPlus
             this.rbSqlTrusted = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.tabODBC = new System.Windows.Forms.TabPage();
-            this.cmdSave = new System.Windows.Forms.Button();
-            this.cmdLoad = new System.Windows.Forms.Button();
+            this.cmdOdbcSave = new System.Windows.Forms.Button();
+            this.cmdOdbcLoad = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtOleDbConnectionString = new System.Windows.Forms.TextBox();
+            this.txtOdbcConnectionString = new System.Windows.Forms.TextBox();
             this.tabOracle = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtOraclePassword = new System.Windows.Forms.TextBox();
@@ -68,6 +68,11 @@ namespace QueryExPlus
             this.rbOracleTrusted = new System.Windows.Forms.RadioButton();
             this.cboOracleDataSource = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.tabOleDb = new System.Windows.Forms.TabPage();
+            this.cmdOleDbSave = new System.Windows.Forms.Button();
+            this.cmdOleDbLoad = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtOleDbConnectionString = new System.Windows.Forms.TextBox();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -78,6 +83,7 @@ namespace QueryExPlus
             this.tabODBC.SuspendLayout();
             this.tabOracle.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabOleDb.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -229,6 +235,7 @@ namespace QueryExPlus
             this.tabServerTypes.Controls.Add(this.tabSqlServer);
             this.tabServerTypes.Controls.Add(this.tabODBC);
             this.tabServerTypes.Controls.Add(this.tabOracle);
+            this.tabServerTypes.Controls.Add(this.tabOleDb);
             this.tabServerTypes.Location = new System.Drawing.Point(3, 9);
             this.tabServerTypes.Name = "tabServerTypes";
             this.tabServerTypes.SelectedIndex = 0;
@@ -343,10 +350,10 @@ namespace QueryExPlus
             // 
             // tabODBC
             // 
-            this.tabODBC.Controls.Add(this.cmdSave);
-            this.tabODBC.Controls.Add(this.cmdLoad);
+            this.tabODBC.Controls.Add(this.cmdOdbcSave);
+            this.tabODBC.Controls.Add(this.cmdOdbcLoad);
             this.tabODBC.Controls.Add(this.label4);
-            this.tabODBC.Controls.Add(this.txtOleDbConnectionString);
+            this.tabODBC.Controls.Add(this.txtOdbcConnectionString);
             this.tabODBC.Location = new System.Drawing.Point(4, 22);
             this.tabODBC.Name = "tabODBC";
             this.tabODBC.Size = new System.Drawing.Size(479, 179);
@@ -354,25 +361,25 @@ namespace QueryExPlus
             this.tabODBC.Text = "ODBC";
             this.tabODBC.UseVisualStyleBackColor = true;
             // 
-            // cmdSave
+            // cmdOdbcSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(145, 140);
-            this.cmdSave.Name = "cmdSave";
-            this.cmdSave.Size = new System.Drawing.Size(109, 26);
-            this.cmdSave.TabIndex = 3;
-            this.cmdSave.Text = "Save";
-            this.cmdSave.UseVisualStyleBackColor = true;
-            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            this.cmdOdbcSave.Location = new System.Drawing.Point(145, 140);
+            this.cmdOdbcSave.Name = "cmdOdbcSave";
+            this.cmdOdbcSave.Size = new System.Drawing.Size(109, 26);
+            this.cmdOdbcSave.TabIndex = 3;
+            this.cmdOdbcSave.Text = "Save";
+            this.cmdOdbcSave.UseVisualStyleBackColor = true;
+            this.cmdOdbcSave.Click += new System.EventHandler(this.cmdSaveOdbc_Click);
             // 
-            // cmdLoad
+            // cmdOdbcLoad
             // 
-            this.cmdLoad.Location = new System.Drawing.Point(20, 140);
-            this.cmdLoad.Name = "cmdLoad";
-            this.cmdLoad.Size = new System.Drawing.Size(109, 26);
-            this.cmdLoad.TabIndex = 2;
-            this.cmdLoad.Text = "Load";
-            this.cmdLoad.UseVisualStyleBackColor = true;
-            this.cmdLoad.Click += new System.EventHandler(this.cmdLoad_Click);
+            this.cmdOdbcLoad.Location = new System.Drawing.Point(20, 140);
+            this.cmdOdbcLoad.Name = "cmdOdbcLoad";
+            this.cmdOdbcLoad.Size = new System.Drawing.Size(109, 26);
+            this.cmdOdbcLoad.TabIndex = 2;
+            this.cmdOdbcLoad.Text = "Load";
+            this.cmdOdbcLoad.UseVisualStyleBackColor = true;
+            this.cmdOdbcLoad.Click += new System.EventHandler(this.cmdLoadOdbc_Click);
             // 
             // label4
             // 
@@ -383,16 +390,16 @@ namespace QueryExPlus
             this.label4.TabIndex = 1;
             this.label4.Text = "Connection String";
             // 
-            // txtOleDbConnectionString
+            // txtOdbcConnectionString
             // 
-            this.txtOleDbConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.txtOdbcConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOleDbConnectionString.Location = new System.Drawing.Point(20, 30);
-            this.txtOleDbConnectionString.Multiline = true;
-            this.txtOleDbConnectionString.Name = "txtOleDbConnectionString";
-            this.txtOleDbConnectionString.Size = new System.Drawing.Size(369, 104);
-            this.txtOleDbConnectionString.TabIndex = 0;
+            this.txtOdbcConnectionString.Location = new System.Drawing.Point(20, 30);
+            this.txtOdbcConnectionString.Multiline = true;
+            this.txtOdbcConnectionString.Name = "txtOdbcConnectionString";
+            this.txtOdbcConnectionString.Size = new System.Drawing.Size(369, 104);
+            this.txtOdbcConnectionString.TabIndex = 0;
             // 
             // tabOracle
             // 
@@ -499,6 +506,59 @@ namespace QueryExPlus
             this.label9.TabIndex = 3;
             this.label9.Text = "&Data Source";
             // 
+            // tabOleDb
+            // 
+            this.tabOleDb.Controls.Add(this.cmdOleDbSave);
+            this.tabOleDb.Controls.Add(this.cmdOleDbLoad);
+            this.tabOleDb.Controls.Add(this.label10);
+            this.tabOleDb.Controls.Add(this.txtOleDbConnectionString);
+            this.tabOleDb.Location = new System.Drawing.Point(4, 22);
+            this.tabOleDb.Name = "tabOleDb";
+            this.tabOleDb.Size = new System.Drawing.Size(479, 179);
+            this.tabOleDb.TabIndex = 3;
+            this.tabOleDb.Text = "OLEDB";
+            this.tabOleDb.UseVisualStyleBackColor = true;
+            // 
+            // cmdOleDbSave
+            // 
+            this.cmdOleDbSave.Location = new System.Drawing.Point(181, 139);
+            this.cmdOleDbSave.Name = "cmdOleDbSave";
+            this.cmdOleDbSave.Size = new System.Drawing.Size(109, 26);
+            this.cmdOleDbSave.TabIndex = 7;
+            this.cmdOleDbSave.Text = "Save";
+            this.cmdOleDbSave.UseVisualStyleBackColor = true;
+            this.cmdOleDbSave.Click += new System.EventHandler(this.cmdSaveOleDb_Click);
+            // 
+            // cmdOleDbLoad
+            // 
+            this.cmdOleDbLoad.Location = new System.Drawing.Point(56, 139);
+            this.cmdOleDbLoad.Name = "cmdOleDbLoad";
+            this.cmdOleDbLoad.Size = new System.Drawing.Size(109, 26);
+            this.cmdOleDbLoad.TabIndex = 6;
+            this.cmdOleDbLoad.Text = "Load";
+            this.cmdOleDbLoad.UseVisualStyleBackColor = true;
+            this.cmdOleDbLoad.Click += new System.EventHandler(this.cmdLoadOleDb_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(53, 13);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(91, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Connection String";
+            // 
+            // txtOleDbConnectionString
+            // 
+            this.txtOleDbConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOleDbConnectionString.Location = new System.Drawing.Point(56, 29);
+            this.txtOleDbConnectionString.Multiline = true;
+            this.txtOleDbConnectionString.Name = "txtOleDbConnectionString";
+            this.txtOleDbConnectionString.Size = new System.Drawing.Size(369, 104);
+            this.txtOleDbConnectionString.TabIndex = 4;
+            // 
             // ConnectForm
             // 
             this.AcceptButton = this.cmdConnect;
@@ -533,6 +593,8 @@ namespace QueryExPlus
             this.tabOracle.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tabOleDb.ResumeLayout(false);
+            this.tabOleDb.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -561,10 +623,10 @@ namespace QueryExPlus
       private System.Windows.Forms.RadioButton rbSqlTrusted;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.TabPage tabODBC;
-      private System.Windows.Forms.Button cmdSave;
-      private System.Windows.Forms.Button cmdLoad;
+      private System.Windows.Forms.Button cmdOdbcSave;
+      private System.Windows.Forms.Button cmdOdbcLoad;
       private System.Windows.Forms.Label label4;
-      private System.Windows.Forms.TextBox txtOleDbConnectionString;
+      private System.Windows.Forms.TextBox txtOdbcConnectionString;
       private System.Windows.Forms.TabPage tabOracle;
       private System.Windows.Forms.GroupBox groupBox2;
       private System.Windows.Forms.TextBox txtOraclePassword;
@@ -578,5 +640,10 @@ namespace QueryExPlus
       private System.Windows.Forms.Label labelInstructions;
       private System.Windows.Forms.Label labelTitle;
       private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TabPage tabOleDb;
+        private System.Windows.Forms.Button cmdOleDbSave;
+        private System.Windows.Forms.Button cmdOleDbLoad;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtOleDbConnectionString;
     }
 }

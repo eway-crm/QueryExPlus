@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace QueryExPlus
 {
-    class OleDbQueryOptions : QueryOptions
+    class ODBCQueryOptions : QueryOptions
     {
         public override void ApplyToConnection(IDbConnection connection)
         {

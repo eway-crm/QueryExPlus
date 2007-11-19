@@ -88,15 +88,19 @@ namespace QueryExPlus
 
         private void ScreenToSettings()
         {
-            if (((ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.SqlConnection &&
+            ConnectionSettings.ConnectionType connectionType = (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag;
+            if ((connectionType == ConnectionSettings.ConnectionType.SqlConnection &&
                  cboSqlServer.SelectedItem == null) ||
-                ((ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.Oracle &&
+                (connectionType == ConnectionSettings.ConnectionType.Oracle &&
                  cboOracleDataSource.SelectedItem == null) ||
-                (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag == ConnectionSettings.ConnectionType.Odbc)
+                (connectionType == ConnectionSettings.ConnectionType.Odbc) ||
+                (connectionType == ConnectionSettings.ConnectionType.OleDb)
+                )
                 conSettings = new ConnectionSettings();
-            conSettings.Type = (ConnectionSettings.ConnectionType)tabServerTypes.SelectedTab.Tag;
+            conSettings.Type = connectionType;
             conSettings.SqlServer = cboSqlServer.Text;
-            conSettings.OdbcConnectionString = txtOleDbConnectionString.Text;
+            conSettings.OdbcConnectionString = txtOdbcConnectionString.Text;
+            conSettings.OleDbConnectionString = txtOleDbConnectionString.Text;
             conSettings.OracleDataSource = cboOracleDataSource.Text;
 
             if (conSettings.Type == ConnectionSettings.ConnectionType.SqlConnection)
@@ -135,7 +139,11 @@ namespace QueryExPlus
                     break;
                 case ConnectionSettings.ConnectionType.Odbc:
                     tabServerTypes.SelectedTab = tabODBC;
-                    txtOleDbConnectionString.Text = conSettings.OdbcConnectionString;
+                    txtOdbcConnectionString.Text = conSettings.OdbcConnectionString;
+                    break;
+                case ConnectionSettings.ConnectionType.OleDb:
+                    tabServerTypes.SelectedTab = tabOleDb;
+                    txtOleDbConnectionString.Text = conSettings.OleDbConnectionString;
                     break;
                 case ConnectionSettings.ConnectionType.Oracle:
                     tabServerTypes.SelectedTab = tabOracle;
@@ -154,6 +162,7 @@ namespace QueryExPlus
         {
             tabSqlServer.Tag = ConnectionSettings.ConnectionType.SqlConnection;
             tabODBC.Tag = ConnectionSettings.ConnectionType.Odbc;
+            tabOleDb.Tag = ConnectionSettings.ConnectionType.OleDb;
             tabOracle.Tag = ConnectionSettings.ConnectionType.Oracle;
         }
 
@@ -192,7 +201,7 @@ namespace QueryExPlus
 
         }
 
-        private void cmdLoad_Click(object sender, EventArgs e)
+        private void cmdLoadOdbc_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd;
             ofd = new System.Windows.Forms.OpenFileDialog();
@@ -218,7 +227,7 @@ namespace QueryExPlus
                     }
                     if (s != null)
                     {
-                        txtOleDbConnectionString.Text = s;
+                        txtOdbcConnectionString.Text = s;
                         cmdConnect.Focus();
                     }
                     
@@ -230,7 +239,7 @@ namespace QueryExPlus
             }
         }
 
-        private void cmdSave_Click(object sender, EventArgs e)
+        private void cmdSaveOdbc_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd;
             sfd = new System.Windows.Forms.SaveFileDialog();
@@ -246,7 +255,7 @@ namespace QueryExPlus
                     try
                     {
                         w = File.CreateText(sfd.FileName);
-                        w.Write(txtOleDbConnectionString.Text);
+                        w.Write(txtOdbcConnectionString.Text);
                         cmdConnect.Focus();
                     }
                     finally
@@ -260,6 +269,64 @@ namespace QueryExPlus
                     MessageBox.Show("Unable to save connection string");
                 }
             }
+        }
+
+        private void cmdLoadOleDb_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openOleDbFileDialog;
+            openOleDbFileDialog = new System.Windows.Forms.OpenFileDialog();
+            openOleDbFileDialog.DefaultExt = "udl";
+            openOleDbFileDialog.FileName = "OleDb";
+            openOleDbFileDialog.Filter = "OleDB Connection String (*.udl;*.connectString)|*.udl;*.connectString|Text File(*" +
+".txt)|*.txt|All Files (*.*)|*.*";
+
+            if (openOleDbFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string data = OleDbBrowser.GetConnectString(openOleDbFileDialog.FileName);
+                    if ((data != null) && (data != string.Empty))
+                    {
+                        txtOleDbConnectionString.Text = data;
+                        cmdConnect.Focus();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error opening file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void cmdSaveOleDb_Click(object sender, EventArgs e)
+        {
+            saveOleDbFileDialog = new System.Windows.Forms.SaveFileDialog();
+
+            saveOleDbFileDialog.DefaultExt = "udl";
+            saveOleDbFileDialog.FileName = "OleDb1";
+            saveOleDbFileDialog.Filter = "Connection String(*.udl)|*.udl|Connection String(*.connectString)|*.connectString" +
+"|Text File(*.txt)|*.txt|All Files(*.*)|*.*";
+
+            if (saveOleDbFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string connect = txtOleDbConnectionString.Text;
+                    if (saveOleDbFileDialog.FileName.ToLower().EndsWith(".udl"))
+                        connect = "[oledb]\r\n"
+                                + "; Everything after this line is an OLE DB initstring\r\n"
+                                + connect;
+                    else
+                        connect = txtOleDbConnectionString.Text;
+                    FileUtil.WriteToFile(saveOleDbFileDialog.FileName, connect);
+                    btnConnect.Focus();
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to save connection string");
+                }
+            }
+
         }
     }
 }
