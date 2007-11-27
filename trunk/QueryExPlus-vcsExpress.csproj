@@ -113,9 +113,7 @@
     <Compile Include="ODBCQueryOptions.cs" />
     <Compile Include="OledbBrowser.cs" />
     <Compile Include="OledbClient.cs" />
-    <Compile Include="OledbQueryOptions.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="OledbQueryOptions.cs" />
     <Compile Include="OracleBrowser.cs" />
     <Compile Include="OracleDbClient.cs" />
     <Compile Include="OracleQueryOptions.cs" />
