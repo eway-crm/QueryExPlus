@@ -300,7 +300,7 @@ namespace QueryExPlus
 
         private void cmdSaveOleDb_Click(object sender, EventArgs e)
         {
-            saveOleDbFileDialog = new System.Windows.Forms.SaveFileDialog();
+            SaveFileDialog saveOleDbFileDialog = new System.Windows.Forms.SaveFileDialog();
 
             saveOleDbFileDialog.DefaultExt = "udl";
             saveOleDbFileDialog.FileName = "OleDb1";
@@ -319,7 +319,7 @@ namespace QueryExPlus
                     else
                         connect = txtOleDbConnectionString.Text;
                     FileUtil.WriteToFile(saveOleDbFileDialog.FileName, connect);
-                    btnConnect.Focus();
+                    cmdConnect.Focus();
                 }
                 catch
                 {
