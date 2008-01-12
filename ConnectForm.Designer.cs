@@ -233,8 +233,8 @@ namespace QueryExPlus
             // 
             this.tabServerTypes.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tabServerTypes.Controls.Add(this.tabSqlServer);
-            this.tabServerTypes.Controls.Add(this.tabODBC);
             this.tabServerTypes.Controls.Add(this.tabOracle);
+            this.tabServerTypes.Controls.Add(this.tabODBC);
             this.tabServerTypes.Controls.Add(this.tabOleDb);
             this.tabServerTypes.Location = new System.Drawing.Point(3, 9);
             this.tabServerTypes.Name = "tabServerTypes";
@@ -521,7 +521,7 @@ namespace QueryExPlus
             // 
             // cmdOleDbSave
             // 
-            this.cmdOleDbSave.Location = new System.Drawing.Point(181, 139);
+            this.cmdOleDbSave.Location = new System.Drawing.Point(145, 140);
             this.cmdOleDbSave.Name = "cmdOleDbSave";
             this.cmdOleDbSave.Size = new System.Drawing.Size(109, 26);
             this.cmdOleDbSave.TabIndex = 7;
@@ -531,7 +531,7 @@ namespace QueryExPlus
             // 
             // cmdOleDbLoad
             // 
-            this.cmdOleDbLoad.Location = new System.Drawing.Point(56, 139);
+            this.cmdOleDbLoad.Location = new System.Drawing.Point(20, 140);
             this.cmdOleDbLoad.Name = "cmdOleDbLoad";
             this.cmdOleDbLoad.Size = new System.Drawing.Size(109, 26);
             this.cmdOleDbLoad.TabIndex = 6;
@@ -542,7 +542,7 @@ namespace QueryExPlus
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(53, 13);
+            this.label10.Location = new System.Drawing.Point(17, 14);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(91, 13);
             this.label10.TabIndex = 5;
@@ -553,7 +553,7 @@ namespace QueryExPlus
             this.txtOleDbConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOleDbConnectionString.Location = new System.Drawing.Point(56, 29);
+            this.txtOleDbConnectionString.Location = new System.Drawing.Point(20, 30);
             this.txtOleDbConnectionString.Multiline = true;
             this.txtOleDbConnectionString.Name = "txtOleDbConnectionString";
             this.txtOleDbConnectionString.Size = new System.Drawing.Size(369, 104);
