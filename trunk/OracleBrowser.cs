@@ -40,7 +40,7 @@ namespace QueryExPlus
 				new TreeNode ("User Views"),
 			};
 
-            DataSet ds = dbClient.ExecuteOnWorker("select TABLE_NAME from USER_TABLES", timeout);
+            DataSet ds = dbClient.ExecuteOnWorker("select TABLE_NAME from USER_TABLES order by TABLE_NAME", timeout);
             if (ds == null || ds.Tables.Count == 0) return null;
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -54,7 +54,7 @@ namespace QueryExPlus
                 node.Nodes.Add(new TreeNode());
             }
 
-            ds = dbClient.ExecuteOnWorker("select VIEW_NAME from USER_VIEWS", timeout);
+            ds = dbClient.ExecuteOnWorker("select VIEW_NAME from USER_VIEWS order by VIEW_NAME", timeout);
             if (ds == null || ds.Tables.Count == 0) return top;
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -81,7 +81,7 @@ namespace QueryExPlus
                 if (on.type == "T" || on.type == "V")
                 {
                     DataSet ds = dbClient.ExecuteOnWorker("select COLUMN_NAME name, DATA_TYPE type, DATA_LENGTH clength, DATA_PRECISION nprecision, DATA_SCALE nscale, NULLABLE nullable from USER_TAB_COLUMNS where TABLE_NAME = '"
-                        + on.Text + "'", timeout);
+                        + on.Text + "' order by name", timeout);
                     if (ds == null || ds.Tables.Count == 0) return null;
 
                     TreeNode[] tn = new OracleNode[ds.Tables[0].Rows.Count];
