@@ -70,7 +70,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="AssemblyVersion.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="Gui\ConnectForm.cs">
       <SubType>Form</SubType>
@@ -117,19 +117,19 @@
     </Compile>
     <Compile Include="DatabaseApi\ODBCBrowser.cs" />
     <Compile Include="DatabaseApi\ODBCClient.cs" />
-    <Compile Include="Gui\ODBCQueryOptions.cs" />
+    <Compile Include="DatabaseApi\ODBCQueryOptions.cs" />
     <Compile Include="DatabaseApi\OledbBrowser.cs" />
     <Compile Include="DatabaseApi\OledbClient.cs" />
-    <Compile Include="Gui\OledbQueryOptions.cs" />
+    <Compile Include="DatabaseApi\OledbQueryOptions.cs" />
     <Compile Include="DatabaseApi\OracleBrowser.cs" />
     <Compile Include="DatabaseApi\OracleDbClient.cs" />
-    <Compile Include="Gui\OracleQueryOptions.cs" />
+    <Compile Include="DatabaseApi\OracleQueryOptions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Gui\QueryOptions.cs" />
+    <Compile Include="DatabaseApi\QueryOptions.cs" />
     <Compile Include="Gui\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,10 +197,10 @@
     <Compile Include="Gui\QueryOptionsForm.Designer.cs">
       <DependentUpon>QueryOptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="DatabaseApi\SqlBrowser.cs" />
     <Compile Include="DatabaseApi\SqlDBClient.cs" />
-    <Compile Include="Gui\SqlQueryOptions.cs" />
+    <Compile Include="DatabaseApi\SqlQueryOptions.cs" />
     <Compile Include="Gui\SqlQueryOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,6 +223,9 @@
     <Content Include="Images\save.gif" />
     <Content Include="Images\textresults.gif" />
     <Content Include="qe2.ico" />
+    <None Include="QueryExPlus-ReadMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
