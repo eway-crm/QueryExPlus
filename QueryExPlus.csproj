@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -13,6 +14,12 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,41 +63,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs">
+    <Compile Include="Gui\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutForm.Designer.cs">
+    <Compile Include="Gui\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="AssemblyVersion.cs" />
     <Compile Include="CommandLine.cs" />
-    <Compile Include="ConnectForm.cs">
+    <Compile Include="Gui\ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConnectForm.Designer.cs">
+    <Compile Include="Gui\ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConnectingForm.cs">
+    <Compile Include="Gui\ConnectingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConnectingForm.Designer.cs">
+    <Compile Include="Gui\ConnectingForm.Designer.cs">
       <DependentUpon>ConnectingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ConnectionSettings.cs" />
-    <Compile Include="ClientFactory.cs" />
-    <Compile Include="DbClient.cs" />
-    <Compile Include="EditManager.cs">
+    <Compile Include="DatabaseApi\ClientFactory.cs" />
+    <Compile Include="DatabaseApi\DbClient.cs" />
+    <Compile Include="Gui\EditManager.cs">
     </Compile>
     <Compile Include="FileUtil.cs" />
-    <Compile Include="FindReplaceForm.cs">
+    <Compile Include="Gui\FindReplaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindReplaceForm.Designer.cs">
+    <Compile Include="Gui\FindReplaceForm.Designer.cs">
       <DependentUpon>FindReplaceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IBrowser.cs" />
-    <Compile Include="IQueryForm.cs" />
+    <Compile Include="DatabaseApi\IBrowser.cs" />
+    <Compile Include="Gui\IQueryForm.cs" />
     <Compile Include="MostRecentlyUsed\IMruMenuListRenderer.cs" />
     <Compile Include="MostRecentlyUsed\InMenuMruRenderer.cs" />
     <Compile Include="MostRecentlyUsed\InSubMenuMruRenderer.cs" />
@@ -108,46 +115,46 @@
     <Compile Include="MostRecentlyUsed\MruToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ODBCBrowser.cs" />
-    <Compile Include="ODBCClient.cs" />
-    <Compile Include="ODBCQueryOptions.cs" />
-    <Compile Include="OledbBrowser.cs" />
-    <Compile Include="OledbClient.cs" />
-    <Compile Include="OledbQueryOptions.cs" />
-    <Compile Include="OracleBrowser.cs" />
-    <Compile Include="OracleDbClient.cs" />
-    <Compile Include="OracleQueryOptions.cs" />
+    <Compile Include="DatabaseApi\ODBCBrowser.cs" />
+    <Compile Include="DatabaseApi\ODBCClient.cs" />
+    <Compile Include="Gui\ODBCQueryOptions.cs" />
+    <Compile Include="DatabaseApi\OledbBrowser.cs" />
+    <Compile Include="DatabaseApi\OledbClient.cs" />
+    <Compile Include="Gui\OledbQueryOptions.cs" />
+    <Compile Include="DatabaseApi\OracleBrowser.cs" />
+    <Compile Include="DatabaseApi\OracleDbClient.cs" />
+    <Compile Include="Gui\OracleQueryOptions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="QueryOptions.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Gui\QueryOptions.cs" />
+    <Compile Include="Gui\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Gui\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Gui\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutForm.resx">
+    <EmbeddedResource Include="Gui\AboutForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConnectForm.resx">
+    <EmbeddedResource Include="Gui\ConnectForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConnectingForm.resx">
+    <EmbeddedResource Include="Gui\ConnectingForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ConnectingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindReplaceForm.resx">
+    <EmbeddedResource Include="Gui\FindReplaceForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FindReplaceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Gui\MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,15 +163,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="QueryForm.resx">
+    <EmbeddedResource Include="Gui\QueryForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>QueryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="QueryOptionsForm.resx">
+    <EmbeddedResource Include="Gui\QueryOptionsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>QueryOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlQueryOptionsForm.resx">
+    <EmbeddedResource Include="Gui\SqlQueryOptionsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SqlQueryOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,26 +185,26 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="QueryForm.cs">
+    <Compile Include="Gui\QueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QueryForm.Designer.cs">
+    <Compile Include="Gui\QueryForm.Designer.cs">
       <DependentUpon>QueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="QueryOptionsForm.cs">
+    <Compile Include="Gui\QueryOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QueryOptionsForm.Designer.cs">
+    <Compile Include="Gui\QueryOptionsForm.Designer.cs">
       <DependentUpon>QueryOptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SqlBrowser.cs" />
-    <Compile Include="SqlDBClient.cs" />
-    <Compile Include="SqlQueryOptions.cs" />
-    <Compile Include="SqlQueryOptionsForm.cs">
+    <Compile Include="DatabaseApi\SqlBrowser.cs" />
+    <Compile Include="DatabaseApi\SqlDBClient.cs" />
+    <Compile Include="Gui\SqlQueryOptions.cs" />
+    <Compile Include="Gui\SqlQueryOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlQueryOptionsForm.Designer.cs">
+    <Compile Include="Gui\SqlQueryOptionsForm.Designer.cs">
       <DependentUpon>SqlQueryOptionsForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>

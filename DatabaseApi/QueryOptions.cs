@@ -4,7 +4,8 @@ using System.Windows.Forms;
 namespace QueryExPlus
 {
     /// <summary>
-    /// Interface defining queyr options
+    /// Interface defining query options that can be globally applied 
+    /// to commands and/or connections
     /// </summary>
     internal abstract class  QueryOptions
     {

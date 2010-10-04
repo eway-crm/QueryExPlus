@@ -9,6 +9,10 @@ namespace QueryExPlus
 {
     /// <summary>
     /// An implementation of IBrowser for MS SQL Server.
+    /// There are different implementations for
+    /// ODBC (<see cref="ODBCBrowser"/>), OLEDB (<see cref="OledbBrowser"/>), 
+    /// Oracle (<see cref="OracleBrowser"/>), MsSqlServer (<see cref="SqlBrowser"/>).
+
     /// </summary>
     internal class SqlBrowser : IBrowser
     {
