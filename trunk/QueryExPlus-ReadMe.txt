@@ -14,3 +14,4 @@ TODO
 - provide templates for *.mdb (oledb-msaccess), *.db/*.db3 (odbc-sqlight)
 - add more tree-context-menue-items
 - allow ";" or "go" as sql-command-Seperator 
+
