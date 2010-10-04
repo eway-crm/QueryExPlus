@@ -1,0 +1,7 @@
+
+*.suo
+*.zip
+obj
+_UpgradeReport_Files
+Backup
+UpgradeLog.xml

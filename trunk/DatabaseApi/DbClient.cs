@@ -129,6 +129,12 @@ namespace QueryExPlus
 
     #endregion
     
+    /// <summary>
+    /// Commonn Abstraction of Database-Connection.
+    /// There are different implementations for
+    /// ODBC (<see cref="ODBCClient"/>), OLEDB (<see cref="OledbClient"/>), 
+    /// Oracle (<see cref="OracleDbClient"/>), MsSqlServer (<see cref="SqlDbClient"/>).
+    /// </summary>
     internal abstract class DbClient
     {
         public enum RunStates

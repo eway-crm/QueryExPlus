@@ -6,6 +6,11 @@ using System.Windows.Forms;
 
 namespace QueryExPlus
 {
+    /// <summary>
+    /// Defining provider-specific query options that can be globally applied 
+    /// to commands and/or connections.
+    /// Not yet implemented for Oracle
+    /// </summary>
     class OracleQueryOptions : QueryOptions
     {
         public override void ApplyToConnection(IDbConnection connection)

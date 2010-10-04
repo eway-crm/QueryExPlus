@@ -2,6 +2,10 @@ using System;
 
 namespace QueryExPlus
 {
+    /// <summary>
+    /// Opens the connection to a Database.
+    /// Can Handle OleDB, ODBC, MSSql, Oracle
+    /// </summary>
     static class DbClientFactory
     {
         //TODO: This should not be in the factory since that is against Objcet Oriented design. I am not sure where to put it yet.

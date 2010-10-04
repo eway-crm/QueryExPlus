@@ -46,7 +46,9 @@ namespace QueryExPlus
         }
     }
 
-    /// <remarks/>
+    /// <summary>
+    /// The xml-File-persisted Settings for a connection
+    /// </summary>
     [GeneratedCode("xsd", "2.0.50727.42")]
     [Serializable]
     [XmlType(AnonymousType = true)]

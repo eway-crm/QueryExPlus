@@ -8,7 +8,8 @@ using System.Windows.Forms;
 namespace QueryExPlus
 {
     /// <summary>
-    /// Query Options
+    /// Defining MSSQL-specific query options that can be globally applied 
+    /// to commands and/or connections.
     /// </summary>
     internal class SqlQueryOptons : QueryOptions
     {
