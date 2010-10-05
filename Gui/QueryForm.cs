@@ -21,7 +21,6 @@ namespace QueryExPlus
         private const string DateTimeFormatString = "yyyy'-'MM'-'dd HH':'mm':'ss.fff";
         private static readonly int DateTimeFormatStringLength = DateTimeFormatString.Length;
 
-        private DbClient client;
         bool realFileName = false;
         string fileName;						// Filename for when query is saved
         private bool resultsInText = true;      // text based results rather than grid based
@@ -42,6 +41,24 @@ namespace QueryExPlus
         private int lastFindPos;
         private int lastFindRow;
         private int lastFindCol;
+        // DbClient dbClient;									// DbClient object used to talk to database server
+
+        #region Properties
+
+        /// <summary>Returns the database client object provided in construction</summary>
+        public DbClient DbClient
+        {
+            get; set; 
+        }
+
+
+        DataSet DSResults
+        {
+            get { return DbClient.DataSet; }
+        }
+        #endregion Properties
+
+
         #endregion
 
         #region Constructors
@@ -53,7 +70,7 @@ namespace QueryExPlus
 
         public QueryForm(DbClient client, bool hideBrowser) : this()
         {
-            this.client = client;
+            this.DbClient = client;
             client.DataReaderAvailable += new EventHandler<DataReaderAvailableEventArgs>(client_DataReaderAvailable);
             client.TableSchemaAvailable += new EventHandler<TableSchemaAvailableEventArgs>(client_TableSchemaAvailable);
             client.DataRowAvailable += new EventHandler<DataRowAvailableEventArgs>(client_DataRowAvailable);
@@ -169,6 +186,11 @@ namespace QueryExPlus
             if (RunState != DbClient.RunStates.Idle)
                 return;
 
+            if (this.DbClient.DataSet == null)
+                this.DbClient.DataSet = new DataSet();
+            else
+                this.DbClient.DataSet.Tables.Clear();
+
             ErrorOccured = false;
             rowCount = 0;
             // Delete any previously defined tab pages and their child controls
@@ -199,7 +221,7 @@ namespace QueryExPlus
             Cursor oldCursor = Cursor;
             Cursor = Cursors.WaitCursor;
             panRunStatus.Text = "Executing Query Batch...";
-            client.Execute(query);		// this does the work
+            DbClient.Execute(query);		// this does the work
             SetRunning(true);
             Cursor = oldCursor;
         }
@@ -235,7 +257,7 @@ namespace QueryExPlus
         public void Cancel()
         {
             panRunStatus.Text = "Cancelling...";
-            client.CancelAsync();
+            DbClient.CancelAsync();
             // Control will return immediately, and CancelDone will be invoked when the cancel is complete.
             NotifyPropertyChanged();
         }
@@ -270,10 +292,10 @@ namespace QueryExPlus
         {
             // Make a copy of the QueryForm's DbClient object.  We can't use the same object
             // object because this would mean sharing the same connection, preventing concurrent queries.
-            DbClient d = client.Clone();
+            DbClient d = DbClient.Clone();
             if (d.Connect())
             {
-                d.Database = client.Database;
+                d.Database = DbClient.Database;
                 // We have to duplicate the Browser too, since it has a reference to the DbClient object.
 //                IBrowser b = null;
 //                if (Browser != null) try { b = Browser.Clone(d); }
@@ -327,18 +349,18 @@ namespace QueryExPlus
         /// </summary>
         public DbClient.RunStates RunState
         {
-            get { return client.RunState; }
+            get { return DbClient.RunState; }
         }
         /// <summary>
         /// Display Query Options window
         /// </summary>
         public void ShowQueryOptions()
         {
-            if (ClientBusy || client.QueryOptions == null)
+            if (ClientBusy || DbClient.QueryOptions == null)
                 return;
 
-            if (client.QueryOptions.ShowForm() == DialogResult.OK)
-                client.ApplyQueryOptions();
+            if (DbClient.QueryOptions.ShowForm() == DialogResult.OK)
+                DbClient.ApplyQueryOptions();
         }
 
         public void ShowFind()
@@ -544,6 +566,10 @@ namespace QueryExPlus
         private void DisplayGrid(IDataReader dr)
         {
             DataTable dt = new DataTable();
+            this.DbClient.DataSet.Tables.Add(dt);
+
+            // Assign unique name to each table, so subsequent queries don't override new tables
+            dt.TableName = "QueryResult-" + this.DbClient.DataSet.Tables.Count;
             dt.BeginLoadData();
             try
             {
@@ -608,8 +634,8 @@ namespace QueryExPlus
                 if (dataType == typeof(Guid)) colSize = Guid.NewGuid().ToString().Length;
                 if (dataType == typeof(DateTime)) colSize = DateTimeFormatStringLength;
                 // The column should be big enough also to accommodate the size of the column header
-                colWidths[col] = Math.Min(client.QueryOptions.maxTextWidth, Math.Max(colName.Length, colSize));
-                if (colName.Length > client.QueryOptions.maxTextWidth) colName = colName.Substring(0, client.QueryOptions.maxTextWidth);
+                colWidths[col] = Math.Min(DbClient.QueryOptions.maxTextWidth, Math.Max(colName.Length, colSize));
+                if (colName.Length > DbClient.QueryOptions.maxTextWidth) colName = colName.Substring(0, DbClient.QueryOptions.maxTextWidth);
                 AppendTextResults(colName.PadRight(colWidths[col]) + " ");
                 separator = separator + "".PadRight(colWidths[col], '-') + " ";
             }
@@ -833,9 +859,9 @@ namespace QueryExPlus
         /// </summary>
         private void CheckDatabase()
         {
-            if (lastDatabase != client.Database)
+            if (lastDatabase != DbClient.Database)
             {
-                lastDatabase = client.Database;
+                lastDatabase = DbClient.Database;
                 UpdateFormText();
                 PopulateBrowser();
             }
@@ -851,10 +877,10 @@ namespace QueryExPlus
         
         private void ShowExecTime()
         {
-            if (client.RunState == DbClient.RunStates.Running)
-                panExecTime.Text = DateTime.Now.Subtract(client.ExecStartTime).ToString();
+            if (DbClient.RunState == DbClient.RunStates.Running)
+                panExecTime.Text = DateTime.Now.Subtract(DbClient.ExecStartTime).ToString();
             else
-                panExecTime.Text = client.ExecDuration.ToString();
+                panExecTime.Text = DbClient.ExecDuration.ToString();
         }
 
         /// <summary>
@@ -862,7 +888,7 @@ namespace QueryExPlus
         /// </summary>
         private void UpdateFormText()
         {
-            Text = client.ConSettings.Description + " - " + client.Database + " - " + fileName;
+            Text = DbClient.ConSettings.Description + " - " + DbClient.Database + " - " + fileName;
         }
 
         /// <summary>
@@ -897,7 +923,7 @@ namespace QueryExPlus
                         cboDatabase.Items.Add("<refresh list...>");
                         string[] dbs = browser.GetDatabases();
                         cboDatabase.Items.AddRange(dbs);
-                        try { cboDatabase.Text = client.Database; }
+                        try { cboDatabase.Text = DbClient.Database; }
                         catch { }
                     }
                 }
@@ -915,22 +941,40 @@ namespace QueryExPlus
         /// </summary>
         public void SaveResults()
         {
+            if (!ResultsInText && (DSResults.Tables.Count == 0) || ClientBusy)
+                return;
+
             SaveFileDialog saveResultsDialog;
             saveResultsDialog = new System.Windows.Forms.SaveFileDialog();
             if (ClientBusy || (!ResultsInText && !tabResults.SelectedTab.Tag.Equals(ResultsTabType.GridResults)))
                 return;
-            saveResultsDialog.Filter = ResultsInText ? "Text Format|*.txt" : "CSV Format|*.csv"
+            saveResultsDialog.Filter = ResultsInText ? "Text Format|*.txt" : "CSV Format|*.csv|XML|*.xml|XSD Schema|*.xsd"
                 + "|All files|*.*";
             if (saveResultsDialog.ShowDialog() != DialogResult.OK) return;
             if (ResultsInText)
                 SaveResultsText(saveResultsDialog.FileName);
-            else
+			else if (System.IO.Path.GetExtension (saveResultsDialog.FileName).ToUpper() == ".XML")
+				SaveResultsXml (saveResultsDialog.FileName);
+			else if (System.IO.Path.GetExtension (saveResultsDialog.FileName).ToUpper() == ".XSD")
+				SaveResultsXsd (saveResultsDialog.FileName);
+			else
                 SaveResultsCsv(saveResultsDialog.FileName);
         }
 
         void SaveResultsText(string fileName)
         {
             WriteToFile(fileName, txtResultsBox.Text);
+        }
+
+        void SaveResultsXml(string fileName)
+        {
+            DSResults.WriteXml(fileName);
+        }
+
+        // dl3bak
+        void SaveResultsXsd(string fileName)
+        {
+            DSResults.WriteXmlSchema(fileName);
         }
 
         void SaveResultsCsv(string fileName)
@@ -984,7 +1028,7 @@ namespace QueryExPlus
         }
         private void QueryForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            client.Dispose();
+            DbClient.Dispose();
         }
         private void QueryForm_Activated(object sender, EventArgs e)
         {
@@ -995,7 +1039,7 @@ namespace QueryExPlus
             if (cboDatabase.SelectedIndex == 0)
                 PopulateBrowser();
             else
-                client.Database = cboDatabase.Text;
+                DbClient.Database = cboDatabase.Text;
             CheckDatabase();
         }
         private void cboDatabase_Enter(object sender, EventArgs e)
