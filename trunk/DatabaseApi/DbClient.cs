@@ -480,6 +480,13 @@ namespace QueryExPlus
         {
             get { return execDuration; }
         }
+
+        /// <summary> The dataset to which results are assigned (unless in Text mode) </summary>
+        public virtual DataSet DataSet
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Public Functions
