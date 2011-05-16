@@ -364,10 +364,11 @@ namespace QueryExPlus
 				saveResultsAsToolStripMenuItem.Enabled = 
 				(active && q.RunState == DbClient.RunStates.Idle);
 
-			newToolStripMenuItem.Enabled = newToolStripButton.Enabled =
+			settingsToolStripMenuItem.Enabled = newToolStripButton.Enabled =
 				saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled =
 				saveAsToolStripMenuItem.Enabled = active;
 
+			settingsToolStripMenuItem.Enabled = true;
 			disconnectToolStripMenuItem.Enabled = (active && q.RunState != DbClient.RunStates.Cancelling);
 
 			//miQueryOptions.Enabled = (active && q.RunState == DbClient.RunStates.Idle);
@@ -504,5 +505,11 @@ namespace QueryExPlus
         {
             e.RemoveFromMru = false;
         }
+
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Gui.SettingsForm sForm = new Gui.SettingsForm();
+			sForm.ShowDialog();
+		}
     }
 }

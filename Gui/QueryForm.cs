@@ -23,7 +23,7 @@ namespace QueryExPlus
 
         bool realFileName = false;
         string fileName;						// Filename for when query is saved
-        private bool resultsInText = true;      // text based results rather than grid based
+        private bool resultsInText = !QueryExPlus.Properties.Settings.Default.ResultInGridDefault;
         RichTextBox txtResultsBox;				// handle to the rich textbox used to display text results
         private bool ErrorOccured = false;
         private long rowCount;
@@ -249,6 +249,7 @@ namespace QueryExPlus
 
             tabResults.TabPages.Add(tabPage);
             tabPage.Controls.Add(txtResultsBox);
+			
         }
 
         /// <summary>

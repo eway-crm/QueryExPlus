@@ -57,5 +57,29 @@ namespace QueryExPlus.Properties {
                 this["MRUFiles"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SQLAuthenticationDefault {
+            get {
+                return ((bool)(this["SQLAuthenticationDefault"]));
+            }
+            set {
+                this["SQLAuthenticationDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ResultInGridDefault {
+            get {
+                return ((bool)(this["ResultInGridDefault"]));
+            }
+            set {
+                this["ResultInGridDefault"] = value;
+            }
+        }
     }
 }
