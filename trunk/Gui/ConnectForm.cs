@@ -14,7 +14,14 @@ namespace QueryExPlus
         public ConnectForm()
         {
             InitializeComponent();
-            rbSqlTrusted.Checked = true;
+			if (QueryExPlus.Properties.Settings.Default.SQLAuthenticationDefault)
+			{
+				rbSqlUntrusted.Checked = true;
+			}
+			else
+			{
+				rbSqlTrusted.Checked = true;
+			}
             rbOracleUntrusted.Checked = true;
             this.ActiveControl = cboSqlServer;
         }
