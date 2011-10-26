@@ -981,6 +981,8 @@ namespace QueryExPlus
         void SaveResultsCsv(string fileName)
         {
             // Save the currently selected table only
+			string DL = QueryExPlus.Properties.Settings.Default.Delimiter;
+			char TDL = QueryExPlus.Properties.Settings.Default.TextDelimiter;
             DataTable table = (DataTable) ((DataGridView) tabResults.SelectedTab.Controls[0]).DataSource;
             System.IO.StreamWriter w;
             try { w = System.IO.File.CreateText(fileName); }
@@ -996,7 +998,7 @@ namespace QueryExPlus
                 string colList = "";
                 foreach (DataColumn column in table.Columns)
                 {
-                    if (colList.Length > 0) colList += ",";
+                    if (colList.Length > 0) colList += DL;
                     colList += column.ColumnName;
                 }
                 w.WriteLine(colList);
@@ -1005,10 +1007,10 @@ namespace QueryExPlus
                     string line = "";
                     foreach (object cell in row.ItemArray)
                     {
-                        if (line.Length > 0) line += ",";
+                        if (line.Length > 0) line += DL;
                         // String types may contain embedded commas, so wrap in quotes.
                         if (cell is string)
-                            line += '"'.ToString() + cell.ToString() + '"'.ToString();
+                            line += TDL + cell.ToString() + TDL;
                         else
                             line += cell.ToString();
                     }

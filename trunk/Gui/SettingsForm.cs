@@ -20,6 +20,8 @@ namespace QueryExPlus.Gui
 		{
 			cbGridDefault.Checked = QueryExPlus.Properties.Settings.Default.ResultInGridDefault;
 			cbSQLAuthDefault.Checked = QueryExPlus.Properties.Settings.Default.SQLAuthenticationDefault;
+			tbDelimiter.Text = QueryExPlus.Properties.Settings.Default.Delimiter;
+			tbTextDelimiter.Text = QueryExPlus.Properties.Settings.Default.TextDelimiter.ToString();
 			return;
 		}
 		
@@ -27,6 +29,23 @@ namespace QueryExPlus.Gui
 		{
 			QueryExPlus.Properties.Settings.Default.ResultInGridDefault = cbGridDefault.Checked;
 			QueryExPlus.Properties.Settings.Default.SQLAuthenticationDefault = cbSQLAuthDefault.Checked;
+
+			if (tbDelimiter.Text != "")
+			{
+				QueryExPlus.Properties.Settings.Default.Delimiter = tbDelimiter.Text;
+			}
+			else
+			{
+				QueryExPlus.Properties.Settings.Default.Delimiter = ",";
+			}
+			if (tbTextDelimiter.Text.Length == 1 && tbTextDelimiter.Text != " ")
+			{
+				QueryExPlus.Properties.Settings.Default.TextDelimiter = char.Parse(tbTextDelimiter.Text);
+			}
+			else
+			{
+				QueryExPlus.Properties.Settings.Default.TextDelimiter = '"';
+			}
 			return;
 		}
 
