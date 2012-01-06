@@ -130,11 +130,6 @@
     <Compile Include="DatabaseApi\OracleBrowser.cs" />
     <Compile Include="DatabaseApi\OracleDbClient.cs" />
     <Compile Include="DatabaseApi\OracleQueryOptions.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="DatabaseApi\QueryOptions.cs" />
     <Compile Include="Gui\MainForm.cs">
       <SubType>Form</SubType>
@@ -144,6 +139,11 @@
     </Compile>
     <Compile Include="Gui\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Gui\AboutForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutForm.cs</DependentUpon>
@@ -166,6 +166,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

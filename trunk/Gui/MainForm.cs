@@ -488,6 +488,30 @@ namespace QueryExPlus
             }
         }
 
+		/// <summary>
+		/// Exports the serverlist as Xml file.
+		/// </summary>
+		/// <param name="filename">Path to save the file to.</param>
+    	public void ExportServerlist(string filename)
+    	{
+			XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
+			FileStream fileStream = new FileStream(filename, FileMode.Create);
+    		serializer.Serialize(fileStream, serverList);
+    		fileStream.Close();
+    	}
+
+		/// <summary>
+		/// Imports the serverlist from an Xml file.
+		/// </summary>
+		/// <param name="filename">The Path to the file.</param>
+		public void ImportServerlist(string filename)
+		{
+			XmlSerializer serializer = new XmlSerializer(typeof(ServerList));
+			FileStream fileStream = new FileStream(filename, FileMode.Open);
+			serverList = serializer.Deserialize(fileStream) as ServerList;
+			fileStream.Close();
+		}
+
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("FileDrop"))
@@ -509,7 +533,36 @@ namespace QueryExPlus
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Gui.SettingsForm sForm = new Gui.SettingsForm();
-			sForm.ShowDialog();
+			sForm.ShowDialog(this);
+			
+			foreach (var mdiChild in MdiChildren)
+			{
+				((QueryForm) mdiChild).ResetHighlightColors();
+			}
+		}
+
+		private void exportServerListToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog f = new SaveFileDialog();
+			f.FileName = Settings.Default.LastExportPath;
+			f.Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*";
+			if ((f.ShowDialog(this) != DialogResult.Cancel))
+			{
+				Settings.Default.LastExportPath = f.FileName;
+				ExportServerlist(f.FileName);
+			}
+		}
+
+		private void importServerListToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog f = new OpenFileDialog();
+			f.FileName = Settings.Default.LastImportPath;
+			f.Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*";
+			if ((f.ShowDialog(this) != DialogResult.Cancel))
+			{
+				Settings.Default.LastImportPath = f.FileName;
+				ExportServerlist(f.FileName);
+			}
 		}
     }
 }
