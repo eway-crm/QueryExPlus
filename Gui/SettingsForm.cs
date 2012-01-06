@@ -16,48 +16,73 @@ namespace QueryExPlus.Gui
 			LoadSettings();
 		}
 
+		public DialogResult ShowDialog(IWin32Window owner)
+		{
+			this.Icon = ((Form) owner).Icon;
+			return base.ShowDialog(owner);
+		}
+
 		private void LoadSettings()
 		{
-			cbGridDefault.Checked = QueryExPlus.Properties.Settings.Default.ResultInGridDefault;
-			cbSQLAuthDefault.Checked = QueryExPlus.Properties.Settings.Default.SQLAuthenticationDefault;
-			tbDelimiter.Text = QueryExPlus.Properties.Settings.Default.Delimiter;
-			tbTextDelimiter.Text = QueryExPlus.Properties.Settings.Default.TextDelimiter.ToString();
-			return;
+			cbGridDefault.Checked = Properties.Settings.Default.ResultInGridDefault;
+			cbSQLAuthDefault.Checked = Properties.Settings.Default.SQLAuthenticationDefault;
+			cbSyntaxHighlight.Checked = Properties.Settings.Default.SyntaxHighlighting;
+			tbDelimiter.Text = Properties.Settings.Default.Delimiter;
+			tbTextDelimiter.Text = Properties.Settings.Default.TextDelimiter.ToString();
+
+			picBoxKeywords.BackColor = Properties.Settings.Default.ColorKeywords;
+			picBoxOperators.BackColor = Properties.Settings.Default.ColorOperators;
+			picBoxStrings.BackColor = Properties.Settings.Default.ColorStrings;
+			picBoxNumbers.BackColor = Properties.Settings.Default.ColorNumbers;
 		}
 		
 		private void SaveSettings()
 		{
-			QueryExPlus.Properties.Settings.Default.ResultInGridDefault = cbGridDefault.Checked;
-			QueryExPlus.Properties.Settings.Default.SQLAuthenticationDefault = cbSQLAuthDefault.Checked;
+			Properties.Settings.Default.ResultInGridDefault = cbGridDefault.Checked;
+			Properties.Settings.Default.SQLAuthenticationDefault = cbSQLAuthDefault.Checked;
+			Properties.Settings.Default.SyntaxHighlighting = cbSyntaxHighlight.Checked;
+
+			Properties.Settings.Default.ColorKeywords = picBoxKeywords.BackColor;
+			Properties.Settings.Default.ColorOperators = picBoxOperators.BackColor;
+			Properties.Settings.Default.ColorStrings = picBoxStrings.BackColor;
+			Properties.Settings.Default.ColorNumbers = picBoxNumbers.BackColor;
 
 			if (tbDelimiter.Text != "")
 			{
-				QueryExPlus.Properties.Settings.Default.Delimiter = tbDelimiter.Text;
+				Properties.Settings.Default.Delimiter = tbDelimiter.Text;
 			}
 			else
 			{
-				QueryExPlus.Properties.Settings.Default.Delimiter = ",";
+				Properties.Settings.Default.Delimiter = ",";
 			}
 			if (tbTextDelimiter.Text.Length == 1 && tbTextDelimiter.Text != " ")
 			{
-				QueryExPlus.Properties.Settings.Default.TextDelimiter = char.Parse(tbTextDelimiter.Text);
+				Properties.Settings.Default.TextDelimiter = char.Parse(tbTextDelimiter.Text);
 			}
 			else
 			{
-				QueryExPlus.Properties.Settings.Default.TextDelimiter = '"';
+				Properties.Settings.Default.TextDelimiter = '"';
 			}
-			return;
 		}
 
 		private void saveButton_Click(object sender, EventArgs e)
 		{
 			SaveSettings();
-			this.Close();
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			DialogResult = DialogResult.Cancel;
+			Close();
+		}
+
+		private void picBoxColor_Click(object sender, EventArgs e)
+		{
+			colorDialog.Color = ((PictureBox) sender).BackColor;
+			colorDialog.ShowDialog();
+			((PictureBox) sender).BackColor = colorDialog.Color;
 		}
 	}
 }
