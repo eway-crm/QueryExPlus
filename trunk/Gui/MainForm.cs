@@ -459,16 +459,17 @@ namespace QueryExPlus
             object data;
             data = e.Data.GetData(DataFormats.FileDrop);
             List<string> fileNames = new List<string>();
-            foreach (string filename in (string[]) data)
-            {
-                FileAttributes attribs;
-                attribs = System.IO.File.GetAttributes(filename);
-                
-                if ((attribs & FileAttributes.Directory) != FileAttributes.Directory)
-                    fileNames.Add(filename);
-                if (fileNames.Count > 0)
-                    LoadFileNames(fileNames);
-            }
+			foreach (string filename in (string[])data)
+			{
+				FileAttributes attribs;
+				attribs = System.IO.File.GetAttributes(filename);
+
+				if ((attribs & FileAttributes.Directory) != FileAttributes.Directory)
+					fileNames.Add(filename);
+			}
+
+			if (fileNames.Count > 0)
+				LoadFileNames(fileNames);
         }
 
         private void LoadFileNames(List<string> fileNames)
