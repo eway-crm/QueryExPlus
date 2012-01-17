@@ -269,5 +269,29 @@ namespace QueryExPlus.Properties {
                 this["LastImportPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNulls {
+            get {
+                return ((bool)(this["ShowNulls"]));
+            }
+            set {
+                this["ShowNulls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ExpandRowNumber {
+            get {
+                return ((bool)(this["ExpandRowNumber"]));
+            }
+            set {
+                this["ExpandRowNumber"] = value;
+            }
+        }
     }
 }

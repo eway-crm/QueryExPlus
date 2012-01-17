@@ -31,6 +31,7 @@ namespace QueryExPlus
         void Close();
         void ShowQueryOptions();
         bool ResultsInText { get; set;}
+        bool GridShowNulls { get; set;}
         bool HideBrowser{get; set;}
         IBrowser Browser { get;}
 
