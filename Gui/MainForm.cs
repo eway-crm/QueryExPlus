@@ -561,7 +561,7 @@ namespace QueryExPlus
 			if ((f.ShowDialog(this) != DialogResult.Cancel))
 			{
 				Settings.Default.LastImportPath = f.FileName;
-				ExportServerlist(f.FileName);
+				ImportServerlist(f.FileName);
 			}
 		}
     }
