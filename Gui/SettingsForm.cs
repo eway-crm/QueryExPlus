@@ -26,7 +26,9 @@ namespace QueryExPlus.Gui
 		{
 			cbGridDefault.Checked = Properties.Settings.Default.ResultInGridDefault;
 			cbSQLAuthDefault.Checked = Properties.Settings.Default.SQLAuthenticationDefault;
+			cbShowNulls.Checked = Properties.Settings.Default.ShowNulls;
 			cbSyntaxHighlight.Checked = Properties.Settings.Default.SyntaxHighlighting;
+			cbExpandRowNumber.Checked = Properties.Settings.Default.ExpandRowNumber;
 			tbDelimiter.Text = Properties.Settings.Default.Delimiter;
 			tbTextDelimiter.Text = Properties.Settings.Default.TextDelimiter.ToString();
 
@@ -40,7 +42,9 @@ namespace QueryExPlus.Gui
 		{
 			Properties.Settings.Default.ResultInGridDefault = cbGridDefault.Checked;
 			Properties.Settings.Default.SQLAuthenticationDefault = cbSQLAuthDefault.Checked;
+			Properties.Settings.Default.ShowNulls = cbShowNulls.Checked;
 			Properties.Settings.Default.SyntaxHighlighting = cbSyntaxHighlight.Checked;
+			Properties.Settings.Default.ExpandRowNumber = cbExpandRowNumber.Checked;
 
 			Properties.Settings.Default.ColorKeywords = picBoxKeywords.BackColor;
 			Properties.Settings.Default.ColorOperators = picBoxOperators.BackColor;

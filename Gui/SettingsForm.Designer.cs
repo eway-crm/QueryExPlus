@@ -35,6 +35,7 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.cbSyntaxHighlight = new System.Windows.Forms.CheckBox();
 			this.cbGridDefault = new System.Windows.Forms.CheckBox();
+			this.cbShowNulls = new System.Windows.Forms.CheckBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.tbTextDelimiter = new System.Windows.Forms.TextBox();
 			this.tbDelimiter = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.cbExpandRowNumber = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -73,6 +75,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.CausesValidation = false;
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(185, 263);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
@@ -103,8 +106,10 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.cbExpandRowNumber);
 			this.groupBox2.Controls.Add(this.cbSyntaxHighlight);
 			this.groupBox2.Controls.Add(this.cbGridDefault);
+			this.groupBox2.Controls.Add(this.cbShowNulls);
 			this.groupBox2.Location = new System.Drawing.Point(12, 118);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(217, 139);
@@ -131,6 +136,16 @@
 			this.cbGridDefault.TabIndex = 0;
 			this.cbGridDefault.Text = "Show results in grid as default";
 			this.cbGridDefault.UseVisualStyleBackColor = true;
+			// 
+			// cbShowNulls
+			// 
+			this.cbShowNulls.AutoSize = true;
+			this.cbShowNulls.Location = new System.Drawing.Point(7, 67);
+			this.cbShowNulls.Name = "cbShowNulls";
+			this.cbShowNulls.Size = new System.Drawing.Size(106, 17);
+			this.cbShowNulls.TabIndex = 1;
+			this.cbShowNulls.Text = "Show null values";
+			this.cbShowNulls.UseVisualStyleBackColor = true;
 			// 
 			// groupBox3
 			// 
@@ -270,6 +285,16 @@
 			this.label4.TabIndex = 5;
 			this.label4.Text = "Operators:";
 			// 
+			// cbExpandRowNumber
+			// 
+			this.cbExpandRowNumber.AutoSize = true;
+			this.cbExpandRowNumber.Location = new System.Drawing.Point(7, 91);
+			this.cbExpandRowNumber.Name = "cbExpandRowNumber";
+			this.cbExpandRowNumber.Size = new System.Drawing.Size(165, 17);
+			this.cbExpandRowNumber.TabIndex = 2;
+			this.cbExpandRowNumber.Text = "Expand Row Number Column";
+			this.cbExpandRowNumber.UseVisualStyleBackColor = true;
+			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.saveButton;
@@ -284,7 +309,7 @@
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.saveButton);
 			this.Name = "SettingsForm";
-			this.Text = "SettingsForm";
+			this.Text = "Settings";
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -312,6 +337,7 @@
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.TextBox tbTextDelimiter;
 		private System.Windows.Forms.TextBox tbDelimiter;
+		private System.Windows.Forms.CheckBox cbShowNulls;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.CheckBox cbSyntaxHighlight;
@@ -325,6 +351,7 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.CheckBox cbExpandRowNumber;
 
 	}
 }

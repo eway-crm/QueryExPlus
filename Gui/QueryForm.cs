@@ -25,6 +25,7 @@ namespace QueryExPlus
 		bool realFileName = false;
 		string fileName;						// Filename for when query is saved
 		private bool resultsInText = !Properties.Settings.Default.ResultInGridDefault;
+		private bool gridShowNulls = QueryExPlus.Properties.Settings.Default.ShowNulls;
 		RichTextBox txtResultsBox;				// handle to the rich textbox used to display text results
 		private bool ErrorOccured = false;
 		private long rowCount;
@@ -359,12 +360,25 @@ namespace QueryExPlus
 				resultsInText = value;
 				NotifyPropertyChanged();
 			}
-		}
+        }
 
-		/// <summary>
-		/// Set to true to hide the object browser
-		/// </summary>
-		public bool HideBrowser
+        /// <summary>
+        /// True if null values are displayed in the grid with special formatting
+        /// </summary>
+        public bool GridShowNulls
+        {
+            get { return gridShowNulls; }
+            set
+            {
+                gridShowNulls = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Set to true to hide the object browser
+        /// </summary>
+        public bool HideBrowser
 		{
 			get { return hideBrowser; }
 			set
@@ -522,12 +536,13 @@ namespace QueryExPlus
 		/// </summary>
 		/// <param name="dt"></param>
 		private delegate void DisplayGridDelegate(DataTable dt);
-		/// <summary>
-		/// Display datatable on the grid. Should be called only from UI grid
-		/// </summary>
-		/// <param name="dt"></param>
-		private void DisplayGrid(DataTable dt)
-		{
+        /// <summary>
+        /// Display datatable on the grid. Should be called only from UI grid
+        /// </summary>
+        /// <remarks>emonk72 - 24-Nov-2011 - Set default display for null values.</remarks>
+        /// <param name="dt"></param>
+        private void DisplayGrid(DataTable dt)
+        {
 			DataGridView dataGrid = new DataGridView();
 
 
@@ -540,11 +555,12 @@ namespace QueryExPlus
 
 			dataGrid.Dock = DockStyle.Fill;
 
-			dataGrid.ReadOnly = true;
-			dataGrid.AllowUserToAddRows = false;
-			dataGrid.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGrid_RowPostPaint);
-			dataGrid.DataError += new DataGridViewDataErrorEventHandler(dataGrid_DataError);
-			dataGrid.DataSource = dt;
+            dataGrid.ReadOnly = true;
+            dataGrid.AllowUserToAddRows = false;
+            if (GridShowNulls) dataGrid.CellPainting += new DataGridViewCellPaintingEventHandler(dataGrid_CellPainting);
+            dataGrid.RowPostPaint += new DataGridViewRowPostPaintEventHandler(dataGrid_RowPostPaint);
+            dataGrid.DataError += new DataGridViewDataErrorEventHandler(dataGrid_DataError);
+            dataGrid.DataSource = dt;
 			rowCount = dt.Rows.Count;
 
 			#region Create Context Menu
@@ -571,37 +587,45 @@ namespace QueryExPlus
 					int maxWidth = (int)g.MeasureString(col.HeaderText, dataGrid.Font).Width + margin;
 					for (int row = 0; row < maxRows; row++)
 					{
-						string s = dt.Rows[row][colNum, DataRowVersion.Current].ToString();
-						int length = (int)g.MeasureString(s, dataGrid.Font).Width + margin;
-						maxWidth = Math.Max(maxWidth, length);
-					}
-					// Assign length of longest string to the column width, but don't exceed width of actual grid.
-					col.Width = Math.Min(dataGrid.Width, maxWidth);
-					colNum++;
-				}
-			int headerWidth = (int)g.MeasureString(dataGrid.RowCount.ToString(), dataGrid.Font).Width + 5*margin;
-			dataGrid.RowHeadersWidth = headerWidth;
+                        string s = dt.Rows[row][colNum, DataRowVersion.Current].ToString();
+                        if (GridShowNulls && dt.Rows[row][colNum, DataRowVersion.Current] == DBNull.Value)
+                            s = "(null)";
+                        int length = (int)g.MeasureString(s, dataGrid.Font).Width + margin;
+                        maxWidth = Math.Max(maxWidth, length);
+                    }
+                    // Assign length of longest string to the column width, but don't exceed width of actual grid.
+                    col.Width = Math.Min(dataGrid.Width, maxWidth);
+                    colNum++;
+                    if (GridShowNulls) col.DefaultCellStyle.NullValue = "(null)";
+                }
+        	if (Properties.Settings.Default.ExpandRowNumber)
+        	{
+				int headerWidth = (int)g.MeasureString(dataGrid.RowCount.ToString(), dataGrid.Font).Width + 3 * margin;
+				dataGrid.RowHeadersWidth = headerWidth;
+        	}
 			g.Dispose();
 			
 			// Set datetime columns to show the time as well as the date
 			
-			DataGridViewCellStyle dateCellStyle;
-			dateCellStyle = new DataGridViewCellStyle();
-			dateCellStyle.Format = DateTimeFormatString;
-			foreach (DataGridViewColumn col in dataGrid.Columns)
-			{
-				if (dt.Columns[col.Name].DataType == typeof(DateTime))
+            DataGridViewCellStyle dateCellStyle;
+            dateCellStyle = new DataGridViewCellStyle();
+            dateCellStyle.Format = DateTimeFormatString;
+            if (GridShowNulls) dateCellStyle.NullValue = "(null)";
+            foreach (DataGridViewColumn col in dataGrid.Columns)
+            {
+                if (dt.Columns[col.Name].DataType == typeof(DateTime))
 					col.DefaultCellStyle = dateCellStyle;
 			}
 		}
 
 		void dataGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
-		{
-			return; // throw new Exception("The method or operation is not implemented.");
-		}
-		/// <summary>
-		/// Display data to the grid
-		/// </summary>
+        {
+            return; // throw new Exception("The method or operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Display data to the grid
+        /// </summary>
 		/// <param name="dr"></param>
 		private void DisplayGrid(IDataReader dr)
 		{
@@ -612,13 +636,13 @@ namespace QueryExPlus
 			dt.TableName = "QueryResult-" + this.DbClient.DataSet.Tables.Count;
 			dt.BeginLoadData();
 			try
-			{
-				dt.Load(dr);
-			}
-			catch (ConstraintException ex)
-			{
-				dt.Constraints.Clear();
-				DataRow[] errorRows = dt.GetErrors();
+            {
+                dt.Load(dr);
+            }
+            catch (ConstraintException /*ex*/)
+            {
+                dt.Constraints.Clear();
+                DataRow[] errorRows = dt.GetErrors();
 				foreach (DataRow row in errorRows)
 				{
 					row.ClearErrors();
@@ -635,24 +659,49 @@ namespace QueryExPlus
 			else
 			{
 				DisplayGrid(dt);
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// Paint the row number on the row header.
-		/// The using statement automatically disposes the brush.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void dataGrid_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-		{
-			string t = (e.RowIndex + 1).ToString(System.Globalization.CultureInfo.CurrentUICulture);
-			using (SolidBrush b = new SolidBrush(((DataGridView)sender).RowHeadersDefaultCellStyle.ForeColor))
-				e.Graphics.DrawString(t,
-									  e.InheritedRowStyle.Font,
-									  b, e.RowBounds.Location.X + 20, e.RowBounds.Location.Y + 4);
-		}
-		#endregion
+
+        /// <summary>
+        /// Set color for cells with null values to visually distinguish from valid cell values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.Value == DBNull.Value && e.CellStyle.ForeColor != Color.Gray)
+                e.CellStyle.ForeColor = Color.Gray;
+        }
+
+        /// <summary>
+        /// Paint the row number on the row header.
+        /// The using statement automatically disposes the brush.
+        /// </summary>
+        /// <remarks>emonk72 - 24-Nov-2011 - Added clipping to prevent overflow into data cells.</remarks>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGrid_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            string t = (e.RowIndex + 1).ToString(System.Globalization.CultureInfo.CurrentUICulture);
+
+            Region clp = null;
+            if (!e.Graphics.IsClipEmpty)
+                clp = e.Graphics.Clip;
+
+            e.Graphics.SetClip(new Rectangle(e.RowBounds.Left, e.RowBounds.Top, ((DataGridView)sender).RowHeadersWidth - 1, e.RowBounds.Height), System.Drawing.Drawing2D.CombineMode.Replace);
+
+            using (SolidBrush b = new SolidBrush(((DataGridView)sender).RowHeadersDefaultCellStyle.ForeColor))
+                e.Graphics.DrawString(t,
+                                      e.InheritedRowStyle.Font,
+                                      b, e.RowBounds.Location.X + 16, e.RowBounds.Location.Y + 4);
+
+            if (clp == null)
+                e.Graphics.ResetClip();
+            else
+                e.Graphics.Clip = clp;
+        }
+        #endregion
 
 		#region Text Output
 

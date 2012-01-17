@@ -146,6 +146,14 @@ namespace QueryExPlus
         {
             DoResultsInGrid();
         }
+        private void showNullValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoShowNullValues();
+        }
+        private void hideNullValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoHideNullValues();
+        }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -325,6 +333,16 @@ namespace QueryExPlus
             if (IsChildActive()) GetQueryChild().ResultsInText = false;
         }
 
+        private void DoShowNullValues()
+        {
+            if (IsChildActive()) GetQueryChild().GridShowNulls = true;
+        }
+
+        private void DoHideNullValues()
+        {
+            if (IsChildActive()) GetQueryChild().GridShowNulls = false;
+        }
+
         private void DoOpen()
         {
             if (IsChildActive()) GetQueryChild().Open();
@@ -383,6 +401,12 @@ namespace QueryExPlus
 			resultsInTextToolStripMenuItem.Checked //= tbResultsText.Pushed 
 			    = (active && q.ResultsInText);
 			resultsInGridToolStripMenuItem.Checked = (active && !q.ResultsInText);
+
+            showNullValuesToolStripMenuItem.Enabled = active;
+            showNullValuesToolStripMenuItem.Checked = (active && q.GridShowNulls);
+
+            hideNullValuesToolStripMenuItem.Enabled = active;
+            hideNullValuesToolStripMenuItem.Checked = (active && !q.GridShowNulls);
 
 			//miNextPane.Enabled = miPrevPane.Enabled = active;
 
