@@ -530,6 +530,7 @@ namespace QueryExPlus
 		{
 			DataGridView dataGrid = new DataGridView();
 
+
 			// Due to a bug in the grid control, we must add the grid to the tabpage before assigning a datasource.
 			// This bug was introduced in Beta 1, was fixed for Beta 2, then reared its ugly head again in RTM.
 			TabPage tabPage = new TabPage("Result Set " + (tabResults.TabCount).ToString());
@@ -578,10 +579,12 @@ namespace QueryExPlus
 					col.Width = Math.Min(dataGrid.Width, maxWidth);
 					colNum++;
 				}
+			int headerWidth = (int)g.MeasureString(dataGrid.RowCount.ToString(), dataGrid.Font).Width + 5*margin;
+			dataGrid.RowHeadersWidth = headerWidth;
 			g.Dispose();
-
+			
 			// Set datetime columns to show the time as well as the date
-
+			
 			DataGridViewCellStyle dateCellStyle;
 			dateCellStyle = new DataGridViewCellStyle();
 			dateCellStyle.Format = DateTimeFormatString;
