@@ -1369,12 +1369,12 @@ namespace QueryExPlus
 			}
 
 			//Build a new RTF string. The colortbl is created from the colours we want to use, and the newly formatted text inserted.
-			string newRtf = "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0\fnil\\fcharset0 Verdana;}}"
+			string newRtf = "{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0\fnil\\fcharset0 Consolas;}}"
 							+ rtfColorDictionary
-			                + "\\viewkind4\\uc1\\pard\\lang1031\\f0\\fs20 " + sb + "\\par}";
+			                + "\\viewkind4\\uc1\\pard\\lang1031\\f0\\fs22 " + sb + "\\par}";
 			ignoreTextChanged = true; //This is to prevent an infinite loop when setting the Rtf Property of txtQuery below.
 			FreezeDraw(); //Don't draw this control to keep it from flickering
-			txtQuery.Rtf = newRtf;
+			txtQuery.Rtf = this.GetRtfUnicodeEscapedString(newRtf);
 			ignoreTextChanged = false; //So that future TextChanged events won't be ignored.
 			txtQuery.Select(cursorPos, 0); //Set the cursor to its last position. NOTE: this should put the cursor in the right position, but might cause the screen to scroll there. I have not yet found a way to change the RichtTextBox scroll position.
 			UnFreezeDraw(); //Resume drawing the control.
@@ -1383,7 +1383,21 @@ namespace QueryExPlus
 			//Apparently, every way to improve on this would require rewriting large parts.
 		}
 
-		private void txtQuery_TextChanged(object sender, EventArgs e)
+        private string GetRtfUnicodeEscapedString(string text)
+        {
+            var stringBuilder = new StringBuilder();
+            foreach (var character in text)
+            {
+                if (character <= 0x7f)
+                    stringBuilder.Append(character);
+                else
+                    stringBuilder.Append("\\u" + Convert.ToUInt32(character) + "?");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private void txtQuery_TextChanged(object sender, EventArgs e)
 		{
 			if (!ignoreTextChanged && Properties.Settings.Default.SyntaxHighlighting)
 			{

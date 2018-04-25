@@ -139,7 +139,7 @@ namespace QueryExPlus
 			this.txtQuery.AcceptsTab = true;
 			this.txtQuery.AllowDrop = true;
 			this.txtQuery.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtQuery.Font = new System.Drawing.Font("Verdana", 10F);
+			this.txtQuery.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.txtQuery.Location = new System.Drawing.Point(0, 0);
 			this.txtQuery.Name = "txtQuery";
 			this.txtQuery.Size = new System.Drawing.Size(529, 162);
