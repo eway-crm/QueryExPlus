@@ -20,10 +20,13 @@ namespace QueryExPlus
         {
             if (Settings.Default.MaximizeMainWindow)
                 this.WindowState = FormWindowState.Maximized;
+            
             InitializeComponent();
             AttachEditManager();
             LoadServerList();
             LoadMRU();
+
+            bool displayConnectionDialog = true;
             if (args.Length > 0)
             {
                 ConnectionSettings conSettings = LoadSettingsFromArgs(args);
@@ -35,12 +38,16 @@ namespace QueryExPlus
                         CommandLineParams cmdLine = new CommandLineParams(args);
                         if (cmdLine["i"] != null)
                             qf.Open(cmdLine["i"]);
+
+                        displayConnectionDialog = false;
                     }
                 }
             }
             EnableControls();
             this.Show();
-            DoConnect();
+
+            if (displayConnectionDialog)
+                DoConnect();
         }
 
         private void LoadMRU()
@@ -59,12 +66,14 @@ namespace QueryExPlus
                     conSettings = serverList.Items[serverList.IndexOf(cmdLine["CN"])];
                     return conSettings;
                 }
-            } else if (cmdLine["s"] != null)
+            }
+            else if (cmdLine["s"] != null)
             {
                 conSettings = new ConnectionSettings();
                 conSettings.Type = ConnectionSettings.ConnectionType.SqlConnection;
                 conSettings.SqlServer = cmdLine["s"];
-            } else if (cmdLine["os"] != null)
+            }
+            else if (cmdLine["os"] != null)
             {
                 conSettings = new ConnectionSettings();
                 conSettings.Type = ConnectionSettings.ConnectionType.Oracle;
@@ -74,13 +83,20 @@ namespace QueryExPlus
             if (conSettings != null)
             {
                 if (cmdLine["e"] != null)
+                {
                     conSettings.Trusted = true;
+                }
                 else
                 {
-                    if (cmdLine["u"] != null) conSettings.LoginName = cmdLine["u"];
-                    if (cmdLine["p"] != null) conSettings.Password = cmdLine["p"];
+                    if (cmdLine["u"] != null)
+                        conSettings.LoginName = cmdLine["u"];
+
+                    if (cmdLine["p"] != null)
+                        conSettings.Password = cmdLine["p"];
                 }
-                    
+                
+                if (cmdLine["d"] != null)
+                    conSettings.SqlDatabase = cmdLine["d"];
             }
             return conSettings;
         }
@@ -269,6 +285,7 @@ namespace QueryExPlus
             SaveServerList();
             QueryForm qf = new QueryForm(client, false); //, cf.Browser, cf.LowBandwidth);
             qf.MdiParent = this;
+            qf.WindowState = FormWindowState.Maximized;
             // This is so that we can update the toolbar and menu as the state of the QueryForm changes.
             qf.PropertyChanged += new EventHandler<EventArgs>(qf_PropertyChanged);
             qf.MRUFileAdded += new EventHandler<MRUFileAddedEventArgs>(qf_MRUFileAdded);
@@ -276,6 +293,7 @@ namespace QueryExPlus
 
             return qf;
         }
+
         private IQueryForm DoConnect()
         {
             ConnectForm cf = new ConnectForm();

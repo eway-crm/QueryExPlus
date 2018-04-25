@@ -26,14 +26,20 @@ namespace QueryExPlus
             SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder();
             csb.ApplicationName = "Query ExPlus";
             csb.DataSource = conSettings.SqlServer.Trim();
+
+            if (!string.IsNullOrEmpty(conSettings.SqlDatabase))
+                csb.InitialCatalog = conSettings.SqlDatabase;
+            
             if (conSettings.Trusted)
+            {
                 csb.IntegratedSecurity = true;
+            }
             else
             {
                 csb.UserID = conSettings.LoginName.Trim();
                 csb.Password = conSettings.Password.Trim();
             }
-            return csb.ConnectionString; // connectString.ToString();
+            return csb.ConnectionString;
         }
 
         protected override IDbCommand GetDbCommand(string query)
