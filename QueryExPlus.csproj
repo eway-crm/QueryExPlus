@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QueryExPlus</RootNamespace>
     <AssemblyName>QueryExPlus</AssemblyName>
-    <ApplicationIcon>qe2.ico</ApplicationIcon>
+    <ApplicationIcon>Images\qe2.ico</ApplicationIcon>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -239,7 +239,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\About.gif" />
     <Content Include="Images\cancel.gif" />
     <Content Include="Images\connect.gif" />
     <Content Include="Images\disconnect.gif" />
@@ -252,7 +251,6 @@
     <Content Include="Images\qe2.ico" />
     <Content Include="Images\save.gif" />
     <Content Include="Images\textresults.gif" />
-    <Content Include="qe2.ico" />
     <None Include="QueryExPlus-ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
