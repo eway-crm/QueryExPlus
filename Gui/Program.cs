@@ -22,7 +22,6 @@ namespace QueryExPlus
                 QueryExPlus.Properties.Settings.Default.Upgrade();
                 QueryExPlus.Properties.Settings.Default.IsFirstRun = false;
                 QueryExPlus.Properties.Settings.Default.Save();
-                System.Windows.Forms.MessageBox.Show("Settings Upgraded");
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
