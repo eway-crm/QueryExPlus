@@ -4,7 +4,7 @@
     <!-- project name-->
     <ProjectName>QueryExPlus</ProjectName>
     <!--properties for the project-build-->
-    <DefaultBuildProperties>SignCode=1;Configuration=Release;ApplicationRevision=$(CCNetLabel);Platform=AnyCPU;ApplicationVersion=1.2.3.$(CCNetLabel);AssemblyFileVersion=1.2.3.$(CCNetLabel);SignAssembly=true;SignManifests=true;</DefaultBuildProperties>
+    <DefaultBuildProperties>SignCode=1;Configuration=Release;ApplicationRevision=$(CCNetLabel);Platform=AnyCPU;ApplicationVersion=2.2.3.$(CCNetLabel);AssemblyFileVersion=2.2.3.$(CCNetLabel);SignAssembly=true;SignManifests=true;</DefaultBuildProperties>
     <!-- location of the click-once stuff, relative to the project -->
     <ProjectPublishLocation>.\bin\Release\app.publish</ProjectPublishLocation>
     <!-- Location you want to copy the click-once-deployment. Here an windows-share-->
