@@ -14,12 +14,30 @@
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>https://apps.eway-crm.com/QueryExPlus/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Background</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>QueryExPlus</ProductName>
+    <PublisherName>eWay-CRM</PublisherName>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.2.3.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,25 +70,23 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>Full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <FileAlignment>4096</FileAlignment>
-    <DebugType>PdbOnly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\eWayLibrary\MemosKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4520D99F131C559625A84E0DA60764D21CC8E396</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestTimestampUrl>http://tsa.wosign.com/timestamp</ManifestTimestampUrl>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -96,7 +112,6 @@
     <Compile Include="Gui\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="Gui\ConnectForm.cs">
       <SubType>Form</SubType>
@@ -210,6 +225,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="..\eWayLibrary\MemosKey.snk">
+      <Link>MemosKey.snk</Link>
+    </None>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -237,40 +255,31 @@
     <Compile Include="Gui\SqlQueryOptionsForm.Designer.cs">
       <DependentUpon>SqlQueryOptionsForm.cs</DependentUpon>
     </Compile>
+    <None Include="Publish.msbuild" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\cancel.gif" />
-    <Content Include="Images\connect.gif" />
-    <Content Include="Images\disconnect.gif" />
-    <Content Include="Images\execute.gif" />
-    <Content Include="Images\gridresults.gif" />
-    <Content Include="Images\hidebrowser.gif" />
-    <Content Include="Images\hideresults.gif" />
-    <Content Include="Images\new.gif" />
-    <Content Include="Images\open.gif" />
-    <Content Include="Images\qe2.ico" />
-    <Content Include="Images\save.gif" />
-    <Content Include="Images\textresults.gif" />
-    <None Include="QueryExPlus-ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="version.txt" />
+    <None Include="Images\cancel.gif" />
+    <None Include="Images\connect.gif" />
+    <None Include="Images\disconnect.gif" />
+    <None Include="Images\execute.gif" />
+    <None Include="Images\gridresults.gif" />
+    <None Include="Images\hidebrowser.gif" />
+    <None Include="Images\hideresults.gif" />
+    <None Include="Images\new.gif" />
+    <None Include="Images\open.gif" />
+    <None Include="Images\qe2.ico" />
+    <None Include="Images\save.gif" />
+    <None Include="Images\textresults.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" Condition=" '$(Configuration)' == 'Release' " />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets. -->
-  <Target Name="BeforeBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <Version VersionFile="version.txt" RevisionType="">
-      <Output TaskParameter="Major" PropertyName="Major" />
-      <Output TaskParameter="Minor" PropertyName="Minor" />
-      <Output TaskParameter="Build" PropertyName="Build" />
-      <Output TaskParameter="Revision" PropertyName="Revision" />
-    </Version>
-    <AssemblyInfo CodeLanguage="CS" OutputFile="AssemblyVersion.cs" AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
-  </Target>
-  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <Zip Files="$(TargetDir)/$(TargetFileName)" ZipFileName="$(TargetFileName)_$(Major)_$(Minor)_$(Build)_$(Revision).zip" Flatten="true" Condition=" '$(Configuration)' == 'Release' " />
-    <Zip Files="@(Compile);@(None);@(EmbeddedResource);@(Content);$(ProjectFileName);$(SolutionFileName)" ZipFileName="$(TargetName)_Source_$(Major)_$(Minor)_$(Build)_$(Revision).zip" Condition=" '$(Configuration)' == 'Release' " />
+  <Target Name="AfterCompile">
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Tools\nant-0.91\bin\NAnt.exe&quot; -buildfile:&quot;$(MSBuildThisFileDirectory)..\Build\signfile.nant&quot; -D:ASSEMBLY=&quot;$(MSBuildThisFileDirectory)obj\$(ConfigurationName)\$(TargetFileName)&quot;" Condition="'$(SignCode)' == '1'" />
   </Target>
 </Project>

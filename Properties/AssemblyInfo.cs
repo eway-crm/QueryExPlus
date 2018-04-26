@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Query ExPlus")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Based on http://queryexplus.sourceforge.net/")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("eWay System s.r.o.")]
 [assembly: AssemblyProduct("Query ExPlus")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-//[assembly: AssemblyVersion("2.0.1.0")]
-//[assembly: AssemblyFileVersion("2.0.1.0")]
+//[assembly: AssemblyVersion("2.2.3.0")]
+//[assembly: AssemblyFileVersion("2.2.3.0")]

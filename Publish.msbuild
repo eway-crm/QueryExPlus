@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- project name-->
+    <ProjectName>QueryExPlus</ProjectName>
+    <!--properties for the project-build-->
+    <DefaultBuildProperties>SignCode=1;Configuration=Release;ApplicationRevision=$(CCNetLabel);Platform=AnyCPU;ApplicationVersion=1.2.3.$(CCNetLabel);AssemblyFileVersion=1.2.3.$(CCNetLabel);SignAssembly=true;SignManifests=true;</DefaultBuildProperties>
+    <!-- location of the click-once stuff, relative to the project -->
+    <ProjectPublishLocation>.\bin\Release\app.publish</ProjectPublishLocation>
+    <!-- Location you want to copy the click-once-deployment. Here an windows-share-->
+    <ProjectClickOnceFolder>\\10.17.0.10\wwwroot\Web\apps.eway-crm.com\QueryExPlus</ProjectClickOnceFolder>
+  </PropertyGroup>
+  <Target Name="Publish" DependsOnTargets="Clean">
+    <Message Text="Publish-Build started for build no $(CCNetLabel)" />
+    <!-- run the original build of the project -->
+    <MSBuild Projects="./$(ProjectName).csproj" Properties="$(DefaultBuildProperties)" Targets="Publish"/>
+    <!-- define the files required for click-once-->
+    <ItemGroup>
+      <SetupFiles Include="$(ProjectPublishLocation)\*.*"/>
+      <UpdateFiles Include="$(ProjectPublishLocation)\Application Files\**\*.*"/>
+    </ItemGroup>
+    <!-- and copy them -->
+    <Copy
+    SourceFiles="@(SetupFiles)"
+    DestinationFolder="$(ProjectClickOnceFolder)\"/>
+    <Copy
+    SourceFiles="@(UpdateFiles)"
+    DestinationFolder="$(ProjectClickOnceFolder)\Application Files\%(RecursiveDir)"/>
+  </Target>
+  <Target Name="Clean">
+    <Message Text="Clean project" />
+    <MSBuild Projects="./$(ProjectName).csproj"
+    Properties="$(DefaultBuildProperties)"
+    Targets="Clean"/>
+  </Target>
+</Project>
