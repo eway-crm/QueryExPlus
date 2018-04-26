@@ -7,3 +7,4 @@ Backup
 UpgradeLog.XML
 
 *.user
+/.vs
