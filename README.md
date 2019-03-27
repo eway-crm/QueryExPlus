@@ -4,7 +4,7 @@ QueryExPlus is lightweight query editor for Microsoft SQL Server powered by [eWa
 
 ![mainwindow.png](Images/mainwindow.png)
 
-The project is a fork of https://sourceforge.net/projects/queryexplus/.
+The project is a fork of [https://sourceforge.net/projects/queryexplus/](https://sourceforge.net/projects/queryexplus/).
 
 ## Main Changes
 * Migrated to .NET 4.0
