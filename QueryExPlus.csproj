@@ -289,7 +289,7 @@
     <FileAssociation Include=".sql">
       <Visible>False</Visible>
       <Description>Structured Query Language Data File</Description>
-      <Progid>SQL.Document</Progid>
+      <Progid>QueryExPlus.SQL</Progid>
       <DefaultIcon>Images\sql.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
