@@ -274,6 +274,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterCompile">
-    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Tools\nant-0.91\bin\NAnt.exe&quot; -buildfile:&quot;$(MSBuildThisFileDirectory)..\Build\signfile.nant&quot; -D:ASSEMBLY=&quot;$(MSBuildThisFileDirectory)obj\$(ConfigurationName)\$(TargetFileName)&quot;" Condition="'$(SignCode)' == '1'" />
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Tools\nant-0.91\bin\NAnt.exe&quot; -buildfile:&quot;$(MSBuildThisFileDirectory)..\Build\signfile.nant&quot; -D:ASSEMBLY=&quot;$(MSBuildThisFileDirectory)obj\$(ConfigurationName)\$(TargetFileName)&quot; -D:PRODUCT_NAME=&quot;QueryExPlus&quot;" Condition="'$(SignCode)' == '1'" />
   </Target>
 </Project>
