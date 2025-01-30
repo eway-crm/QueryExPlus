@@ -187,6 +187,12 @@ namespace QueryExPlus
                         break;
                 }
             }
+
+            // If there is only one item, select it as default
+            if (this.cboSqlServer.Items.Count == 1)
+            {
+                this.cboSqlServer.SelectedIndex = 0;
+            }
         }
 
         private void cboSqlServer_SelectionChangeCommitted(object sender, EventArgs e)

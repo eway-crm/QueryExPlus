@@ -272,6 +272,17 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\sql.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".sql">
+      <Visible>False</Visible>
+      <Description>Structured Query Language Data File</Description>
+      <Progid>SQL.Document</Progid>
+      <DefaultIcon>Images\sql.ico</DefaultIcon>
+    </FileAssociation>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterCompile">
     <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Tools\nant-0.91\bin\NAnt.exe&quot; -buildfile:&quot;$(MSBuildThisFileDirectory)..\Build\signfile.nant&quot; -D:ASSEMBLY=&quot;$(MSBuildThisFileDirectory)obj\$(ConfigurationName)\$(TargetFileName)&quot; -D:PRODUCT_NAME=&quot;QueryExPlus&quot;" Condition="'$(SignCode)' == '1'" />

@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SQLAuthenticationDefault" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ResultInGridDefault" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

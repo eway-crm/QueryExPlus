@@ -8,3 +8,4 @@ UpgradeLog.XML
 
 *.user
 /.vs
+/bin

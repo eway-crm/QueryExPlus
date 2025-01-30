@@ -47,7 +47,15 @@ namespace QueryExPlus
             this.Show();
 
             if (displayConnectionDialog)
-                DoConnect();
+            {
+                IQueryForm qf = DoConnect();
+
+                // Open file send by file extension association
+                if (args.Length == 1 && Path.IsPathRooted(args[0]) && File.Exists(args[0]))
+                {
+                    qf.Open(args[0]);
+                }
+            }
         }
 
         private void LoadMRU()
