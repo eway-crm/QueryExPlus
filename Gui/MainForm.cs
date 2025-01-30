@@ -55,6 +55,13 @@ namespace QueryExPlus
                 {
                     qf.Open(args[0]);
                 }
+
+                // ClickOnce file association
+                string[] activationData = AppDomain.CurrentDomain.SetupInformation.ActivationArguments?.ActivationData;
+                if (activationData != null && activationData.Length != 0 && Uri.TryCreate(activationData[0], UriKind.Absolute, out Uri uri))
+                {
+                    qf.Open(uri.LocalPath);
+                }
             }
         }
 
