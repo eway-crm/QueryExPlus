@@ -83,10 +83,10 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4520D99F131C559625A84E0DA60764D21CC8E396</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>B5A635F43CFB3B6AFCAB72FCFDA6018E0FBAEAD0</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestTimestampUrl>http://tsa.wosign.com/timestamp</ManifestTimestampUrl>
+    <ManifestTimestampUrl>http://ts.ssl.com/</ManifestTimestampUrl>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

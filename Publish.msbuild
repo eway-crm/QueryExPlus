@@ -8,7 +8,7 @@
     <!-- location of the click-once stuff, relative to the project -->
     <ProjectPublishLocation>.\bin\Release\app.publish</ProjectPublishLocation>
     <!-- Location you want to copy the click-once-deployment. Here an windows-share-->
-    <ProjectClickOnceFolder>\\10.17.0.10\wwwroot\Web\apps.eway-crm.com\QueryExPlus</ProjectClickOnceFolder>
+    <ProjectClickOnceFolder>\\10.17.0.10\apps.eway-crm.com\QueryExPlus</ProjectClickOnceFolder>
   </PropertyGroup>
   <Target Name="Publish" DependsOnTargets="Clean">
     <Message Text="Publish-Build started for build no $(CCNetLabel)" />
