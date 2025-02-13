@@ -10,3 +10,7 @@ The project is a fork of [https://sourceforge.net/projects/queryexplus/](https:/
 * Migrated to .NET 4.0
 * Bigger font (Consolas)
 * Fixed Unicode issue
+
+## Download
+
+Go to [queryexplus.cz](https://queryexplus.cz). Application is distributed using ClickOnce.
